@@ -1,16 +1,16 @@
-package com.a.tmdbclient.ui.share;
+package com.a.tmdbclient.ui.tvshows;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class ShareViewModel extends ViewModel {
+public class TVShowsViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public ShareViewModel() {
+    public TVShowsViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is share fragment");
+        mText.setValue("This is TV Shows fragment");
     }
 
     public LiveData<String> getText() {
