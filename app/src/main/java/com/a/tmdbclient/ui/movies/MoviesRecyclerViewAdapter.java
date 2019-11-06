@@ -43,7 +43,7 @@ public class MoviesRecyclerViewAdapter extends RecyclerView.Adapter<MoviesRecycl
         mData = new ArrayList<>();
     }
 
-    public void loadMeasurements(List<MovieModel> data) {
+    public void loadData(List<MovieModel> data) {
         this.mData = data;
     }
 
