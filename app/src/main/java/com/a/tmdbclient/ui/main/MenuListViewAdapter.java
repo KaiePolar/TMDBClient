@@ -10,24 +10,52 @@ import android.widget.TextView;
 
 import com.a.tmdbclient.R;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class MenuListViewAdapter extends BaseExpandableListAdapter {
     private Context mContext;
-    private List<MenuItem> mListDataHeader;
-    private HashMap<MenuItem, List<MenuItem>> mListDataChild;
+    private List<MenuItem> mHeaderList;
+    private HashMap<MenuItem, List<MenuItem>> mChildList;
 
-    MenuListViewAdapter(Context context, List<MenuItem> listDataHeader,
-                        HashMap<MenuItem, List<MenuItem>> listChildData) {
+    MenuListViewAdapter(Context context) {
         mContext = context;
-        mListDataHeader = listDataHeader;
-        mListDataChild = listChildData;
+        mHeaderList = new ArrayList<>();
+        mChildList = new HashMap<>();
+
+        MenuItem mainMenuItem = new MenuItem("Main", true, R.id.nav_home);
+        MenuItem moviesMenuItem = new MenuItem("Movies", true, true);
+        MenuItem showsMenuItem = new MenuItem("TV Shows", true, true);
+        MenuItem peoplesMenuItem = new MenuItem("Peoples", true, true);
+
+        mHeaderList.add(mainMenuItem);
+        mHeaderList.add(moviesMenuItem);
+        mHeaderList.add(showsMenuItem);
+        mHeaderList.add(peoplesMenuItem);
+
+        List<MenuItem> childModelsList = new ArrayList<>();
+        childModelsList.add(new MenuItem("Popular", false, R.id.nav_popular_movies));
+        childModelsList.add(new MenuItem("Top Rated", false, R.id.nav_top_rated_movies));
+        childModelsList.add(new MenuItem("Upcoming", false, R.id.nav_upcoming_movies));
+        childModelsList.add(new MenuItem("Playing now", false, R.id.nav_now_playing_movies));
+        mChildList.put(moviesMenuItem, childModelsList);
+
+        childModelsList = new ArrayList<>();
+        childModelsList.add(new MenuItem("Popular", false, R.id.nav_shows));
+        childModelsList.add(new MenuItem("Best", false, R.id.nav_shows));
+        childModelsList.add(new MenuItem("TV", false, R.id.nav_shows));
+        childModelsList.add(new MenuItem("Today", false, R.id.nav_shows));
+        mChildList.put(showsMenuItem, childModelsList);
+
+        childModelsList = new ArrayList<>();
+        childModelsList.add(new MenuItem("Popular", false, R.id.nav_peoples));
+        mChildList.put(peoplesMenuItem, childModelsList);
     }
 
     @Override
     public MenuItem getChild(int groupPosition, int childPosition) {
-        return mListDataChild.get(mListDataHeader.get(groupPosition))
+        return mChildList.get(mHeaderList.get(groupPosition))
                 .get(childPosition);
     }
 
@@ -57,21 +85,21 @@ public class MenuListViewAdapter extends BaseExpandableListAdapter {
     @Override
     public int getChildrenCount(int groupPosition) {
 
-        if (mListDataChild.get(mListDataHeader.get(groupPosition)) == null)
+        if (mChildList.get(mHeaderList.get(groupPosition)) == null)
             return 0;
         else
-            return mListDataChild.get(mListDataHeader.get(groupPosition))
+            return mChildList.get(mHeaderList.get(groupPosition))
                     .size();
     }
 
     @Override
     public MenuItem getGroup(int groupPosition) {
-        return mListDataHeader.get(groupPosition);
+        return mHeaderList.get(groupPosition);
     }
 
     @Override
     public int getGroupCount() {
-        return mListDataHeader.size();
+        return mHeaderList.size();
     }
 
     @Override

@@ -13,15 +13,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.a.tmdbclient.R;
-import com.a.tmdbclient.api.NetworkManager;
 import com.a.tmdbclient.api.movie.MovieModel;
+import com.a.tmdbclient.api.movie.MoviesNetworkManager;
 
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Response;
 
-public class MoviesFragment extends Fragment {
+public class PopularMoviesFragment extends Fragment {
 
     private ProgressBar progressBar;
     private RecyclerView recyclerView;
@@ -29,13 +29,14 @@ public class MoviesFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        Log.d("X","Created");
         View root = inflater.inflate(R.layout.fragment_movies, container, false);
         progressBar = root.findViewById(R.id.movies_progress_bar);
         recyclerView = root.findViewById(R.id.movies_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new MoviesRecyclerViewAdapter();
 
-        NetworkManager.getPopularMovies(1, new NetworkManager.LoadCallback() {
+        MoviesNetworkManager.getPopularMovies(1, new MoviesNetworkManager.LoadCallback() {
             @Override
             public void onLoadFail(Call call) {
                 Log.d("Fail",call.toString());
@@ -44,8 +45,8 @@ public class MoviesFragment extends Fragment {
             @Override
             public void onLoadSuccess(Response response, List<MovieModel> movieModels) {
                 Log.d("Success", String.valueOf(response.code()));
-                adapter.loadMeasurements(movieModels);
-                setAdapater(adapter);
+                adapter.loadData(movieModels);
+                setAdapter(adapter);
             }
 
         });
@@ -53,8 +54,8 @@ public class MoviesFragment extends Fragment {
         return root;
     }
 
-    private void setAdapater(MoviesRecyclerViewAdapter adapater){
-        recyclerView.setAdapter(adapater);
+    private void setAdapter(MoviesRecyclerViewAdapter adapter){
+        recyclerView.setAdapter(adapter);
         recyclerView.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
     };
