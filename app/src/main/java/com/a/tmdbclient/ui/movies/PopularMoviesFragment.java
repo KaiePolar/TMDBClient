@@ -59,5 +59,5 @@ public class PopularMoviesFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         recyclerView.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
-    };
+    }
 }
