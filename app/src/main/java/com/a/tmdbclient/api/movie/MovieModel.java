@@ -5,7 +5,6 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.List;
 
-@SuppressWarnings("ALL")
 public class MovieModel implements Serializable {
     @SerializedName("vote_count")
     private int voteCount;
