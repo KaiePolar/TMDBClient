@@ -42,10 +42,10 @@ public class MenuListViewAdapter extends BaseExpandableListAdapter {
         mChildList.put(moviesMenuItem, childModelsList);
 
         childModelsList = new ArrayList<>();
-        childModelsList.add(new MenuItem("Popular", false, R.id.nav_shows));
-        childModelsList.add(new MenuItem("Best", false, R.id.nav_shows));
-        childModelsList.add(new MenuItem("TV", false, R.id.nav_shows));
-        childModelsList.add(new MenuItem("Today", false, R.id.nav_shows));
+        childModelsList.add(new MenuItem("Popular", false, R.id.nav_popular_shows));
+        childModelsList.add(new MenuItem("Best", false, R.id.nav_top_rated_shows));
+        childModelsList.add(new MenuItem("Upcoming", false, R.id.nav_upcoming_shows));
+        childModelsList.add(new MenuItem("Today", false, R.id.nav_now_playing_shows));
         mChildList.put(showsMenuItem, childModelsList);
 
         childModelsList = new ArrayList<>();
