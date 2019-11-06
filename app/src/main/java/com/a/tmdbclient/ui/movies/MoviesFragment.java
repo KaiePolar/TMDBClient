@@ -16,15 +16,15 @@ import com.a.tmdbclient.R;
 
 public class MoviesFragment extends Fragment {
 
-    private MoviesViewModel moviesViewModel;
+    private MoviesViewModel mMoviesViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        moviesViewModel =
+        mMoviesViewModel =
                 ViewModelProviders.of(this).get(MoviesViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_gallery, container, false);
-        final TextView textView = root.findViewById(R.id.text_gallery);
-        moviesViewModel.getText().observe(this, new Observer<String>() {
+        View root = inflater.inflate(R.layout.fragment_movies, container, false);
+        final TextView textView = root.findViewById(R.id.text_movies);
+        mMoviesViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);

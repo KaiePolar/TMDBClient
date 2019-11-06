@@ -16,15 +16,15 @@ import com.a.tmdbclient.R;
 
 public class TVShowsFragment extends Fragment {
 
-    private TVShowsViewModel TVShowsViewModel;
+    private TVShowsViewModel mTVShowsViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        TVShowsViewModel =
+        mTVShowsViewModel =
                 ViewModelProviders.of(this).get(TVShowsViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_slideshow, container, false);
-        final TextView textView = root.findViewById(R.id.text_slideshow);
-        TVShowsViewModel.getText().observe(this, new Observer<String>() {
+        View root = inflater.inflate(R.layout.fragment_shows, container, false);
+        final TextView textView = root.findViewById(R.id.text_shows);
+        mTVShowsViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
