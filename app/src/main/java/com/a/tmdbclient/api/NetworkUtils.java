@@ -2,6 +2,7 @@ package com.a.tmdbclient.api;
 
 import com.a.tmdbclient.api.movie.MovieModel;
 import com.a.tmdbclient.api.peoples.PeopleModel;
+import com.a.tmdbclient.api.shows.ShowModel;
 
 import java.util.List;
 
@@ -21,6 +22,11 @@ public class NetworkUtils {
     public interface PeopleLoadCallback {
         void onLoadFail(Call call);
         void onLoadSuccess(Response response, List<PeopleModel> peopleModels);
+    }
+
+    public interface ShowLoadCallback {
+        void onLoadFail(Call call);
+        void onLoadSuccess(Response response, List<ShowModel> showModels);
     }
 
 }

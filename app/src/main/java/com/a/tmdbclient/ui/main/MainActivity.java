@@ -38,7 +38,10 @@ public class MainActivity extends AppCompatActivity {
                 R.id.nav_now_playing_movies,
                 R.id.nav_upcoming_movies,
                 R.id.nav_popular_movies,
-                R.id.nav_shows,
+                R.id.nav_popular_shows,
+                R.id.nav_upcoming_shows,
+                R.id.nav_top_rated_shows,
+                R.id.nav_now_playing_shows,
                 R.id.nav_peoples)
                 .setDrawerLayout(mDrawer)
                 .build();
