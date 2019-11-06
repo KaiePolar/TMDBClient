@@ -1,16 +1,16 @@
-package com.a.tmdbclient.ui.gallery;
+package com.a.tmdbclient.ui.movies;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class GalleryViewModel extends ViewModel {
+public class MoviesViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public GalleryViewModel() {
+    public MoviesViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is gallery fragment");
+        mText.setValue("This is movies fragment");
     }
 
     public LiveData<String> getText() {

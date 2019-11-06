@@ -1,16 +1,16 @@
-package com.a.tmdbclient.ui.send;
+package com.a.tmdbclient.ui.peoples;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class SendViewModel extends ViewModel {
+public class PeoplesViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public SendViewModel() {
+    public PeoplesViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is send fragment");
+        mText.setValue("This is peoples fragment");
     }
 
     public LiveData<String> getText() {
