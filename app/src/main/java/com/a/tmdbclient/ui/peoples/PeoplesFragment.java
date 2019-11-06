@@ -16,15 +16,15 @@ import com.a.tmdbclient.R;
 
 public class PeoplesFragment extends Fragment {
 
-    private PeoplesViewModel peoplesViewModel;
+    private PeoplesViewModel mPeoplesViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        peoplesViewModel =
+        mPeoplesViewModel =
                 ViewModelProviders.of(this).get(PeoplesViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_tools, container, false);
-        final TextView textView = root.findViewById(R.id.text_tools);
-        peoplesViewModel.getText().observe(this, new Observer<String>() {
+        View root = inflater.inflate(R.layout.fragment_peoples, container, false);
+        final TextView textView = root.findViewById(R.id.text_peoples);
+        mPeoplesViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
