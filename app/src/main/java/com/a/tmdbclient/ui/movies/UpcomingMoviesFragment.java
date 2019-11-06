@@ -22,7 +22,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Response;
 
-public class PopularMoviesFragment extends Fragment {
+public class UpcomingMoviesFragment extends Fragment {
 
     private ProgressBar progressBar;
     private RecyclerView recyclerView;
@@ -37,7 +37,7 @@ public class PopularMoviesFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new MoviesRecyclerViewAdapter();
 
-        MoviesNetworkManager.getPopularMovies(1, new NetworkUtils.MovieLoadCallback() {
+        MoviesNetworkManager.getUpcomingMovies(1, new NetworkUtils.MovieLoadCallback() {
             @Override
             public void onLoadFail(Call call) {
                 Log.d("Fail",call.toString());
@@ -59,5 +59,5 @@ public class PopularMoviesFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         recyclerView.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
-    };
+    }
 }
