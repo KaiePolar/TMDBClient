@@ -1,6 +1,7 @@
 package com.a.tmdbclient.ui.shows;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.a.tmdbclient.R;
 import com.a.tmdbclient.api.shows.ShowModel;
+import com.a.tmdbclient.ui.EndlessRecyclerViewScrollListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TopRatedShowsFragment extends Fragment implements ShowView{
@@ -23,15 +26,27 @@ public class TopRatedShowsFragment extends Fragment implements ShowView{
     private RecyclerView recyclerView;
     private ShowRecyclerViewAdapter adapter;
     private ShowsPresenter presenter;
+    private LinearLayoutManager linearLayoutManager;
     private TextView internetErrorTextView;
+    private EndlessRecyclerViewScrollListener scrollListener;
+    private int dataPage = 1;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_shows, container, false);
         init(root);
-        adapter = new ShowRecyclerViewAdapter();
         presenter = new ShowsPresenter(this, getContext());
-        presenter.getBestShows(1);
+        presenter.getBestShows(dataPage);
+
+        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                Log.d("new data", "on load");
+                presenter.getBestShows(++dataPage);
+            }
+        };
+
+        recyclerView.addOnScrollListener(scrollListener);
 
         return root;
     }
@@ -40,14 +55,17 @@ public class TopRatedShowsFragment extends Fragment implements ShowView{
     public void init(View view) {
         progressBar = view.findViewById(R.id.shows_progress_bar);
         recyclerView = view.findViewById(R.id.shows_recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        linearLayoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
+        adapter = new ShowRecyclerViewAdapter();
+        recyclerView.setAdapter(adapter);
+        adapter.loadData(new ArrayList<ShowModel>());
         internetErrorTextView = view.findViewById(R.id.show_internet_error);
     }
 
     @Override
     public void setAdapterData(List<ShowModel> data) {
         adapter.loadData(data);
-        recyclerView.setAdapter(adapter);
         recyclerView.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
     }
