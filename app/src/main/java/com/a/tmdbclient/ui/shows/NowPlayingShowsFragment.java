@@ -1,4 +1,4 @@
-package com.a.tmdbclient.ui.movies;
+package com.a.tmdbclient.ui.shows;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,39 +13,39 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.a.tmdbclient.R;
-import com.a.tmdbclient.api.movie.MovieModel;
+import com.a.tmdbclient.api.shows.ShowModel;
 
 import java.util.List;
 
-public class TopRatedMoviesFragment extends Fragment implements MovieView {
+public class NowPlayingShowsFragment extends Fragment implements ShowView {
 
     private ProgressBar progressBar;
     private RecyclerView recyclerView;
-    private MoviesRecyclerViewAdapter adapter;
-    private MoviesPresenter presenter;
+    private ShowRecyclerViewAdapter adapter;
+    private ShowsPresenter presenter;
     private TextView internetErrorTextView;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_movies, container, false);
+        View root = inflater.inflate(R.layout.fragment_shows, container, false);
         init(root);
-        adapter = new MoviesRecyclerViewAdapter();
-        presenter = new MoviesPresenter(this,getContext());
-        presenter.getTopRatedMovies(1);
+        adapter = new ShowRecyclerViewAdapter();
+        presenter = new ShowsPresenter(this, getContext());
+        presenter.getNowPlayingShows(1);
 
         return root;
     }
 
     @Override
-    public void init(View view){
-        progressBar = view.findViewById(R.id.movies_progress_bar);
-        recyclerView = view.findViewById(R.id.movies_recycler_view);
+    public void init(View view) {
+        progressBar = view.findViewById(R.id.shows_progress_bar);
+        recyclerView = view.findViewById(R.id.shows_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        internetErrorTextView = view.findViewById(R.id.movie_internet_error);
+        internetErrorTextView = view.findViewById(R.id.show_internet_error);
     }
 
     @Override
-    public void setAdapterData(List<MovieModel> data){
+    public void setAdapterData(List<ShowModel> data) {
         adapter.loadData(data);
         recyclerView.setAdapter(adapter);
         recyclerView.setVisibility(View.VISIBLE);
@@ -53,7 +53,7 @@ public class TopRatedMoviesFragment extends Fragment implements MovieView {
     }
 
     @Override
-    public void showNoInternetError(){
+    public void showNoInternetError() {
         progressBar.setVisibility(View.GONE);
         recyclerView.setVisibility(View.GONE);
         internetErrorTextView.setVisibility(View.VISIBLE);

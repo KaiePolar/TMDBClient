@@ -1,4 +1,4 @@
-package com.a.tmdbclient.ui.tvshows;
+package com.a.tmdbclient.ui.shows;
 
 import android.content.Context;
 import android.view.LayoutInflater;
