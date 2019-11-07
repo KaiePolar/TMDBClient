@@ -1,7 +1,6 @@
 package com.a.tmdbclient.ui.movies.view;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,25 +30,24 @@ public class UpcomingMoviesFragment extends Fragment implements MovieView {
     private MoviesPresenter presenter;
     private LinearLayoutManager linearLayoutManager;
     private TextView internetErrorTextView;
-    private EndlessRecyclerViewScrollListener scrollListener;
+    private EndlessRecyclerViewScrollListener endlessScrollListener;
     private int dataPage = 1;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_movies, container, false);
         init(root);
+
         presenter = new MoviesPresenter(this, getContext());
         presenter.getUpcomingMovies(dataPage);
 
-        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+        endlessScrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                Log.d("new data", "on load");
                 presenter.getUpcomingMovies(++dataPage);
             }
         };
-
-        recyclerView.addOnScrollListener(scrollListener);
+        recyclerView.addOnScrollListener(endlessScrollListener);
 
         return root;
     }
@@ -63,7 +61,7 @@ public class UpcomingMoviesFragment extends Fragment implements MovieView {
         adapter = new MoviesRecyclerViewAdapter();
         recyclerView.setAdapter(adapter);
         adapter.loadData(new ArrayList<MovieModel>());
-        internetErrorTextView = view.findViewById(R.id.movie_internet_error);
+        internetErrorTextView = view.findViewById(R.id.movies_internet_error);
     }
 
     @Override
@@ -84,4 +82,5 @@ public class UpcomingMoviesFragment extends Fragment implements MovieView {
     public void showApiError() {
 
     }
+
 }

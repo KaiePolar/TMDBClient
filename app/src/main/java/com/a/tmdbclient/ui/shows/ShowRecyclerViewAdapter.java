@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.a.tmdbclient.R;
+import com.a.tmdbclient.api.NetworkUtils;
 import com.a.tmdbclient.api.shows.ShowModel;
 import com.a.tmdbclient.ui.shows.view.ShowDetailsActivity;
 import com.bumptech.glide.Glide;
@@ -20,6 +21,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ShowRecyclerViewAdapter extends RecyclerView.Adapter<ShowRecyclerViewAdapter.ViewHolder> {
+
+    private List<ShowModel> mData;
+    private Context mContext;
+
+    public ShowRecyclerViewAdapter() {
+        mData = new ArrayList<>();
+    }
+
+    public void loadData(List<ShowModel> data) {
+        mData.addAll(data);
+        notifyDataSetChanged();
+    }
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -39,22 +52,10 @@ public class ShowRecyclerViewAdapter extends RecyclerView.Adapter<ShowRecyclerVi
 
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(context, ShowDetailsActivity.class);
-            intent.putExtra("id",mData.get(getAdapterPosition()).getId());
-            context.startActivity(intent);
+            Intent intent = new Intent(mContext, ShowDetailsActivity.class);
+            intent.putExtra("id", mData.get(getAdapterPosition()).getId());
+            mContext.startActivity(intent);
         }
-    }
-
-    private List<ShowModel> mData;
-    private Context context;
-
-    public ShowRecyclerViewAdapter() {
-        mData = new ArrayList<>();
-    }
-
-    public void loadData(List<ShowModel> data) {
-        mData.addAll(data);
-        notifyDataSetChanged();
     }
 
     @NonNull
@@ -62,7 +63,7 @@ public class ShowRecyclerViewAdapter extends RecyclerView.Adapter<ShowRecyclerVi
     public ShowRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         ShowRecyclerViewAdapter.ViewHolder viewHolder = new ShowRecyclerViewAdapter.ViewHolder(LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.recycler_view_item, parent, false));
-        context = parent.getContext();
+        mContext = parent.getContext();
         return viewHolder;
     }
 
@@ -72,15 +73,15 @@ public class ShowRecyclerViewAdapter extends RecyclerView.Adapter<ShowRecyclerVi
         holder.titleTextView.setText(item.getName());
         holder.releaseTextView.setText(item.getFirstAirDate());
         holder.descriptionTextView.setText(item.getOverview());
-        Glide.with(context)
-                .load("http://image.tmdb.org/t/p/w185/" + item.getPosterPath())
+        Glide.with(mContext)
+                .load(NetworkUtils.IMG_BASE_URL+item.getPosterPath())
                 .into(holder.imageView);
-
     }
 
     @Override
     public int getItemCount() {
         return mData.size();
     }
+
 }
 

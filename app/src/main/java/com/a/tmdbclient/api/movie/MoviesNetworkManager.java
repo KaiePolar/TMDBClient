@@ -2,6 +2,8 @@ package com.a.tmdbclient.api.movie;
 
 import android.os.AsyncTask;
 
+import androidx.annotation.NonNull;
+
 import com.a.tmdbclient.api.NetworkUtils;
 
 import retrofit2.Call;
@@ -26,7 +28,7 @@ public class MoviesNetworkManager {
                 .build();
     }
 
-    public static MovieApiService getAPI() {
+    private static MovieApiService getAPI() {
         return mRetrofit.create(MovieApiService.class);
     }
 
@@ -36,10 +38,10 @@ public class MoviesNetworkManager {
 
     private static class PopularMoviesTask extends AsyncTask<Void, Void, Void> {
 
-        private Integer mPage;
+        private int mPage;
         private NetworkUtils.MovieListLoadCallback mCallback;
 
-        public PopularMoviesTask(Integer page, NetworkUtils.MovieListLoadCallback callback) {
+        PopularMoviesTask(int page, NetworkUtils.MovieListLoadCallback callback) {
             mPage = page;
             mCallback = callback;
         }
@@ -48,12 +50,12 @@ public class MoviesNetworkManager {
         protected Void doInBackground(Void... voids) {
             getAPI().getPopularMovies(mPage, NetworkUtils.API_KEY).enqueue(new Callback<MoviePageModel>() {
                 @Override
-                public void onResponse(Call<MoviePageModel> call, Response<MoviePageModel> response) {
+                public void onResponse(@NonNull Call<MoviePageModel> call, @NonNull Response<MoviePageModel> response) {
                     mCallback.onLoadSuccess(response, response.body().getMovieModel());
                 }
 
                 @Override
-                public void onFailure(Call<MoviePageModel> call, Throwable t) {
+                public void onFailure(@NonNull Call<MoviePageModel> call, @NonNull Throwable t) {
                     mCallback.onLoadFail(call);
                 }
             });
@@ -67,10 +69,10 @@ public class MoviesNetworkManager {
 
     private static class UpcomingMoviesTask extends AsyncTask<Void, Void, Void> {
 
-        private Integer mPage;
+        private int mPage;
         private NetworkUtils.MovieListLoadCallback mCallback;
 
-        public UpcomingMoviesTask(Integer page, NetworkUtils.MovieListLoadCallback callback) {
+        UpcomingMoviesTask(int page, NetworkUtils.MovieListLoadCallback callback) {
             mPage = page;
             mCallback = callback;
         }
@@ -79,12 +81,12 @@ public class MoviesNetworkManager {
         protected Void doInBackground(Void... voids) {
             getAPI().getUpcomingMovies(mPage, NetworkUtils.API_KEY).enqueue(new Callback<MoviePageModel>() {
                 @Override
-                public void onResponse(Call<MoviePageModel> call, Response<MoviePageModel> response) {
+                public void onResponse(@NonNull Call<MoviePageModel> call, @NonNull Response<MoviePageModel> response) {
                     mCallback.onLoadSuccess(response, response.body().getMovieModel());
                 }
 
                 @Override
-                public void onFailure(Call<MoviePageModel> call, Throwable t) {
+                public void onFailure(@NonNull Call<MoviePageModel> call, @NonNull Throwable t) {
                     mCallback.onLoadFail(call);
                 }
             });
@@ -98,10 +100,10 @@ public class MoviesNetworkManager {
 
     private static class TopRatedMoviesTask extends AsyncTask<Void, Void, Void> {
 
-        private Integer mPage;
+        private int mPage;
         private NetworkUtils.MovieListLoadCallback mCallback;
 
-        public TopRatedMoviesTask(Integer page, NetworkUtils.MovieListLoadCallback callback) {
+        TopRatedMoviesTask(int page, NetworkUtils.MovieListLoadCallback callback) {
             mPage = page;
             mCallback = callback;
         }
@@ -110,12 +112,12 @@ public class MoviesNetworkManager {
         protected Void doInBackground(Void... voids) {
             getAPI().getTopRatedMovies(mPage, NetworkUtils.API_KEY).enqueue(new Callback<MoviePageModel>() {
                 @Override
-                public void onResponse(Call<MoviePageModel> call, Response<MoviePageModel> response) {
+                public void onResponse(@NonNull Call<MoviePageModel> call, @NonNull Response<MoviePageModel> response) {
                     mCallback.onLoadSuccess(response, response.body().getMovieModel());
                 }
 
                 @Override
-                public void onFailure(Call<MoviePageModel> call, Throwable t) {
+                public void onFailure(@NonNull Call<MoviePageModel> call, @NonNull Throwable t) {
                     mCallback.onLoadFail(call);
                 }
             });
@@ -129,24 +131,24 @@ public class MoviesNetworkManager {
 
     private static class NowPlayingMoviesTask extends AsyncTask<Void, Void, Void> {
 
-        private Integer mPage;
+        private int mPage;
         private NetworkUtils.MovieListLoadCallback mCallback;
 
-        public NowPlayingMoviesTask(Integer page, NetworkUtils.MovieListLoadCallback callback) {
+        public NowPlayingMoviesTask(int page, NetworkUtils.MovieListLoadCallback callback) {
             mPage = page;
             mCallback = callback;
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            getAPI().getUpcomingMovies(mPage, NetworkUtils.API_KEY).enqueue(new Callback<MoviePageModel>() {
+            getAPI().getNowPlayingMovies(mPage, NetworkUtils.API_KEY).enqueue(new Callback<MoviePageModel>() {
                 @Override
-                public void onResponse(Call<MoviePageModel> call, Response<MoviePageModel> response) {
+                public void onResponse(@NonNull Call<MoviePageModel> call, @NonNull Response<MoviePageModel> response) {
                     mCallback.onLoadSuccess(response, response.body().getMovieModel());
                 }
 
                 @Override
-                public void onFailure(Call<MoviePageModel> call, Throwable t) {
+                public void onFailure(@NonNull Call<MoviePageModel> call, @NonNull Throwable t) {
                     mCallback.onLoadFail(call);
                 }
             });
@@ -160,10 +162,10 @@ public class MoviesNetworkManager {
 
     private static class MovieDetailsTask extends AsyncTask<Void, Void, Void> {
 
-        private Integer mId;
+        private int mId;
         private NetworkUtils.MovieDetailsLoadCallback mCallback;
 
-        public MovieDetailsTask(Integer id, NetworkUtils.MovieDetailsLoadCallback callback) {
+        MovieDetailsTask(int id, NetworkUtils.MovieDetailsLoadCallback callback) {
             mId = id;
             mCallback = callback;
         }
@@ -172,16 +174,17 @@ public class MoviesNetworkManager {
         protected Void doInBackground(Void... voids) {
             getAPI().getMovieDetails(mId, NetworkUtils.API_KEY).enqueue(new Callback<MovieDetails>() {
                 @Override
-                public void onResponse(Call<MovieDetails> call, Response<MovieDetails> response) {
-                    mCallback.onLoadSuccess(response,response.body());
+                public void onResponse(@NonNull Call<MovieDetails> call, @NonNull Response<MovieDetails> response) {
+                    mCallback.onLoadSuccess(response, response.body());
                 }
 
                 @Override
-                public void onFailure(Call<MovieDetails> call, Throwable t) {
+                public void onFailure(@NonNull Call<MovieDetails> call, @NonNull Throwable t) {
                     mCallback.onLoadFail(call);
                 }
             });
             return null;
         }
     }
+
 }

@@ -2,6 +2,8 @@ package com.a.tmdbclient.api.peoples;
 
 import android.os.AsyncTask;
 
+import androidx.annotation.NonNull;
+
 import com.a.tmdbclient.api.NetworkUtils;
 
 import retrofit2.Call;
@@ -11,6 +13,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class PeopleNetworkManager {
+
     private static final PeopleNetworkManager ourInstance = new PeopleNetworkManager();
     private static Retrofit mRetrofit;
 
@@ -25,34 +28,34 @@ public class PeopleNetworkManager {
                 .build();
     }
 
-    public static PeoplesApiService getAPI(){
+    private static PeoplesApiService getAPI() {
         return mRetrofit.create(PeoplesApiService.class);
     }
 
-    public static AsyncTask<Void, Void, Void> getPopularPeoples(int page, NetworkUtils.PeopleLoadCallback callback){
+    public static AsyncTask<Void, Void, Void> getPopularPeoples(int page, NetworkUtils.PeopleLoadCallback callback) {
         return new PeopleNetworkManager.PopularPeoplesTask(page, callback).execute();
     }
 
-    private static class PopularPeoplesTask extends AsyncTask<Void,Void, Void>{
+    private static class PopularPeoplesTask extends AsyncTask<Void, Void, Void> {
 
-        private Integer mPage;
+        private int mPage;
         private NetworkUtils.PeopleLoadCallback mCallback;
 
-        public PopularPeoplesTask(Integer page, NetworkUtils.PeopleLoadCallback callback) {
+        PopularPeoplesTask(int page, NetworkUtils.PeopleLoadCallback callback) {
             mPage = page;
             mCallback = callback;
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            getAPI().getPopularPeoples(mPage,NetworkUtils.API_KEY).enqueue(new Callback<PeoplePageModel>() {
+            getAPI().getPopularPeoples(mPage, NetworkUtils.API_KEY).enqueue(new Callback<PeoplePageModel>() {
                 @Override
-                public void onResponse(Call<PeoplePageModel> call, Response<PeoplePageModel> response) {
-                    mCallback.onLoadSuccess(response,response.body().getResults());
+                public void onResponse(@NonNull Call<PeoplePageModel> call, @NonNull Response<PeoplePageModel> response) {
+                    mCallback.onLoadSuccess(response, response.body().getResults());
                 }
 
                 @Override
-                public void onFailure(Call<PeoplePageModel> call, Throwable t) {
+                public void onFailure(@NonNull Call<PeoplePageModel> call, @NonNull Throwable t) {
                     mCallback.onLoadFail(call);
                 }
             });
@@ -60,34 +63,35 @@ public class PeopleNetworkManager {
         }
     }
 
-    public static AsyncTask<Void, Void, Void> getPeopleDetails(int page, NetworkUtils.PeopleDetailsLoadCallback callback){
+    public static AsyncTask<Void, Void, Void> getPeopleDetails(int page, NetworkUtils.PeopleDetailsLoadCallback callback) {
         return new PeopleDetailsTask(page, callback).execute();
     }
 
-    private static class PeopleDetailsTask extends AsyncTask<Void,Void, Void>{
+    private static class PeopleDetailsTask extends AsyncTask<Void, Void, Void> {
 
-        private Integer mPage;
+        private int mPage;
         private NetworkUtils.PeopleDetailsLoadCallback mCallback;
 
-        public PeopleDetailsTask(Integer page, NetworkUtils.PeopleDetailsLoadCallback callback) {
+        PeopleDetailsTask(int page, NetworkUtils.PeopleDetailsLoadCallback callback) {
             mPage = page;
             mCallback = callback;
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            getAPI().getPeopleDetails(mPage,NetworkUtils.API_KEY).enqueue(new Callback<PeopleDetails>() {
+            getAPI().getPeopleDetails(mPage, NetworkUtils.API_KEY).enqueue(new Callback<PeopleDetails>() {
                 @Override
-                public void onResponse(Call<PeopleDetails> call, Response<PeopleDetails> response) {
-                    mCallback.onLoadSuccess(response,response.body());
+                public void onResponse(@NonNull Call<PeopleDetails> call, @NonNull Response<PeopleDetails> response) {
+                    mCallback.onLoadSuccess(response, response.body());
                 }
 
                 @Override
-                public void onFailure(Call<PeopleDetails> call, Throwable t) {
+                public void onFailure(@NonNull Call<PeopleDetails> call, @NonNull Throwable t) {
                     mCallback.onLoadFail(call);
                 }
             });
             return null;
         }
     }
+
 }

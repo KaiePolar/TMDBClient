@@ -1,7 +1,6 @@
 package com.a.tmdbclient.ui.movies;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.a.tmdbclient.api.NetworkUtils;
 import com.a.tmdbclient.api.movie.MovieDetails;
@@ -16,19 +15,18 @@ import retrofit2.Response;
 
 public class MoviesPresenter {
 
-    private MovieView mFragView;
+    private MovieView mView;
     private Context mContext;
 
     public MoviesPresenter(MovieView view, Context context) {
-        mFragView = view;
+        mView = view;
         mContext = context;
     }
 
-    public static void getMovieDetails(int id, final MovieDetailsActivity activity){
+    public static void getMovieDetails(int id, final MovieDetailsActivity activity) {
         MoviesNetworkManager.getMovieDetails(id, new NetworkUtils.MovieDetailsLoadCallback() {
             @Override
             public void onLoadFail(Call call) {
-                Log.d("ss", call.toString());
             }
 
             @Override
@@ -40,71 +38,71 @@ public class MoviesPresenter {
 
     public void getPopularMovies(int page) {
         if (NetworkUtils.isInternetUnavailable(mContext)) {
-            mFragView.showNoInternetError();
+            mView.showNoInternetError();
         } else {
             MoviesNetworkManager.getPopularMovies(page, new NetworkUtils.MovieListLoadCallback() {
                 @Override
                 public void onLoadFail(Call call) {
-                    mFragView.showApiError();
+                    mView.showApiError();
                 }
 
                 @Override
                 public void onLoadSuccess(Response response, List<MovieModel> movieModels) {
-                    mFragView.setAdapterData(movieModels);
+                    mView.setAdapterData(movieModels);
                 }
             });
         }
     }
 
-    public void getUpcomingMovies(int page){
+    public void getUpcomingMovies(int page) {
         if (NetworkUtils.isInternetUnavailable(mContext)) {
-            mFragView.showNoInternetError();
+            mView.showNoInternetError();
         } else {
             MoviesNetworkManager.getUpcomingMovies(page, new NetworkUtils.MovieListLoadCallback() {
                 @Override
                 public void onLoadFail(Call call) {
-                    mFragView.showApiError();
+                    mView.showApiError();
                 }
 
                 @Override
                 public void onLoadSuccess(Response response, List<MovieModel> movieModels) {
-                    mFragView.setAdapterData(movieModels);
+                    mView.setAdapterData(movieModels);
                 }
             });
         }
     }
 
-    public void getTopRatedMovies(int page){
+    public void getTopRatedMovies(int page) {
         if (NetworkUtils.isInternetUnavailable(mContext)) {
-            mFragView.showNoInternetError();
+            mView.showNoInternetError();
         } else {
             MoviesNetworkManager.getTopRatedMovies(page, new NetworkUtils.MovieListLoadCallback() {
                 @Override
                 public void onLoadFail(Call call) {
-                    mFragView.showApiError();
+                    mView.showApiError();
                 }
 
                 @Override
                 public void onLoadSuccess(Response response, List<MovieModel> movieModels) {
-                    mFragView.setAdapterData(movieModels);
+                    mView.setAdapterData(movieModels);
                 }
             });
         }
     }
 
-    public void getNowPlayingMovies(int page){
+    public void getNowPlayingMovies(int page) {
         if (NetworkUtils.isInternetUnavailable(mContext)) {
-            mFragView.showNoInternetError();
+            mView.showNoInternetError();
         } else {
             MoviesNetworkManager.getNowPlayingMovies(page, new NetworkUtils.MovieListLoadCallback() {
                 @Override
                 public void onLoadFail(Call call) {
-                    mFragView.showApiError();
+                    mView.showApiError();
                 }
 
                 @Override
                 public void onLoadSuccess(Response response, List<MovieModel> movieModels) {
-                    mFragView.setAdapterData(movieModels);
+                    mView.setAdapterData(movieModels);
                 }
             });
         }

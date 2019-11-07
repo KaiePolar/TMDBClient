@@ -28,40 +28,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        mDrawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_top_rated_movies,
-                R.id.nav_now_playing_movies,
-                R.id.nav_upcoming_movies,
-                R.id.nav_popular_movies,
-                R.id.nav_popular_shows,
-                R.id.nav_upcoming_shows,
-                R.id.nav_top_rated_shows,
-                R.id.nav_now_playing_shows,
-                R.id.nav_peoples)
-                .setDrawerLayout(mDrawer)
-                .build();
-        mExpandableListView = findViewById(R.id.expandableListView);
-        populateExpandableList();
-        mNavController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupActionBarWithNavController(this, mNavController, mAppBarConfiguration);
-        NavigationUI.setupWithNavController(navigationView, mNavController);
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
-                || super.onSupportNavigateUp();
-    }
-
-
-    private void populateExpandableList() {
-        mExpandableListAdapter = new MenuListViewAdapter(this);
-        mExpandableListView.setAdapter(mExpandableListAdapter);
+        init();
 
         mExpandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
@@ -82,5 +49,39 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+
     }
+
+    private void init() {
+        Toolbar toolbar = findViewById(R.id.main_toolbar);
+        setSupportActionBar(toolbar);
+        mDrawer = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.activity_main_nav_view);
+        mAppBarConfiguration = new AppBarConfiguration.Builder(
+                R.id.nav_top_rated_movies,
+                R.id.nav_now_playing_movies,
+                R.id.nav_upcoming_movies,
+                R.id.nav_popular_movies,
+                R.id.nav_popular_shows,
+                R.id.nav_upcoming_shows,
+                R.id.nav_top_rated_shows,
+                R.id.nav_now_playing_shows,
+                R.id.nav_peoples)
+                .setDrawerLayout(mDrawer)
+                .build();
+        mNavController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        NavigationUI.setupActionBarWithNavController(this, mNavController, mAppBarConfiguration);
+        NavigationUI.setupWithNavController(navigationView, mNavController);
+        mExpandableListView = findViewById(R.id.activity_main_expandable_list_view);
+        mExpandableListAdapter = new MenuListViewAdapter(this);
+        mExpandableListView.setAdapter(mExpandableListAdapter);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
+                || super.onSupportNavigateUp();
+    }
+
 }

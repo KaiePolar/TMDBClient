@@ -21,4 +21,5 @@ public interface ShowApiService {
 
     @GET("tv/{tv_id}")
     Call<ShowDetails> getShowDetails(@Path("tv_id") int page, @Query("api_key") String userKey);
+
 }

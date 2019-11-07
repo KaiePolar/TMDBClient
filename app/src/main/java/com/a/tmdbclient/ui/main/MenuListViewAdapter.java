@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class MenuListViewAdapter extends BaseExpandableListAdapter {
+
     private Context mContext;
     private List<MenuItem> mHeaderList;
     private HashMap<MenuItem, List<MenuItem>> mChildList;
@@ -53,8 +54,7 @@ public class MenuListViewAdapter extends BaseExpandableListAdapter {
 
     @Override
     public MenuItem getChild(int groupPosition, int childPosition) {
-        return mChildList.get(mHeaderList.get(groupPosition))
-                .get(childPosition);
+        return mChildList.get(mHeaderList.get(groupPosition)).get(childPosition);
     }
 
     @Override
@@ -69,25 +69,22 @@ public class MenuListViewAdapter extends BaseExpandableListAdapter {
         final String childText = getChild(groupPosition, childPosition).getMenuName();
 
         if (convertView == null) {
-            LayoutInflater inflater = (LayoutInflater) this.mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.list_group_child, null);
         }
 
-        TextView txtListChild = convertView
-                .findViewById(R.id.lblListItem);
-
+        TextView txtListChild = convertView.findViewById(R.id.lblListItem);
         txtListChild.setText(childText);
+
         return convertView;
     }
 
     @Override
     public int getChildrenCount(int groupPosition) {
-
         if (mChildList.get(mHeaderList.get(groupPosition)) == null)
             return 0;
         else
-            return mChildList.get(mHeaderList.get(groupPosition))
-                    .size();
+            return mChildList.get(mHeaderList.get(groupPosition)).size();
     }
 
     @Override
@@ -131,4 +128,5 @@ public class MenuListViewAdapter extends BaseExpandableListAdapter {
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
     }
+
 }
