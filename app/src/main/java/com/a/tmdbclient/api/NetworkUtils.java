@@ -1,5 +1,9 @@
 package com.a.tmdbclient.api;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+
 import com.a.tmdbclient.api.movie.MovieModel;
 import com.a.tmdbclient.api.peoples.PeopleModel;
 import com.a.tmdbclient.api.shows.ShowModel;
@@ -27,6 +31,16 @@ public class NetworkUtils {
     public interface ShowLoadCallback {
         void onLoadFail(Call call);
         void onLoadSuccess(Response response, List<ShowModel> showModels);
+    }
+
+    public static boolean isInternetUnavailable(Context context) {
+        final ConnectivityManager connectivityManager =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager == null) {
+            return true;
+        }
+        final NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo == null || !networkInfo.isConnected();
     }
 
 }

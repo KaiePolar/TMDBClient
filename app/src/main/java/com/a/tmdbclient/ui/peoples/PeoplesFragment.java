@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -12,50 +13,55 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.a.tmdbclient.R;
-import com.a.tmdbclient.api.NetworkUtils;
 import com.a.tmdbclient.api.peoples.PeopleModel;
-import com.a.tmdbclient.api.peoples.PeopleNetworkManager;
 
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Response;
-
-public class PeoplesFragment extends Fragment {
+public class PeoplesFragment extends Fragment implements PeoplesView {
 
     private ProgressBar progressBar;
     private RecyclerView recyclerView;
     private PeopleRecyclerViewAdapter adapter;
+    private PeoplesPresenter presenter;
+    private TextView internetErrorTextView;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_peoples, container, false);
-
-
-        progressBar = root.findViewById(R.id.peoples_progress_bar);
-        recyclerView = root.findViewById(R.id.peoples_recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        init(root);
         adapter = new PeopleRecyclerViewAdapter();
+        presenter = new PeoplesPresenter(this,getContext());
+        presenter.getPopularPeoples(1);
 
-        PeopleNetworkManager.getPopularPeoples(1, new NetworkUtils.PeopleLoadCallback() {
-            @Override
-            public void onLoadFail(Call call) {
-
-            }
-
-            @Override
-            public void onLoadSuccess(Response response, List<PeopleModel> peopleModels) {
-                adapter.loadData(peopleModels);
-                setAdapter(adapter);
-            }
-        });
         return root;
     }
 
-    private void setAdapter(PeopleRecyclerViewAdapter adapter){
+    @Override
+    public void init(View view){
+        progressBar = view.findViewById(R.id.peoples_progress_bar);
+        recyclerView = view.findViewById(R.id.peoples_recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        internetErrorTextView = view.findViewById(R.id.people_internet_error);
+    }
+
+    @Override
+    public void setAdapterData(List<PeopleModel> data){
+        adapter.loadData(data);
         recyclerView.setAdapter(adapter);
         recyclerView.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showNoInternetError(){
+        progressBar.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.GONE);
+        internetErrorTextView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showApiError() {
+
     }
 
 }
