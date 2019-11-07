@@ -1,6 +1,7 @@
 package com.a.tmdbclient.ui.shows;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.a.tmdbclient.R;
 import com.a.tmdbclient.api.shows.ShowModel;
+import com.a.tmdbclient.ui.shows.view.ShowDetailsActivity;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
@@ -19,7 +21,7 @@ import java.util.List;
 
 public class ShowRecyclerViewAdapter extends RecyclerView.Adapter<ShowRecyclerViewAdapter.ViewHolder> {
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView titleTextView;
         TextView releaseTextView;
@@ -32,8 +34,15 @@ public class ShowRecyclerViewAdapter extends RecyclerView.Adapter<ShowRecyclerVi
             releaseTextView = itemView.findViewById(R.id.item_release);
             imageView = itemView.findViewById(R.id.item_photo);
             descriptionTextView = itemView.findViewById(R.id.item_description);
+            itemView.setOnClickListener(this);
         }
 
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(context, ShowDetailsActivity.class);
+            intent.putExtra("id",mData.get(getAdapterPosition()).getId());
+            context.startActivity(intent);
+        }
     }
 
     private List<ShowModel> mData;

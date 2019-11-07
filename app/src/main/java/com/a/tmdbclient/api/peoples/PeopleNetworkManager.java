@@ -59,4 +59,35 @@ public class PeopleNetworkManager {
             return null;
         }
     }
+
+    public static AsyncTask<Void, Void, Void> getPeopleDetails(int page, NetworkUtils.PeopleDetailsLoadCallback callback){
+        return new PeopleDetailsTask(page, callback).execute();
+    }
+
+    private static class PeopleDetailsTask extends AsyncTask<Void,Void, Void>{
+
+        private Integer mPage;
+        private NetworkUtils.PeopleDetailsLoadCallback mCallback;
+
+        public PeopleDetailsTask(Integer page, NetworkUtils.PeopleDetailsLoadCallback callback) {
+            mPage = page;
+            mCallback = callback;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            getAPI().getPeopleDetails(mPage,NetworkUtils.API_KEY).enqueue(new Callback<PeopleDetails>() {
+                @Override
+                public void onResponse(Call<PeopleDetails> call, Response<PeopleDetails> response) {
+                    mCallback.onLoadSuccess(response,response.body());
+                }
+
+                @Override
+                public void onFailure(Call<PeopleDetails> call, Throwable t) {
+                    mCallback.onLoadFail(call);
+                }
+            });
+            return null;
+        }
+    }
 }

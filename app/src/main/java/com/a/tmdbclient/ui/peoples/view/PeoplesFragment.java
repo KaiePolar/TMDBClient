@@ -1,4 +1,4 @@
-package com.a.tmdbclient.ui.shows;
+package com.a.tmdbclient.ui.peoples.view;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -14,18 +14,21 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.a.tmdbclient.R;
-import com.a.tmdbclient.api.shows.ShowModel;
+import com.a.tmdbclient.api.peoples.PeopleModel;
 import com.a.tmdbclient.ui.EndlessRecyclerViewScrollListener;
+import com.a.tmdbclient.ui.peoples.PeopleRecyclerViewAdapter;
+import com.a.tmdbclient.ui.peoples.PeoplesPresenter;
+import com.a.tmdbclient.ui.peoples.PeoplesView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PopularShowsFragment extends Fragment implements ShowView {
+public class PeoplesFragment extends Fragment implements PeoplesView {
 
     private ProgressBar progressBar;
     private RecyclerView recyclerView;
-    private ShowRecyclerViewAdapter adapter;
-    private ShowsPresenter presenter;
+    private PeopleRecyclerViewAdapter adapter;
+    private PeoplesPresenter presenter;
     private LinearLayoutManager linearLayoutManager;
     private TextView internetErrorTextView;
     private EndlessRecyclerViewScrollListener scrollListener;
@@ -33,16 +36,16 @@ public class PopularShowsFragment extends Fragment implements ShowView {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_shows, container, false);
+        View root = inflater.inflate(R.layout.fragment_peoples, container, false);
         init(root);
-        presenter = new ShowsPresenter(this, getContext());
-        presenter.getPopularShows(dataPage);
+        presenter = new PeoplesPresenter(this, getContext());
+        presenter.getPopularPeoples(dataPage);
 
         scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 Log.d("new data", "on load");
-                presenter.getPopularShows(++dataPage);
+                presenter.getPopularPeoples(++dataPage);
             }
         };
 
@@ -53,18 +56,18 @@ public class PopularShowsFragment extends Fragment implements ShowView {
 
     @Override
     public void init(View view) {
-        progressBar = view.findViewById(R.id.shows_progress_bar);
-        recyclerView = view.findViewById(R.id.shows_recycler_view);
+        progressBar = view.findViewById(R.id.peoples_progress_bar);
+        recyclerView = view.findViewById(R.id.peoples_recycler_view);
         linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
-        adapter = new ShowRecyclerViewAdapter();
+        adapter = new PeopleRecyclerViewAdapter();
         recyclerView.setAdapter(adapter);
-        adapter.loadData(new ArrayList<ShowModel>());
-        internetErrorTextView = view.findViewById(R.id.show_internet_error);
+        adapter.loadData(new ArrayList<PeopleModel>());
+        internetErrorTextView = view.findViewById(R.id.people_internet_error);
     }
 
     @Override
-    public void setAdapterData(List<ShowModel> data) {
+    public void setAdapterData(List<PeopleModel> data) {
         adapter.loadData(data);
         recyclerView.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
@@ -81,4 +84,5 @@ public class PopularShowsFragment extends Fragment implements ShowView {
     public void showApiError() {
 
     }
+
 }

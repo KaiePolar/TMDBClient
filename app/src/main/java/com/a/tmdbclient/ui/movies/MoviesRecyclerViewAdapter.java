@@ -1,6 +1,7 @@
 package com.a.tmdbclient.ui.movies;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.a.tmdbclient.R;
 import com.a.tmdbclient.api.movie.MovieModel;
+import com.a.tmdbclient.ui.movies.view.MovieDetailsActivity;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
@@ -20,7 +22,7 @@ import java.util.List;
 
 public class MoviesRecyclerViewAdapter extends RecyclerView.Adapter<MoviesRecyclerViewAdapter.ViewHolder> {
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView titleTextView;
         TextView releaseTextView;
@@ -33,12 +35,24 @@ public class MoviesRecyclerViewAdapter extends RecyclerView.Adapter<MoviesRecycl
             releaseTextView = itemView.findViewById(R.id.item_release);
             imageView = itemView.findViewById(R.id.item_photo);
             descriptionTextView = itemView.findViewById(R.id.item_description);
+            itemView.setOnClickListener(this);
         }
 
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(context, MovieDetailsActivity.class);
+            intent.putExtra("id",mData.get(getAdapterPosition()).getId());
+            context.startActivity(intent);
+        }
     }
 
     private List<MovieModel> mData;
     private Context context;
+    private View.OnClickListener onItemClickListener;
+
+    public void setOnItemClickListener(View.OnClickListener onClickListener){
+        onItemClickListener = onClickListener;
+    }
 
     public MoviesRecyclerViewAdapter() {
         mData = new ArrayList<>();
@@ -68,11 +82,11 @@ public class MoviesRecyclerViewAdapter extends RecyclerView.Adapter<MoviesRecycl
         Glide.with(context)
                 .load("http://image.tmdb.org/t/p/w185/"+item.getPosterPath())
                 .into(holder.imageView);
-
     }
 
     @Override
     public int getItemCount() {
         return mData.size();
     }
+
 }

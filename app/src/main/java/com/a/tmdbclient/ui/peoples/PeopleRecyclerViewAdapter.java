@@ -1,6 +1,7 @@
 package com.a.tmdbclient.ui.peoples;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.a.tmdbclient.R;
 import com.a.tmdbclient.api.peoples.PeopleModel;
+import com.a.tmdbclient.ui.peoples.view.PeopleDetailsActivity;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
@@ -20,7 +22,7 @@ import java.util.List;
 
 public class PeopleRecyclerViewAdapter extends RecyclerView.Adapter<PeopleRecyclerViewAdapter.ViewHolder> {
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView nameTextView;
         TextView birthTextView;
@@ -33,8 +35,15 @@ public class PeopleRecyclerViewAdapter extends RecyclerView.Adapter<PeopleRecycl
             birthTextView = itemView.findViewById(R.id.people_born);
             imageView = itemView.findViewById(R.id.people_photo);
             descriptionTextView = itemView.findViewById(R.id.people_biography);
+            itemView.setOnClickListener(this);
         }
 
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(context, PeopleDetailsActivity.class);
+            intent.putExtra("id",mData.get(getAdapterPosition()).getId());
+            context.startActivity(intent);
+        }
     }
 
     private List<PeopleModel> mData;

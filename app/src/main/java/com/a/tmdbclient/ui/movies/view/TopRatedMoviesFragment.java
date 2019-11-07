@@ -1,4 +1,4 @@
-package com.a.tmdbclient.ui.movies;
+package com.a.tmdbclient.ui.movies.view;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -16,11 +16,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.a.tmdbclient.R;
 import com.a.tmdbclient.api.movie.MovieModel;
 import com.a.tmdbclient.ui.EndlessRecyclerViewScrollListener;
+import com.a.tmdbclient.ui.movies.MovieView;
+import com.a.tmdbclient.ui.movies.MoviesPresenter;
+import com.a.tmdbclient.ui.movies.MoviesRecyclerViewAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class UpcomingMoviesFragment extends Fragment implements MovieView {
+public class TopRatedMoviesFragment extends Fragment implements MovieView {
 
     private ProgressBar progressBar;
     private RecyclerView recyclerView;
@@ -36,13 +39,13 @@ public class UpcomingMoviesFragment extends Fragment implements MovieView {
         View root = inflater.inflate(R.layout.fragment_movies, container, false);
         init(root);
         presenter = new MoviesPresenter(this, getContext());
-        presenter.getUpcomingMovies(dataPage);
+        presenter.getTopRatedMovies(dataPage);
 
         scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 Log.d("new data", "on load");
-                presenter.getUpcomingMovies(++dataPage);
+                presenter.getTopRatedMovies(++dataPage);
             }
         };
 

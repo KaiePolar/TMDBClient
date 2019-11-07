@@ -1,4 +1,4 @@
-package com.a.tmdbclient.ui.movies;
+package com.a.tmdbclient.ui.movies.view;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.a.tmdbclient.R;
 import com.a.tmdbclient.api.movie.MovieModel;
 import com.a.tmdbclient.ui.EndlessRecyclerViewScrollListener;
+import com.a.tmdbclient.ui.movies.MovieView;
+import com.a.tmdbclient.ui.movies.MoviesPresenter;
+import com.a.tmdbclient.ui.movies.MoviesRecyclerViewAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,4 +84,5 @@ public class PopularMoviesFragment extends Fragment implements MovieView {
     public void showApiError() {
 
     }
+
 }

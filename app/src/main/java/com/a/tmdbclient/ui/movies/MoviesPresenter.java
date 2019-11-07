@@ -1,10 +1,13 @@
 package com.a.tmdbclient.ui.movies;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.a.tmdbclient.api.NetworkUtils;
+import com.a.tmdbclient.api.movie.MovieDetails;
 import com.a.tmdbclient.api.movie.MovieModel;
 import com.a.tmdbclient.api.movie.MoviesNetworkManager;
+import com.a.tmdbclient.ui.movies.view.MovieDetailsActivity;
 
 import java.util.List;
 
@@ -13,81 +16,95 @@ import retrofit2.Response;
 
 public class MoviesPresenter {
 
-    private MovieView mView;
+    private MovieView mFragView;
     private Context mContext;
 
-    MoviesPresenter(MovieView view, Context context) {
-        mView = view;
+    public MoviesPresenter(MovieView view, Context context) {
+        mFragView = view;
         mContext = context;
     }
 
-    void getPopularMovies(int page) {
+    public static void getMovieDetails(int id, final MovieDetailsActivity activity){
+        MoviesNetworkManager.getMovieDetails(id, new NetworkUtils.MovieDetailsLoadCallback() {
+            @Override
+            public void onLoadFail(Call call) {
+                Log.d("ss", call.toString());
+            }
+
+            @Override
+            public void onLoadSuccess(Response response, MovieDetails movieDetails) {
+                activity.setDetails(movieDetails);
+            }
+        });
+    }
+
+    public void getPopularMovies(int page) {
         if (NetworkUtils.isInternetUnavailable(mContext)) {
-            mView.showNoInternetError();
+            mFragView.showNoInternetError();
         } else {
-            MoviesNetworkManager.getPopularMovies(page, new NetworkUtils.MovieLoadCallback() {
+            MoviesNetworkManager.getPopularMovies(page, new NetworkUtils.MovieListLoadCallback() {
                 @Override
                 public void onLoadFail(Call call) {
-                    mView.showApiError();
+                    mFragView.showApiError();
                 }
 
                 @Override
                 public void onLoadSuccess(Response response, List<MovieModel> movieModels) {
-                    mView.setAdapterData(movieModels);
+                    mFragView.setAdapterData(movieModels);
                 }
             });
         }
     }
 
-    void getUpcomingMovies(int page){
+    public void getUpcomingMovies(int page){
         if (NetworkUtils.isInternetUnavailable(mContext)) {
-            mView.showNoInternetError();
+            mFragView.showNoInternetError();
         } else {
-            MoviesNetworkManager.getUpcomingMovies(page, new NetworkUtils.MovieLoadCallback() {
+            MoviesNetworkManager.getUpcomingMovies(page, new NetworkUtils.MovieListLoadCallback() {
                 @Override
                 public void onLoadFail(Call call) {
-                    mView.showApiError();
+                    mFragView.showApiError();
                 }
 
                 @Override
                 public void onLoadSuccess(Response response, List<MovieModel> movieModels) {
-                    mView.setAdapterData(movieModels);
+                    mFragView.setAdapterData(movieModels);
                 }
             });
         }
     }
 
-    void getTopRatedMovies(int page){
+    public void getTopRatedMovies(int page){
         if (NetworkUtils.isInternetUnavailable(mContext)) {
-            mView.showNoInternetError();
+            mFragView.showNoInternetError();
         } else {
-            MoviesNetworkManager.getTopRatedMovies(page, new NetworkUtils.MovieLoadCallback() {
+            MoviesNetworkManager.getTopRatedMovies(page, new NetworkUtils.MovieListLoadCallback() {
                 @Override
                 public void onLoadFail(Call call) {
-                    mView.showApiError();
+                    mFragView.showApiError();
                 }
 
                 @Override
                 public void onLoadSuccess(Response response, List<MovieModel> movieModels) {
-                    mView.setAdapterData(movieModels);
+                    mFragView.setAdapterData(movieModels);
                 }
             });
         }
     }
 
-    void getNowPlayingMovies(int page){
+    public void getNowPlayingMovies(int page){
         if (NetworkUtils.isInternetUnavailable(mContext)) {
-            mView.showNoInternetError();
+            mFragView.showNoInternetError();
         } else {
-            MoviesNetworkManager.getNowPlayingMovies(page, new NetworkUtils.MovieLoadCallback() {
+            MoviesNetworkManager.getNowPlayingMovies(page, new NetworkUtils.MovieListLoadCallback() {
                 @Override
                 public void onLoadFail(Call call) {
-                    mView.showApiError();
+                    mFragView.showApiError();
                 }
 
                 @Override
                 public void onLoadSuccess(Response response, List<MovieModel> movieModels) {
-                    mView.setAdapterData(movieModels);
+                    mFragView.setAdapterData(movieModels);
                 }
             });
         }

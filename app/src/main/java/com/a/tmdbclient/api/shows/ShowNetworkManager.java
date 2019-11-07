@@ -152,4 +152,35 @@ public class ShowNetworkManager {
             return null;
         }
     }
+
+    public static AsyncTask<Void, Void, Void> getShowDetails(int page, NetworkUtils.ShowDetailsLoadCallback callback){
+        return new ShowNetworkManager.ShowDetailsTask(page, callback).execute();
+    }
+
+    private static class ShowDetailsTask extends AsyncTask<Void,Void, Void>{
+
+        private Integer mPage;
+        private NetworkUtils.ShowDetailsLoadCallback mCallback;
+
+        public ShowDetailsTask(Integer page, NetworkUtils.ShowDetailsLoadCallback callback) {
+            mPage = page;
+            mCallback = callback;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            getAPI().getShowDetails(mPage,NetworkUtils.API_KEY).enqueue(new Callback<ShowDetails>() {
+                @Override
+                public void onResponse(Call<ShowDetails> call, Response<ShowDetails> response) {
+                    mCallback.onLoadSuccess(response,response.body());
+                }
+
+                @Override
+                public void onFailure(Call<ShowDetails> call, Throwable t) {
+                    mCallback.onLoadFail(call);
+                }
+            });
+            return null;
+        }
+    }
 }
