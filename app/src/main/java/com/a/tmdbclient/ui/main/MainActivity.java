@@ -1,7 +1,6 @@
 package com.a.tmdbclient.ui.main;
 
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.View;
 import android.widget.ExpandableListView;
 
@@ -34,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         mDrawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_top_rated_movies,
+                R.id.nav_top_rated_movies,
                 R.id.nav_now_playing_movies,
                 R.id.nav_upcoming_movies,
                 R.id.nav_popular_movies,
@@ -50,12 +49,6 @@ public class MainActivity extends AppCompatActivity {
         mNavController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, mNavController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, mNavController);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
     }
 
     @Override

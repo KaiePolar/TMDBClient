@@ -24,12 +24,10 @@ public class MenuListViewAdapter extends BaseExpandableListAdapter {
         mHeaderList = new ArrayList<>();
         mChildList = new HashMap<>();
 
-        MenuItem mainMenuItem = new MenuItem("Main", true, R.id.nav_home);
         MenuItem moviesMenuItem = new MenuItem("Movies", true, true);
         MenuItem showsMenuItem = new MenuItem("TV Shows", true, true);
         MenuItem peoplesMenuItem = new MenuItem("Peoples", true, true);
 
-        mHeaderList.add(mainMenuItem);
         mHeaderList.add(moviesMenuItem);
         mHeaderList.add(showsMenuItem);
         mHeaderList.add(peoplesMenuItem);
@@ -45,7 +43,7 @@ public class MenuListViewAdapter extends BaseExpandableListAdapter {
         childModelsList.add(new MenuItem("Popular", false, R.id.nav_popular_shows));
         childModelsList.add(new MenuItem("Best", false, R.id.nav_top_rated_shows));
         childModelsList.add(new MenuItem("Upcoming", false, R.id.nav_upcoming_shows));
-        childModelsList.add(new MenuItem("Today", false, R.id.nav_now_playing_shows));
+        childModelsList.add(new MenuItem("Airing Today", false, R.id.nav_now_playing_shows));
         mChildList.put(showsMenuItem, childModelsList);
 
         childModelsList = new ArrayList<>();
