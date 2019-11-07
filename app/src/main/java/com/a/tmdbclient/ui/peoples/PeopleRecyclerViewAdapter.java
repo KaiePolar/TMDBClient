@@ -1,6 +1,7 @@
 package com.a.tmdbclient.ui.peoples;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,7 +45,9 @@ public class PeopleRecyclerViewAdapter extends RecyclerView.Adapter<PeopleRecycl
     }
 
     public void loadData(List<PeopleModel> data) {
-        this.mData = data;
+        Log.d("new data","loaded");
+        mData.addAll(data);
+        notifyDataSetChanged();
     }
 
     @NonNull

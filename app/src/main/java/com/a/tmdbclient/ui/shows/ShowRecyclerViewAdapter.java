@@ -17,24 +17,24 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShowRecyclerViewAdapter extends RecyclerView.Adapter<ShowRecyclerViewAdapter.ViewHolder>{
+public class ShowRecyclerViewAdapter extends RecyclerView.Adapter<ShowRecyclerViewAdapter.ViewHolder> {
 
-class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
 
-    TextView titleTextView;
-    TextView releaseTextView;
-    TextView descriptionTextView;
-    ImageView imageView;
+        TextView titleTextView;
+        TextView releaseTextView;
+        TextView descriptionTextView;
+        ImageView imageView;
 
-    ViewHolder(@NonNull View itemView) {
-        super(itemView);
-        titleTextView = itemView.findViewById(R.id.item_title);
-        releaseTextView = itemView.findViewById(R.id.item_release);
-        imageView = itemView.findViewById(R.id.item_photo);
-        descriptionTextView = itemView.findViewById(R.id.item_description);
+        ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            titleTextView = itemView.findViewById(R.id.item_title);
+            releaseTextView = itemView.findViewById(R.id.item_release);
+            imageView = itemView.findViewById(R.id.item_photo);
+            descriptionTextView = itemView.findViewById(R.id.item_description);
+        }
+
     }
-
-}
 
     private List<ShowModel> mData;
     private Context context;
@@ -44,7 +44,8 @@ class ViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void loadData(List<ShowModel> data) {
-        this.mData = data;
+        mData.addAll(data);
+        notifyDataSetChanged();
     }
 
     @NonNull
