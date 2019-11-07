@@ -27,16 +27,8 @@ public class PeoplePageModel {
         return page;
     }
 
-    public void setPage(Integer page) {
-        this.page = page;
-    }
-
-    public List<PeopleModel> getResults() {
+    List<PeopleModel> getResults() {
         return results;
-    }
-
-    public void setResults(List<PeopleModel> results) {
-        this.results = results;
     }
 
 }

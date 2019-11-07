@@ -2,6 +2,8 @@ package com.a.tmdbclient.api.shows;
 
 import android.os.AsyncTask;
 
+import androidx.annotation.NonNull;
+
 import com.a.tmdbclient.api.NetworkUtils;
 
 import retrofit2.Call;
@@ -11,6 +13,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ShowNetworkManager {
+
     private static final ShowNetworkManager ourInstance = new ShowNetworkManager();
     private static Retrofit mRetrofit;
 
@@ -25,34 +28,34 @@ public class ShowNetworkManager {
                 .build();
     }
 
-    public static ShowApiService getAPI(){
+    private static ShowApiService getAPI() {
         return mRetrofit.create(ShowApiService.class);
     }
 
-    public static AsyncTask<Void, Void, Void> getPopularShows(int page, NetworkUtils.ShowLoadCallback callback){
+    public static AsyncTask<Void, Void, Void> getPopularShows(int page, NetworkUtils.ShowLoadCallback callback) {
         return new ShowNetworkManager.PopularShowTask(page, callback).execute();
     }
 
-    private static class PopularShowTask extends AsyncTask<Void,Void, Void>{
+    private static class PopularShowTask extends AsyncTask<Void, Void, Void> {
 
-        private Integer mPage;
+        private int mPage;
         private NetworkUtils.ShowLoadCallback mCallback;
 
-        public PopularShowTask(Integer page, NetworkUtils.ShowLoadCallback callback) {
+        PopularShowTask(int page, NetworkUtils.ShowLoadCallback callback) {
             mPage = page;
             mCallback = callback;
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            getAPI().getPopularShows(mPage,NetworkUtils.API_KEY).enqueue(new Callback<ShowPageModel>() {
+            getAPI().getPopularShows(mPage, NetworkUtils.API_KEY).enqueue(new Callback<ShowPageModel>() {
                 @Override
-                public void onResponse(Call<ShowPageModel> call, Response<ShowPageModel> response) {
-                    mCallback.onLoadSuccess(response,response.body().getShowModels());
+                public void onResponse(@NonNull Call<ShowPageModel> call, @NonNull Response<ShowPageModel> response) {
+                    mCallback.onLoadSuccess(response, response.body().getShowModels());
                 }
 
                 @Override
-                public void onFailure(Call<ShowPageModel> call, Throwable t) {
+                public void onFailure(@NonNull Call<ShowPageModel> call, @NonNull Throwable t) {
                     mCallback.onLoadFail(call);
                 }
             });
@@ -60,30 +63,30 @@ public class ShowNetworkManager {
         }
     }
 
-    public static AsyncTask<Void, Void, Void> getTopRatedShows(int page, NetworkUtils.ShowLoadCallback callback){
+    public static AsyncTask<Void, Void, Void> getTopRatedShows(int page, NetworkUtils.ShowLoadCallback callback) {
         return new ShowNetworkManager.TopRatedShowTask(page, callback).execute();
     }
 
-    private static class TopRatedShowTask extends AsyncTask<Void,Void, Void>{
+    private static class TopRatedShowTask extends AsyncTask<Void, Void, Void> {
 
-        private Integer mPage;
+        private int mPage;
         private NetworkUtils.ShowLoadCallback mCallback;
 
-        public TopRatedShowTask(Integer page, NetworkUtils.ShowLoadCallback callback) {
+        TopRatedShowTask(int page, NetworkUtils.ShowLoadCallback callback) {
             mPage = page;
             mCallback = callback;
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            getAPI().getTopRatedShows(mPage,NetworkUtils.API_KEY).enqueue(new Callback<ShowPageModel>() {
+            getAPI().getTopRatedShows(mPage, NetworkUtils.API_KEY).enqueue(new Callback<ShowPageModel>() {
                 @Override
-                public void onResponse(Call<ShowPageModel> call, Response<ShowPageModel> response) {
-                    mCallback.onLoadSuccess(response,response.body().getShowModels());
+                public void onResponse(@NonNull Call<ShowPageModel> call, @NonNull Response<ShowPageModel> response) {
+                    mCallback.onLoadSuccess(response, response.body().getShowModels());
                 }
 
                 @Override
-                public void onFailure(Call<ShowPageModel> call, Throwable t) {
+                public void onFailure(@NonNull Call<ShowPageModel> call, @NonNull Throwable t) {
                     mCallback.onLoadFail(call);
                 }
             });
@@ -91,30 +94,30 @@ public class ShowNetworkManager {
         }
     }
 
-    public static AsyncTask<Void, Void, Void> getUpcomingShows(int page, NetworkUtils.ShowLoadCallback callback){
+    public static AsyncTask<Void, Void, Void> getUpcomingShows(int page, NetworkUtils.ShowLoadCallback callback) {
         return new ShowNetworkManager.UpcomingShowTask(page, callback).execute();
     }
 
-    private static class UpcomingShowTask extends AsyncTask<Void,Void, Void>{
+    private static class UpcomingShowTask extends AsyncTask<Void, Void, Void> {
 
-        private Integer mPage;
+        private int mPage;
         private NetworkUtils.ShowLoadCallback mCallback;
 
-        public UpcomingShowTask(Integer page, NetworkUtils.ShowLoadCallback callback) {
+        UpcomingShowTask(int page, NetworkUtils.ShowLoadCallback callback) {
             mPage = page;
             mCallback = callback;
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            getAPI().getUpcomingShows(mPage,NetworkUtils.API_KEY).enqueue(new Callback<ShowPageModel>() {
+            getAPI().getUpcomingShows(mPage, NetworkUtils.API_KEY).enqueue(new Callback<ShowPageModel>() {
                 @Override
-                public void onResponse(Call<ShowPageModel> call, Response<ShowPageModel> response) {
-                    mCallback.onLoadSuccess(response,response.body().getShowModels());
+                public void onResponse(@NonNull Call<ShowPageModel> call, @NonNull Response<ShowPageModel> response) {
+                    mCallback.onLoadSuccess(response, response.body().getShowModels());
                 }
 
                 @Override
-                public void onFailure(Call<ShowPageModel> call, Throwable t) {
+                public void onFailure(@NonNull Call<ShowPageModel> call, @NonNull Throwable t) {
                     mCallback.onLoadFail(call);
                 }
             });
@@ -122,30 +125,30 @@ public class ShowNetworkManager {
         }
     }
 
-    public static AsyncTask<Void, Void, Void> getNowPlayingShows(int page, NetworkUtils.ShowLoadCallback callback){
+    public static AsyncTask<Void, Void, Void> getNowPlayingShows(int page, NetworkUtils.ShowLoadCallback callback) {
         return new ShowNetworkManager.NowPlayingShowTask(page, callback).execute();
     }
 
-    private static class NowPlayingShowTask extends AsyncTask<Void,Void, Void>{
+    private static class NowPlayingShowTask extends AsyncTask<Void, Void, Void> {
 
-        private Integer mPage;
+        private int mPage;
         private NetworkUtils.ShowLoadCallback mCallback;
 
-        public NowPlayingShowTask(Integer page, NetworkUtils.ShowLoadCallback callback) {
+        NowPlayingShowTask(int page, NetworkUtils.ShowLoadCallback callback) {
             mPage = page;
             mCallback = callback;
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            getAPI().getNowPlayingShows(mPage,NetworkUtils.API_KEY).enqueue(new Callback<ShowPageModel>() {
+            getAPI().getNowPlayingShows(mPage, NetworkUtils.API_KEY).enqueue(new Callback<ShowPageModel>() {
                 @Override
-                public void onResponse(Call<ShowPageModel> call, Response<ShowPageModel> response) {
-                    mCallback.onLoadSuccess(response,response.body().getShowModels());
+                public void onResponse(@NonNull Call<ShowPageModel> call, @NonNull Response<ShowPageModel> response) {
+                    mCallback.onLoadSuccess(response, response.body().getShowModels());
                 }
 
                 @Override
-                public void onFailure(Call<ShowPageModel> call, Throwable t) {
+                public void onFailure(@NonNull Call<ShowPageModel> call, @NonNull Throwable t) {
                     mCallback.onLoadFail(call);
                 }
             });
@@ -153,34 +156,35 @@ public class ShowNetworkManager {
         }
     }
 
-    public static AsyncTask<Void, Void, Void> getShowDetails(int page, NetworkUtils.ShowDetailsLoadCallback callback){
+    public static AsyncTask<Void, Void, Void> getShowDetails(int page, NetworkUtils.ShowDetailsLoadCallback callback) {
         return new ShowNetworkManager.ShowDetailsTask(page, callback).execute();
     }
 
-    private static class ShowDetailsTask extends AsyncTask<Void,Void, Void>{
+    private static class ShowDetailsTask extends AsyncTask<Void, Void, Void> {
 
-        private Integer mPage;
+        private int mPage;
         private NetworkUtils.ShowDetailsLoadCallback mCallback;
 
-        public ShowDetailsTask(Integer page, NetworkUtils.ShowDetailsLoadCallback callback) {
+        ShowDetailsTask(int page, NetworkUtils.ShowDetailsLoadCallback callback) {
             mPage = page;
             mCallback = callback;
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            getAPI().getShowDetails(mPage,NetworkUtils.API_KEY).enqueue(new Callback<ShowDetails>() {
+            getAPI().getShowDetails(mPage, NetworkUtils.API_KEY).enqueue(new Callback<ShowDetails>() {
                 @Override
-                public void onResponse(Call<ShowDetails> call, Response<ShowDetails> response) {
-                    mCallback.onLoadSuccess(response,response.body());
+                public void onResponse(@NonNull Call<ShowDetails> call, @NonNull Response<ShowDetails> response) {
+                    mCallback.onLoadSuccess(response, response.body());
                 }
 
                 @Override
-                public void onFailure(Call<ShowDetails> call, Throwable t) {
+                public void onFailure(@NonNull Call<ShowDetails> call, @NonNull Throwable t) {
                     mCallback.onLoadFail(call);
                 }
             });
             return null;
         }
     }
+
 }

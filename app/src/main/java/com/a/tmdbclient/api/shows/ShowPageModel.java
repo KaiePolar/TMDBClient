@@ -28,16 +28,8 @@ public class ShowPageModel {
         return page;
     }
 
-    public void setPage(Integer page) {
-        this.page = page;
-    }
-
-    public List<ShowModel> getShowModels() {
+    List<ShowModel> getShowModels() {
         return showModels;
-    }
-
-    public void setShowModels(List<ShowModel> showModels) {
-        this.showModels = showModels;
     }
 
 }

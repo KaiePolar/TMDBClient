@@ -1,7 +1,6 @@
 package com.a.tmdbclient.ui.shows;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.a.tmdbclient.api.NetworkUtils;
 import com.a.tmdbclient.api.shows.ShowDetails;
@@ -15,19 +14,19 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 public class ShowsPresenter {
+
     private ShowView mView;
     private Context mContext;
 
-    public ShowsPresenter(ShowView view, Context context){
+    public ShowsPresenter(ShowView view, Context context) {
         mView = view;
         mContext = context;
     }
 
-    public static void getShowsDetails(int id, final ShowDetailsActivity activity){
+    public static void getShowsDetails(int id, final ShowDetailsActivity activity) {
         ShowNetworkManager.getShowDetails(id, new NetworkUtils.ShowDetailsLoadCallback() {
             @Override
             public void onLoadFail(Call call) {
-                Log.d("ss", call.toString());
             }
 
             @Override
@@ -108,4 +107,5 @@ public class ShowsPresenter {
             });
         }
     }
+
 }

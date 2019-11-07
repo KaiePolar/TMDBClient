@@ -14,8 +14,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.peoples.view.PeopleDetailsActivity"></activity>
-        <activity android:name=".ui.shows.view.ShowDetailsActivity" />
+        <activity
+            android:name=".ui.peoples.view.PeopleDetailsActivity"
+            android:label="Person Details" />
+        <activity
+            android:name=".ui.shows.view.ShowDetailsActivity"
+            android:label="Show Details" />
         <activity
             android:name=".ui.movies.view.MovieDetailsActivity"
             android:label="Movie Details" />

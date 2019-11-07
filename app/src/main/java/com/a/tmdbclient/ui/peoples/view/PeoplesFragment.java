@@ -1,7 +1,6 @@
 package com.a.tmdbclient.ui.peoples.view;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,25 +30,24 @@ public class PeoplesFragment extends Fragment implements PeoplesView {
     private PeoplesPresenter presenter;
     private LinearLayoutManager linearLayoutManager;
     private TextView internetErrorTextView;
-    private EndlessRecyclerViewScrollListener scrollListener;
+    private EndlessRecyclerViewScrollListener endlessScrollListener;
     private int dataPage = 1;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_peoples, container, false);
         init(root);
+
         presenter = new PeoplesPresenter(this, getContext());
         presenter.getPopularPeoples(dataPage);
 
-        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+        endlessScrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                Log.d("new data", "on load");
                 presenter.getPopularPeoples(++dataPage);
             }
         };
-
-        recyclerView.addOnScrollListener(scrollListener);
+        recyclerView.addOnScrollListener(endlessScrollListener);
 
         return root;
     }
@@ -63,7 +61,7 @@ public class PeoplesFragment extends Fragment implements PeoplesView {
         adapter = new PeopleRecyclerViewAdapter();
         recyclerView.setAdapter(adapter);
         adapter.loadData(new ArrayList<PeopleModel>());
-        internetErrorTextView = view.findViewById(R.id.people_internet_error);
+        internetErrorTextView = view.findViewById(R.id.peoples_internet_error);
     }
 
     @Override

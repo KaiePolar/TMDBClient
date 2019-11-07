@@ -1,7 +1,6 @@
 package com.a.tmdbclient.ui.shows.view;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +30,7 @@ public class PopularShowsFragment extends Fragment implements ShowView {
     private ShowsPresenter presenter;
     private LinearLayoutManager linearLayoutManager;
     private TextView internetErrorTextView;
-    private EndlessRecyclerViewScrollListener scrollListener;
+    private EndlessRecyclerViewScrollListener endlessScrollListener;
     private int dataPage = 1;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -41,15 +40,13 @@ public class PopularShowsFragment extends Fragment implements ShowView {
         presenter = new ShowsPresenter(this, getContext());
         presenter.getPopularShows(dataPage);
 
-        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+        endlessScrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                Log.d("new data", "on load");
                 presenter.getPopularShows(++dataPage);
             }
         };
-
-        recyclerView.addOnScrollListener(scrollListener);
+        recyclerView.addOnScrollListener(endlessScrollListener);
 
         return root;
     }
@@ -63,7 +60,7 @@ public class PopularShowsFragment extends Fragment implements ShowView {
         adapter = new ShowRecyclerViewAdapter();
         recyclerView.setAdapter(adapter);
         adapter.loadData(new ArrayList<ShowModel>());
-        internetErrorTextView = view.findViewById(R.id.show_internet_error);
+        internetErrorTextView = view.findViewById(R.id.shows_internet_error);
     }
 
     @Override
@@ -84,4 +81,5 @@ public class PopularShowsFragment extends Fragment implements ShowView {
     public void showApiError() {
 
     }
+
 }

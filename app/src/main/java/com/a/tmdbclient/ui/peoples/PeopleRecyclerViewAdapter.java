@@ -2,7 +2,6 @@ package com.a.tmdbclient.ui.peoples;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.a.tmdbclient.R;
+import com.a.tmdbclient.api.NetworkUtils;
 import com.a.tmdbclient.api.peoples.PeopleModel;
 import com.a.tmdbclient.ui.peoples.view.PeopleDetailsActivity;
 import com.bumptech.glide.Glide;
@@ -21,6 +21,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PeopleRecyclerViewAdapter extends RecyclerView.Adapter<PeopleRecyclerViewAdapter.ViewHolder> {
+
+    private List<PeopleModel> mData;
+    private Context mContext;
+
+    public PeopleRecyclerViewAdapter() {
+        mData = new ArrayList<>();
+    }
+
+    public void loadData(List<PeopleModel> data) {
+        mData.addAll(data);
+        notifyDataSetChanged();
+    }
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -31,32 +43,19 @@ public class PeopleRecyclerViewAdapter extends RecyclerView.Adapter<PeopleRecycl
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
-            nameTextView = itemView.findViewById(R.id.people_name);
-            birthTextView = itemView.findViewById(R.id.people_born);
-            imageView = itemView.findViewById(R.id.people_photo);
-            descriptionTextView = itemView.findViewById(R.id.people_biography);
+            nameTextView = itemView.findViewById(R.id.people_item_name);
+            birthTextView = itemView.findViewById(R.id.people_item_birthday);
+            imageView = itemView.findViewById(R.id.people_item_photo);
+            descriptionTextView = itemView.findViewById(R.id.people_item_biography);
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(context, PeopleDetailsActivity.class);
-            intent.putExtra("id",mData.get(getAdapterPosition()).getId());
-            context.startActivity(intent);
+            Intent intent = new Intent(mContext, PeopleDetailsActivity.class);
+            intent.putExtra("id", mData.get(getAdapterPosition()).getId());
+            mContext.startActivity(intent);
         }
-    }
-
-    private List<PeopleModel> mData;
-    private Context context;
-
-    public PeopleRecyclerViewAdapter() {
-        mData = new ArrayList<>();
-    }
-
-    public void loadData(List<PeopleModel> data) {
-        Log.d("new data","loaded");
-        mData.addAll(data);
-        notifyDataSetChanged();
     }
 
     @NonNull
@@ -64,7 +63,7 @@ public class PeopleRecyclerViewAdapter extends RecyclerView.Adapter<PeopleRecycl
     public PeopleRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         PeopleRecyclerViewAdapter.ViewHolder viewHolder = new PeopleRecyclerViewAdapter.ViewHolder(LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.recycler_view_people_item, parent, false));
-        context = parent.getContext();
+        mContext = parent.getContext();
         return viewHolder;
     }
 
@@ -73,9 +72,9 @@ public class PeopleRecyclerViewAdapter extends RecyclerView.Adapter<PeopleRecycl
         PeopleModel item = mData.get(position);
         holder.nameTextView.setText(item.getName());
         holder.birthTextView.setText(item.getKnownForDepartment());
-        holder.descriptionTextView.setText(String.valueOf(item.getPopularity()));
-        Glide.with(context)
-                .load("http://image.tmdb.org/t/p/w185/" + item.getProfilePath())
+        holder.descriptionTextView.setText("TMDb popularity - " + item.getPopularity());
+        Glide.with(mContext)
+                .load(NetworkUtils.IMG_BASE_URL+item.getProfilePath())
                 .into(holder.imageView);
     }
 
@@ -83,4 +82,5 @@ public class PeopleRecyclerViewAdapter extends RecyclerView.Adapter<PeopleRecycl
     public int getItemCount() {
         return mData.size();
     }
+
 }

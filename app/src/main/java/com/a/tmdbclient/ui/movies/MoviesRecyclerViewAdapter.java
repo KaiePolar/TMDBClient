@@ -2,7 +2,6 @@ package com.a.tmdbclient.ui.movies;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.a.tmdbclient.R;
+import com.a.tmdbclient.api.NetworkUtils;
 import com.a.tmdbclient.api.movie.MovieModel;
 import com.a.tmdbclient.ui.movies.view.MovieDetailsActivity;
 import com.bumptech.glide.Glide;
@@ -21,6 +21,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MoviesRecyclerViewAdapter extends RecyclerView.Adapter<MoviesRecyclerViewAdapter.ViewHolder> {
+
+    private List<MovieModel> mData;
+    private Context mContext;
+
+    public MoviesRecyclerViewAdapter() {
+        mData = new ArrayList<>();
+    }
+
+    public void loadData(List<MovieModel> data) {
+        mData.addAll(data);
+        notifyDataSetChanged();
+    }
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -40,28 +52,10 @@ public class MoviesRecyclerViewAdapter extends RecyclerView.Adapter<MoviesRecycl
 
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(context, MovieDetailsActivity.class);
-            intent.putExtra("id",mData.get(getAdapterPosition()).getId());
-            context.startActivity(intent);
+            Intent intent = new Intent(mContext, MovieDetailsActivity.class);
+            intent.putExtra("id", mData.get(getAdapterPosition()).getId());
+            mContext.startActivity(intent);
         }
-    }
-
-    private List<MovieModel> mData;
-    private Context context;
-    private View.OnClickListener onItemClickListener;
-
-    public void setOnItemClickListener(View.OnClickListener onClickListener){
-        onItemClickListener = onClickListener;
-    }
-
-    public MoviesRecyclerViewAdapter() {
-        mData = new ArrayList<>();
-    }
-
-    public void loadData(List<MovieModel> data) {
-        Log.d("new data","loaded");
-        mData.addAll(data);
-        notifyDataSetChanged();
     }
 
     @NonNull
@@ -69,7 +63,7 @@ public class MoviesRecyclerViewAdapter extends RecyclerView.Adapter<MoviesRecycl
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         ViewHolder viewHolder = new ViewHolder(LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.recycler_view_item, parent, false));
-        context = parent.getContext();
+        mContext = parent.getContext();
         return viewHolder;
     }
 
@@ -79,8 +73,8 @@ public class MoviesRecyclerViewAdapter extends RecyclerView.Adapter<MoviesRecycl
         holder.titleTextView.setText(item.getTitle());
         holder.releaseTextView.setText(item.getReleaseDate());
         holder.descriptionTextView.setText(item.getOverview());
-        Glide.with(context)
-                .load("http://image.tmdb.org/t/p/w185/"+item.getPosterPath())
+        Glide.with(mContext)
+                .load(NetworkUtils.IMG_BASE_URL+item.getPosterPath())
                 .into(holder.imageView);
     }
 

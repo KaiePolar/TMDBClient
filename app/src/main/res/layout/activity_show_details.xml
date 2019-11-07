@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/show_details_poster"
@@ -32,7 +32,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Movie Name"
             android:textSize="16sp"
             android:visibility="gone"
             android:textColor="@color/colorWhite"
@@ -45,7 +44,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Movie Tag"
             android:visibility="gone"
             android:textColor="@color/colorWhite"
             android:textSize="14sp"
@@ -54,12 +52,11 @@
             app:layout_constraintTop_toBottomOf="@+id/show_details_title" />
 
         <TextView
-            android:id="@+id/show_details_descr"
+            android:id="@+id/show_details_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="16dp"
-            android:text="descr"
             android:visibility="gone"
             android:textColor="@color/colorWhite"
             android:textSize="14sp"
@@ -72,11 +69,12 @@
             android:id="@+id/show_details_progress_bar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginTop="24dp"
             android:visibility="visible"
-            android:layout_gravity="center"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
 </ScrollView>

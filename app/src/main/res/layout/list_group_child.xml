@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:background="@color/colorPrimaryDark"
+    android:orientation="vertical"
     android:padding="8dp">
 
     <TextView
         android:id="@+id/lblListItem"
         android:layout_width="match_parent"
-        android:textColor="@color/colorWhite"
         android:layout_height="wrap_content"
-        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft" />
+        android:paddingStart="?android:attr/expandableListPreferredChildPaddingLeft"
+        android:textColor="@color/colorWhite"
+        tools:ignore="RtlSymmetry" />
+
 </LinearLayout>

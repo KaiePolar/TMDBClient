@@ -1,7 +1,6 @@
 package com.a.tmdbclient.ui.peoples;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.a.tmdbclient.api.NetworkUtils;
 import com.a.tmdbclient.api.peoples.PeopleDetails;
@@ -42,11 +41,10 @@ public class PeoplesPresenter {
         }
     }
 
-    public static void getPeopleDetails(int id, final PeopleDetailsActivity activity){
+    public static void getPeopleDetails(int id, final PeopleDetailsActivity activity) {
         PeopleNetworkManager.getPeopleDetails(id, new NetworkUtils.PeopleDetailsLoadCallback() {
             @Override
             public void onLoadFail(Call call) {
-                Log.d("ss", call.toString());
             }
 
             @Override
@@ -55,4 +53,5 @@ public class PeoplesPresenter {
             }
         });
     }
+
 }

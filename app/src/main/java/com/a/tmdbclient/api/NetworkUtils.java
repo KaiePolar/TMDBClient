@@ -20,6 +20,7 @@ public class NetworkUtils {
 
     public static final String BASE_URL = "https://api.themoviedb.org/3/";
     public static final String API_KEY = "9bd3b90bce7cf27fc87c740e0442a798";
+    public static final String IMG_BASE_URL = "http://image.tmdb.org/t/p/w185/";
 
     public interface MovieListLoadCallback {
         void onLoadFail(Call call);

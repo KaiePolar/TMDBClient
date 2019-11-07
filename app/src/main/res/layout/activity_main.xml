@@ -13,7 +13,7 @@
         android:layout_height="match_parent" />
 
     <com.google.android.material.navigation.NavigationView
-        android:id="@+id/nav_view"
+        android:id="@+id/activity_main_nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
@@ -21,11 +21,11 @@
         android:fitsSystemWindows="true">
 
         <ExpandableListView
-            android:id="@+id/expandableListView"
+            android:id="@+id/activity_main_expandable_list_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
             android:groupIndicator="@null" />
-    </com.google.android.material.navigation.NavigationView>
 
+    </com.google.android.material.navigation.NavigationView>
 </androidx.drawerlayout.widget.DrawerLayout>
