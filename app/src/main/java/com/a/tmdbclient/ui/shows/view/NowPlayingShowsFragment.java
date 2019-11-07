@@ -1,4 +1,4 @@
-package com.a.tmdbclient.ui.shows;
+package com.a.tmdbclient.ui.shows.view;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.a.tmdbclient.R;
 import com.a.tmdbclient.api.shows.ShowModel;
 import com.a.tmdbclient.ui.EndlessRecyclerViewScrollListener;
+import com.a.tmdbclient.ui.shows.ShowRecyclerViewAdapter;
+import com.a.tmdbclient.ui.shows.ShowView;
+import com.a.tmdbclient.ui.shows.ShowsPresenter;
 
 import java.util.ArrayList;
 import java.util.List;

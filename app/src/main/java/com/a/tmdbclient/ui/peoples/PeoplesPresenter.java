@@ -1,10 +1,13 @@
 package com.a.tmdbclient.ui.peoples;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.a.tmdbclient.api.NetworkUtils;
+import com.a.tmdbclient.api.peoples.PeopleDetails;
 import com.a.tmdbclient.api.peoples.PeopleModel;
 import com.a.tmdbclient.api.peoples.PeopleNetworkManager;
+import com.a.tmdbclient.ui.peoples.view.PeopleDetailsActivity;
 
 import java.util.List;
 
@@ -21,7 +24,7 @@ public class PeoplesPresenter {
         mContext = context;
     }
 
-    void getPopularPeoples(int page) {
+    public void getPopularPeoples(int page) {
         if (NetworkUtils.isInternetUnavailable(mContext)) {
             mView.showNoInternetError();
         } else {
@@ -37,5 +40,19 @@ public class PeoplesPresenter {
                 }
             });
         }
+    }
+
+    public static void getPeopleDetails(int id, final PeopleDetailsActivity activity){
+        PeopleNetworkManager.getPeopleDetails(id, new NetworkUtils.PeopleDetailsLoadCallback() {
+            @Override
+            public void onLoadFail(Call call) {
+                Log.d("ss", call.toString());
+            }
+
+            @Override
+            public void onLoadSuccess(Response response, PeopleDetails peopleDetails) {
+                activity.setDetails(peopleDetails);
+            }
+        });
     }
 }

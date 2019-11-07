@@ -2,6 +2,7 @@ package com.a.tmdbclient.api.shows;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ShowApiService {
@@ -17,4 +18,7 @@ public interface ShowApiService {
 
     @GET("tv/airing_today")
     Call<ShowPageModel> getNowPlayingShows(@Query("page") int page, @Query("api_key") String userKey);
+
+    @GET("tv/{tv_id}")
+    Call<ShowDetails> getShowDetails(@Path("tv_id") int page, @Query("api_key") String userKey);
 }

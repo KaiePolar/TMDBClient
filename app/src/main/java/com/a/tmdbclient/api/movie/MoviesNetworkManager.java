@@ -30,16 +30,16 @@ public class MoviesNetworkManager {
         return mRetrofit.create(MovieApiService.class);
     }
 
-    public static AsyncTask<Void, Void, Void> getPopularMovies(int page, NetworkUtils.MovieLoadCallback callback) {
+    public static AsyncTask<Void, Void, Void> getPopularMovies(int page, NetworkUtils.MovieListLoadCallback callback) {
         return new PopularMoviesTask(page, callback).execute();
     }
 
     private static class PopularMoviesTask extends AsyncTask<Void, Void, Void> {
 
         private Integer mPage;
-        private NetworkUtils.MovieLoadCallback mCallback;
+        private NetworkUtils.MovieListLoadCallback mCallback;
 
-        public PopularMoviesTask(Integer page, NetworkUtils.MovieLoadCallback callback) {
+        public PopularMoviesTask(Integer page, NetworkUtils.MovieListLoadCallback callback) {
             mPage = page;
             mCallback = callback;
         }
@@ -61,16 +61,16 @@ public class MoviesNetworkManager {
         }
     }
 
-    public static AsyncTask<Void, Void, Void> getUpcomingMovies(int page, NetworkUtils.MovieLoadCallback callback) {
+    public static AsyncTask<Void, Void, Void> getUpcomingMovies(int page, NetworkUtils.MovieListLoadCallback callback) {
         return new UpcomingMoviesTask(page, callback).execute();
     }
 
     private static class UpcomingMoviesTask extends AsyncTask<Void, Void, Void> {
 
         private Integer mPage;
-        private NetworkUtils.MovieLoadCallback mCallback;
+        private NetworkUtils.MovieListLoadCallback mCallback;
 
-        public UpcomingMoviesTask(Integer page, NetworkUtils.MovieLoadCallback callback) {
+        public UpcomingMoviesTask(Integer page, NetworkUtils.MovieListLoadCallback callback) {
             mPage = page;
             mCallback = callback;
         }
@@ -92,16 +92,16 @@ public class MoviesNetworkManager {
         }
     }
 
-    public static AsyncTask<Void, Void, Void> getTopRatedMovies(int page, NetworkUtils.MovieLoadCallback callback) {
+    public static AsyncTask<Void, Void, Void> getTopRatedMovies(int page, NetworkUtils.MovieListLoadCallback callback) {
         return new TopRatedMoviesTask(page, callback).execute();
     }
 
     private static class TopRatedMoviesTask extends AsyncTask<Void, Void, Void> {
 
         private Integer mPage;
-        private NetworkUtils.MovieLoadCallback mCallback;
+        private NetworkUtils.MovieListLoadCallback mCallback;
 
-        public TopRatedMoviesTask(Integer page, NetworkUtils.MovieLoadCallback callback) {
+        public TopRatedMoviesTask(Integer page, NetworkUtils.MovieListLoadCallback callback) {
             mPage = page;
             mCallback = callback;
         }
@@ -123,16 +123,16 @@ public class MoviesNetworkManager {
         }
     }
 
-    public static AsyncTask<Void, Void, Void> getNowPlayingMovies(int page, NetworkUtils.MovieLoadCallback callback) {
+    public static AsyncTask<Void, Void, Void> getNowPlayingMovies(int page, NetworkUtils.MovieListLoadCallback callback) {
         return new NowPlayingMoviesTask(page, callback).execute();
     }
 
     private static class NowPlayingMoviesTask extends AsyncTask<Void, Void, Void> {
 
         private Integer mPage;
-        private NetworkUtils.MovieLoadCallback mCallback;
+        private NetworkUtils.MovieListLoadCallback mCallback;
 
-        public NowPlayingMoviesTask(Integer page, NetworkUtils.MovieLoadCallback callback) {
+        public NowPlayingMoviesTask(Integer page, NetworkUtils.MovieListLoadCallback callback) {
             mPage = page;
             mCallback = callback;
         }
@@ -154,4 +154,34 @@ public class MoviesNetworkManager {
         }
     }
 
+    public static AsyncTask<Void, Void, Void> getMovieDetails(int id, NetworkUtils.MovieDetailsLoadCallback callback) {
+        return new MovieDetailsTask(id, callback).execute();
+    }
+
+    private static class MovieDetailsTask extends AsyncTask<Void, Void, Void> {
+
+        private Integer mId;
+        private NetworkUtils.MovieDetailsLoadCallback mCallback;
+
+        public MovieDetailsTask(Integer id, NetworkUtils.MovieDetailsLoadCallback callback) {
+            mId = id;
+            mCallback = callback;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            getAPI().getMovieDetails(mId, NetworkUtils.API_KEY).enqueue(new Callback<MovieDetails>() {
+                @Override
+                public void onResponse(Call<MovieDetails> call, Response<MovieDetails> response) {
+                    mCallback.onLoadSuccess(response,response.body());
+                }
+
+                @Override
+                public void onFailure(Call<MovieDetails> call, Throwable t) {
+                    mCallback.onLoadFail(call);
+                }
+            });
+            return null;
+        }
+    }
 }

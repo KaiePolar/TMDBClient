@@ -1,4 +1,4 @@
-package com.a.tmdbclient.ui.movies;
+package com.a.tmdbclient.ui.shows.view;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -14,18 +14,21 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.a.tmdbclient.R;
-import com.a.tmdbclient.api.movie.MovieModel;
+import com.a.tmdbclient.api.shows.ShowModel;
 import com.a.tmdbclient.ui.EndlessRecyclerViewScrollListener;
+import com.a.tmdbclient.ui.shows.ShowRecyclerViewAdapter;
+import com.a.tmdbclient.ui.shows.ShowView;
+import com.a.tmdbclient.ui.shows.ShowsPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class NowPlayingMoviesFragment extends Fragment implements MovieView {
+public class PopularShowsFragment extends Fragment implements ShowView {
 
     private ProgressBar progressBar;
     private RecyclerView recyclerView;
-    private MoviesRecyclerViewAdapter adapter;
-    private MoviesPresenter presenter;
+    private ShowRecyclerViewAdapter adapter;
+    private ShowsPresenter presenter;
     private LinearLayoutManager linearLayoutManager;
     private TextView internetErrorTextView;
     private EndlessRecyclerViewScrollListener scrollListener;
@@ -33,16 +36,16 @@ public class NowPlayingMoviesFragment extends Fragment implements MovieView {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_movies, container, false);
+        View root = inflater.inflate(R.layout.fragment_shows, container, false);
         init(root);
-        presenter = new MoviesPresenter(this, getContext());
-        presenter.getNowPlayingMovies(dataPage);
+        presenter = new ShowsPresenter(this, getContext());
+        presenter.getPopularShows(dataPage);
 
         scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 Log.d("new data", "on load");
-                presenter.getNowPlayingMovies(++dataPage);
+                presenter.getPopularShows(++dataPage);
             }
         };
 
@@ -53,18 +56,18 @@ public class NowPlayingMoviesFragment extends Fragment implements MovieView {
 
     @Override
     public void init(View view) {
-        progressBar = view.findViewById(R.id.movies_progress_bar);
-        recyclerView = view.findViewById(R.id.movies_recycler_view);
+        progressBar = view.findViewById(R.id.shows_progress_bar);
+        recyclerView = view.findViewById(R.id.shows_recycler_view);
         linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
-        adapter = new MoviesRecyclerViewAdapter();
+        adapter = new ShowRecyclerViewAdapter();
         recyclerView.setAdapter(adapter);
-        adapter.loadData(new ArrayList<MovieModel>());
-        internetErrorTextView = view.findViewById(R.id.movie_internet_error);
+        adapter.loadData(new ArrayList<ShowModel>());
+        internetErrorTextView = view.findViewById(R.id.show_internet_error);
     }
 
     @Override
-    public void setAdapterData(List<MovieModel> data) {
+    public void setAdapterData(List<ShowModel> data) {
         adapter.loadData(data);
         recyclerView.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);

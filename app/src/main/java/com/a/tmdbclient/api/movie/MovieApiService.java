@@ -2,6 +2,7 @@ package com.a.tmdbclient.api.movie;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface MovieApiService {
@@ -17,5 +18,8 @@ public interface MovieApiService {
 
     @GET("movie/now_playing")
     Call<MoviePageModel> getNowPlayingMovies(@Query("page") int page, @Query("api_key") String userKey);
+
+    @GET("movie/{movie_id}")
+    Call<MovieDetails> getMovieDetails(@Path("movie_id") int id, @Query("api_key") String userKey);
 
 }

@@ -1,10 +1,13 @@
 package com.a.tmdbclient.ui.shows;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.a.tmdbclient.api.NetworkUtils;
+import com.a.tmdbclient.api.shows.ShowDetails;
 import com.a.tmdbclient.api.shows.ShowModel;
 import com.a.tmdbclient.api.shows.ShowNetworkManager;
+import com.a.tmdbclient.ui.shows.view.ShowDetailsActivity;
 
 import java.util.List;
 
@@ -20,7 +23,21 @@ public class ShowsPresenter {
         mContext = context;
     }
 
-    void getPopularShows(int page) {
+    public static void getShowsDetails(int id, final ShowDetailsActivity activity){
+        ShowNetworkManager.getShowDetails(id, new NetworkUtils.ShowDetailsLoadCallback() {
+            @Override
+            public void onLoadFail(Call call) {
+                Log.d("ss", call.toString());
+            }
+
+            @Override
+            public void onLoadSuccess(Response response, ShowDetails showDetails) {
+                activity.setDetails(showDetails);
+            }
+        });
+    }
+
+    public void getPopularShows(int page) {
         if (NetworkUtils.isInternetUnavailable(mContext)) {
             mView.showNoInternetError();
         } else {
@@ -38,7 +55,7 @@ public class ShowsPresenter {
         }
     }
 
-    void getBestShows(int page) {
+    public void getBestShows(int page) {
         if (NetworkUtils.isInternetUnavailable(mContext)) {
             mView.showNoInternetError();
         } else {
@@ -56,7 +73,7 @@ public class ShowsPresenter {
         }
     }
 
-    void getUpcomingShows(int page) {
+    public void getUpcomingShows(int page) {
         if (NetworkUtils.isInternetUnavailable(mContext)) {
             mView.showNoInternetError();
         } else {
@@ -74,7 +91,7 @@ public class ShowsPresenter {
         }
     }
 
-    void getNowPlayingShows(int page) {
+    public void getNowPlayingShows(int page) {
         if (NetworkUtils.isInternetUnavailable(mContext)) {
             mView.showNoInternetError();
         } else {
