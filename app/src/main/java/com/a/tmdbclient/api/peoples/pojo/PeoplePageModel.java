@@ -1,35 +1,34 @@
-package com.a.tmdbclient.api.shows;
-
+package com.a.tmdbclient.api.peoples.pojo;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class ShowPageModel {
+public class PeoplePageModel {
 
     @SerializedName("page")
     @Expose
     private Integer page;
     @SerializedName("results")
     @Expose
-    private List<ShowModel> showModels = null;
+    private List<PeopleModel> results = null;
 
-    public ShowPageModel() {
+    public PeoplePageModel() {
     }
 
-    public ShowPageModel(Integer page, List<ShowModel> showModels) {
+    public PeoplePageModel(Integer page, List<PeopleModel> results) {
         super();
         this.page = page;
-        this.showModels = showModels;
+        this.results = results;
     }
 
     public Integer getPage() {
         return page;
     }
 
-    List<ShowModel> getShowModels() {
-        return showModels;
+    public List<PeopleModel> getResults() {
+        return results;
     }
 
 }

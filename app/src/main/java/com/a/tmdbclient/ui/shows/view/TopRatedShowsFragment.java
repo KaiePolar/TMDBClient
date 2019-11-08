@@ -12,8 +12,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.a.tmdbclient.App;
 import com.a.tmdbclient.R;
-import com.a.tmdbclient.api.shows.ShowModel;
+import com.a.tmdbclient.api.shows.pojo.ShowModel;
 import com.a.tmdbclient.ui.EndlessRecyclerViewScrollListener;
 import com.a.tmdbclient.ui.shows.ShowRecyclerViewAdapter;
 import com.a.tmdbclient.ui.shows.ShowView;
@@ -22,12 +23,15 @@ import com.a.tmdbclient.ui.shows.ShowsPresenter;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 public class TopRatedShowsFragment extends Fragment implements ShowView {
 
     private ProgressBar progressBar;
     private RecyclerView recyclerView;
     private ShowRecyclerViewAdapter adapter;
-    private ShowsPresenter presenter;
+    @Inject
+    ShowsPresenter presenter;
     private LinearLayoutManager linearLayoutManager;
     private TextView internetErrorTextView;
     private EndlessRecyclerViewScrollListener endlessScrollListener;
@@ -36,15 +40,16 @@ public class TopRatedShowsFragment extends Fragment implements ShowView {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_shows, container, false);
+        App.getAppComponent().inject(this);
+        presenter.setView(this);
         init(root);
 
-        presenter = new ShowsPresenter(this, getContext());
-        presenter.getBestShows(dataPage);
+        presenter.getBestShows(dataPage,getContext());
 
         endlessScrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                presenter.getBestShows(++dataPage);
+                presenter.getBestShows(++dataPage,getContext());
             }
         };
         recyclerView.addOnScrollListener(endlessScrollListener);

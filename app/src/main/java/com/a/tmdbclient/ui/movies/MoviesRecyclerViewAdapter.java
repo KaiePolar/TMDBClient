@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.a.tmdbclient.R;
 import com.a.tmdbclient.api.NetworkUtils;
-import com.a.tmdbclient.api.movie.MovieModel;
+import com.a.tmdbclient.api.movie.pojo.MovieModel;
 import com.a.tmdbclient.ui.movies.view.MovieDetailsActivity;
 import com.bumptech.glide.Glide;
 

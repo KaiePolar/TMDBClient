@@ -2,7 +2,7 @@ package com.a.tmdbclient.ui.peoples;
 
 import android.view.View;
 
-import com.a.tmdbclient.api.peoples.PeopleModel;
+import com.a.tmdbclient.api.peoples.pojo.PeopleModel;
 
 import java.util.List;
 

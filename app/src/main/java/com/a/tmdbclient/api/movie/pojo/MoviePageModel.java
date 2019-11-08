@@ -1,4 +1,4 @@
-package com.a.tmdbclient.api.movie;
+package com.a.tmdbclient.api.movie.pojo;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -35,7 +35,7 @@ public class MoviePageModel implements Serializable {
         return totalPages;
     }
 
-    ArrayList<MovieModel> getMovieModel() {
+    public ArrayList<MovieModel> getMovieModel() {
         return movieModel;
     }
 

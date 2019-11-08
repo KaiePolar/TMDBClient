@@ -2,7 +2,7 @@ package com.a.tmdbclient.ui.shows;
 
 import android.view.View;
 
-import com.a.tmdbclient.api.shows.ShowModel;
+import com.a.tmdbclient.api.shows.pojo.ShowModel;
 
 import java.util.List;
 

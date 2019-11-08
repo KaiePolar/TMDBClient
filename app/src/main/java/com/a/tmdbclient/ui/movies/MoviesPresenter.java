@@ -2,13 +2,16 @@ package com.a.tmdbclient.ui.movies;
 
 import android.content.Context;
 
+import com.a.tmdbclient.App;
 import com.a.tmdbclient.api.NetworkUtils;
-import com.a.tmdbclient.api.movie.MovieDetails;
-import com.a.tmdbclient.api.movie.MovieModel;
-import com.a.tmdbclient.api.movie.MoviesNetworkManager;
+import com.a.tmdbclient.api.movie.MoviesRepository;
+import com.a.tmdbclient.api.movie.pojo.MovieDetails;
+import com.a.tmdbclient.api.movie.pojo.MovieModel;
 import com.a.tmdbclient.ui.movies.view.MovieDetailsActivity;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -16,15 +19,20 @@ import retrofit2.Response;
 public class MoviesPresenter {
 
     private MovieView mView;
-    private Context mContext;
+    @Inject
+    MoviesRepository repository;
 
-    public MoviesPresenter(MovieView view, Context context) {
-        mView = view;
-        mContext = context;
+
+    public MoviesPresenter(){
+        App.getAppComponent().inject(this);
     }
 
-    public static void getMovieDetails(int id, final MovieDetailsActivity activity) {
-        MoviesNetworkManager.getMovieDetails(id, new NetworkUtils.MovieDetailsLoadCallback() {
+    public void setView(MovieView view){
+        mView = view;
+    }
+
+    public void getMovieDetails(int id, final MovieDetailsActivity activity) {
+        repository.getMovieDetails(id, new NetworkUtils.MovieDetailsLoadCallback() {
             @Override
             public void onLoadFail(Call call) {
             }
@@ -36,11 +44,11 @@ public class MoviesPresenter {
         });
     }
 
-    public void getPopularMovies(int page) {
-        if (NetworkUtils.isInternetUnavailable(mContext)) {
+    public void getPopularMovies(int page, Context context) {
+        if (NetworkUtils.isInternetUnavailable(context)) {
             mView.showNoInternetError();
         } else {
-            MoviesNetworkManager.getPopularMovies(page, new NetworkUtils.MovieListLoadCallback() {
+            repository.getPopularMovies(page, new NetworkUtils.MovieListLoadCallback() {
                 @Override
                 public void onLoadFail(Call call) {
                     mView.showApiError();
@@ -54,11 +62,11 @@ public class MoviesPresenter {
         }
     }
 
-    public void getUpcomingMovies(int page) {
-        if (NetworkUtils.isInternetUnavailable(mContext)) {
+    public void getUpcomingMovies(int page, Context context) {
+        if (NetworkUtils.isInternetUnavailable(context)) {
             mView.showNoInternetError();
         } else {
-            MoviesNetworkManager.getUpcomingMovies(page, new NetworkUtils.MovieListLoadCallback() {
+            repository.getUpcomingMovies(page, new NetworkUtils.MovieListLoadCallback() {
                 @Override
                 public void onLoadFail(Call call) {
                     mView.showApiError();
@@ -72,11 +80,11 @@ public class MoviesPresenter {
         }
     }
 
-    public void getTopRatedMovies(int page) {
-        if (NetworkUtils.isInternetUnavailable(mContext)) {
+    public void getTopRatedMovies(int page, Context context) {
+        if (NetworkUtils.isInternetUnavailable(context)) {
             mView.showNoInternetError();
         } else {
-            MoviesNetworkManager.getTopRatedMovies(page, new NetworkUtils.MovieListLoadCallback() {
+            repository.getTopRatedMovies(page, new NetworkUtils.MovieListLoadCallback() {
                 @Override
                 public void onLoadFail(Call call) {
                     mView.showApiError();
@@ -90,11 +98,11 @@ public class MoviesPresenter {
         }
     }
 
-    public void getNowPlayingMovies(int page) {
-        if (NetworkUtils.isInternetUnavailable(mContext)) {
+    public void getNowPlayingMovies(int page, Context context) {
+        if (NetworkUtils.isInternetUnavailable(context)) {
             mView.showNoInternetError();
         } else {
-            MoviesNetworkManager.getNowPlayingMovies(page, new NetworkUtils.MovieListLoadCallback() {
+            repository.getNowPlayingMovies(page, new NetworkUtils.MovieListLoadCallback() {
                 @Override
                 public void onLoadFail(Call call) {
                     mView.showApiError();

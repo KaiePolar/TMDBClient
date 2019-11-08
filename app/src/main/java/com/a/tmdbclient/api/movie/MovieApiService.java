@@ -1,5 +1,8 @@
 package com.a.tmdbclient.api.movie;
 
+import com.a.tmdbclient.api.movie.pojo.MovieDetails;
+import com.a.tmdbclient.api.movie.pojo.MoviePageModel;
+
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;

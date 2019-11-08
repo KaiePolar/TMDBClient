@@ -8,11 +8,14 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.a.tmdbclient.App;
 import com.a.tmdbclient.R;
 import com.a.tmdbclient.api.NetworkUtils;
-import com.a.tmdbclient.api.movie.MovieDetails;
+import com.a.tmdbclient.api.movie.pojo.MovieDetails;
 import com.a.tmdbclient.ui.movies.MoviesPresenter;
 import com.bumptech.glide.Glide;
+
+import javax.inject.Inject;
 
 public class MovieDetailsActivity extends AppCompatActivity {
 
@@ -21,15 +24,18 @@ public class MovieDetailsActivity extends AppCompatActivity {
     private TextView description;
     private ImageView poster;
     private ProgressBar progressBar;
+    @Inject
+    MoviesPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_details);
+        App.getAppComponent().inject(this);
         init();
 
         int id = getIntent().getIntExtra("id", 0);
-        MoviesPresenter.getMovieDetails(id, this);
+        presenter.getMovieDetails(id,this);
     }
 
     private void init() {

@@ -4,39 +4,36 @@ import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
 
+import com.a.tmdbclient.App;
 import com.a.tmdbclient.api.NetworkUtils;
+import com.a.tmdbclient.api.shows.pojo.ShowDetails;
+import com.a.tmdbclient.api.shows.pojo.ShowPageModel;
+
+import javax.inject.Inject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
-public class ShowNetworkManager {
+public class ShowsRepository {
 
-    private static final ShowNetworkManager ourInstance = new ShowNetworkManager();
-    private static Retrofit mRetrofit;
+    @Inject
+    Retrofit mRetrofit;
 
-    public static ShowNetworkManager getInstance() {
-        return ourInstance;
+    public ShowsRepository() {
+        App.getAppComponent().inject(this);
     }
 
-    private ShowNetworkManager() {
-        mRetrofit = new Retrofit.Builder()
-                .baseUrl(NetworkUtils.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-    }
-
-    private static ShowApiService getAPI() {
+    private ShowApiService getAPI() {
         return mRetrofit.create(ShowApiService.class);
     }
 
-    public static AsyncTask<Void, Void, Void> getPopularShows(int page, NetworkUtils.ShowLoadCallback callback) {
-        return new ShowNetworkManager.PopularShowTask(page, callback).execute();
+    public AsyncTask<Void, Void, Void> getPopularShows(int page, NetworkUtils.ShowLoadCallback callback) {
+        return new ShowsRepository.PopularShowTask(page, callback).execute();
     }
 
-    private static class PopularShowTask extends AsyncTask<Void, Void, Void> {
+    private class PopularShowTask extends AsyncTask<Void, Void, Void> {
 
         private int mPage;
         private NetworkUtils.ShowLoadCallback mCallback;
@@ -63,11 +60,11 @@ public class ShowNetworkManager {
         }
     }
 
-    public static AsyncTask<Void, Void, Void> getTopRatedShows(int page, NetworkUtils.ShowLoadCallback callback) {
-        return new ShowNetworkManager.TopRatedShowTask(page, callback).execute();
+    public AsyncTask<Void, Void, Void> getTopRatedShows(int page, NetworkUtils.ShowLoadCallback callback) {
+        return new ShowsRepository.TopRatedShowTask(page, callback).execute();
     }
 
-    private static class TopRatedShowTask extends AsyncTask<Void, Void, Void> {
+    private class TopRatedShowTask extends AsyncTask<Void, Void, Void> {
 
         private int mPage;
         private NetworkUtils.ShowLoadCallback mCallback;
@@ -94,11 +91,11 @@ public class ShowNetworkManager {
         }
     }
 
-    public static AsyncTask<Void, Void, Void> getUpcomingShows(int page, NetworkUtils.ShowLoadCallback callback) {
-        return new ShowNetworkManager.UpcomingShowTask(page, callback).execute();
+    public AsyncTask<Void, Void, Void> getUpcomingShows(int page, NetworkUtils.ShowLoadCallback callback) {
+        return new ShowsRepository.UpcomingShowTask(page, callback).execute();
     }
 
-    private static class UpcomingShowTask extends AsyncTask<Void, Void, Void> {
+    private class UpcomingShowTask extends AsyncTask<Void, Void, Void> {
 
         private int mPage;
         private NetworkUtils.ShowLoadCallback mCallback;
@@ -125,11 +122,11 @@ public class ShowNetworkManager {
         }
     }
 
-    public static AsyncTask<Void, Void, Void> getNowPlayingShows(int page, NetworkUtils.ShowLoadCallback callback) {
-        return new ShowNetworkManager.NowPlayingShowTask(page, callback).execute();
+    public AsyncTask<Void, Void, Void> getNowPlayingShows(int page, NetworkUtils.ShowLoadCallback callback) {
+        return new ShowsRepository.NowPlayingShowTask(page, callback).execute();
     }
 
-    private static class NowPlayingShowTask extends AsyncTask<Void, Void, Void> {
+    private class NowPlayingShowTask extends AsyncTask<Void, Void, Void> {
 
         private int mPage;
         private NetworkUtils.ShowLoadCallback mCallback;
@@ -156,11 +153,11 @@ public class ShowNetworkManager {
         }
     }
 
-    public static AsyncTask<Void, Void, Void> getShowDetails(int page, NetworkUtils.ShowDetailsLoadCallback callback) {
-        return new ShowNetworkManager.ShowDetailsTask(page, callback).execute();
+    public AsyncTask<Void, Void, Void> getShowDetails(int page, NetworkUtils.ShowDetailsLoadCallback callback) {
+        return new ShowsRepository.ShowDetailsTask(page, callback).execute();
     }
 
-    private static class ShowDetailsTask extends AsyncTask<Void, Void, Void> {
+    private class ShowDetailsTask extends AsyncTask<Void, Void, Void> {
 
         private int mPage;
         private NetworkUtils.ShowDetailsLoadCallback mCallback;

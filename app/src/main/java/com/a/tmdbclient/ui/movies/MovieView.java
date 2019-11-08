@@ -2,7 +2,7 @@ package com.a.tmdbclient.ui.movies;
 
 import android.view.View;
 
-import com.a.tmdbclient.api.movie.MovieModel;
+import com.a.tmdbclient.api.movie.pojo.MovieModel;
 
 import java.util.List;
 

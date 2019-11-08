@@ -1,4 +1,4 @@
-package com.a.tmdbclient.api.shows;
+package com.a.tmdbclient.api.shows.pojo;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

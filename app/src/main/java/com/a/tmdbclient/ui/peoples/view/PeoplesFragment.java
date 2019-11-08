@@ -12,8 +12,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.a.tmdbclient.App;
 import com.a.tmdbclient.R;
-import com.a.tmdbclient.api.peoples.PeopleModel;
+import com.a.tmdbclient.api.peoples.pojo.PeopleModel;
 import com.a.tmdbclient.ui.EndlessRecyclerViewScrollListener;
 import com.a.tmdbclient.ui.peoples.PeopleRecyclerViewAdapter;
 import com.a.tmdbclient.ui.peoples.PeoplesPresenter;
@@ -22,12 +23,15 @@ import com.a.tmdbclient.ui.peoples.PeoplesView;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 public class PeoplesFragment extends Fragment implements PeoplesView {
 
     private ProgressBar progressBar;
     private RecyclerView recyclerView;
     private PeopleRecyclerViewAdapter adapter;
-    private PeoplesPresenter presenter;
+    @Inject
+    PeoplesPresenter presenter;
     private LinearLayoutManager linearLayoutManager;
     private TextView internetErrorTextView;
     private EndlessRecyclerViewScrollListener endlessScrollListener;
@@ -36,15 +40,16 @@ public class PeoplesFragment extends Fragment implements PeoplesView {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_peoples, container, false);
+        App.getAppComponent().inject(this);
+        presenter.setView(this);
         init(root);
 
-        presenter = new PeoplesPresenter(this, getContext());
-        presenter.getPopularPeoples(dataPage);
+        presenter.getPopularPeoples(dataPage,getContext());
 
         endlessScrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                presenter.getPopularPeoples(++dataPage);
+                presenter.getPopularPeoples(++dataPage,getContext());
             }
         };
         recyclerView.addOnScrollListener(endlessScrollListener);

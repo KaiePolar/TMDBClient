@@ -8,11 +8,14 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.a.tmdbclient.App;
 import com.a.tmdbclient.R;
 import com.a.tmdbclient.api.NetworkUtils;
-import com.a.tmdbclient.api.peoples.PeopleDetails;
+import com.a.tmdbclient.api.peoples.pojo.PeopleDetails;
 import com.a.tmdbclient.ui.peoples.PeoplesPresenter;
 import com.bumptech.glide.Glide;
+
+import javax.inject.Inject;
 
 public class PeopleDetailsActivity extends AppCompatActivity {
 
@@ -21,15 +24,18 @@ public class PeopleDetailsActivity extends AppCompatActivity {
     private TextView description;
     private ImageView poster;
     private ProgressBar progressBar;
+    @Inject
+    PeoplesPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_people_details);
+        App.getAppComponent().inject(this);
         init();
 
         int id = getIntent().getIntExtra("id", 0);
-        PeoplesPresenter.getPeopleDetails(id, this);
+        presenter.getPeopleDetails(id,this);
     }
 
     private void init() {

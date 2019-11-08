@@ -4,12 +4,12 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import com.a.tmdbclient.api.movie.MovieDetails;
-import com.a.tmdbclient.api.movie.MovieModel;
-import com.a.tmdbclient.api.peoples.PeopleDetails;
-import com.a.tmdbclient.api.peoples.PeopleModel;
-import com.a.tmdbclient.api.shows.ShowDetails;
-import com.a.tmdbclient.api.shows.ShowModel;
+import com.a.tmdbclient.api.movie.pojo.MovieDetails;
+import com.a.tmdbclient.api.movie.pojo.MovieModel;
+import com.a.tmdbclient.api.peoples.pojo.PeopleDetails;
+import com.a.tmdbclient.api.peoples.pojo.PeopleModel;
+import com.a.tmdbclient.api.shows.pojo.ShowDetails;
+import com.a.tmdbclient.api.shows.pojo.ShowModel;
 
 import java.util.List;
 
@@ -21,6 +21,7 @@ public class NetworkUtils {
     public static final String BASE_URL = "https://api.themoviedb.org/3/";
     public static final String API_KEY = "9bd3b90bce7cf27fc87c740e0442a798";
     public static final String IMG_BASE_URL = "http://image.tmdb.org/t/p/w185/";
+
 
     public interface MovieListLoadCallback {
         void onLoadFail(Call call);

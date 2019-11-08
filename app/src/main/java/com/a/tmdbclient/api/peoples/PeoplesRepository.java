@@ -4,39 +4,37 @@ import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
 
+import com.a.tmdbclient.App;
 import com.a.tmdbclient.api.NetworkUtils;
+import com.a.tmdbclient.api.peoples.pojo.PeopleDetails;
+import com.a.tmdbclient.api.peoples.pojo.PeoplePageModel;
+
+import javax.inject.Inject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
-public class PeopleNetworkManager {
+public class PeoplesRepository {
 
-    private static final PeopleNetworkManager ourInstance = new PeopleNetworkManager();
-    private static Retrofit mRetrofit;
+    @Inject
+    Retrofit mRetrofit;
 
-    public static PeopleNetworkManager getInstance() {
-        return ourInstance;
+    @Inject
+    public PeoplesRepository() {
+        App.getAppComponent().inject(this);
     }
 
-    private PeopleNetworkManager() {
-        mRetrofit = new Retrofit.Builder()
-                .baseUrl(NetworkUtils.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-    }
-
-    private static PeoplesApiService getAPI() {
+    private PeoplesApiService getAPI() {
         return mRetrofit.create(PeoplesApiService.class);
     }
 
-    public static AsyncTask<Void, Void, Void> getPopularPeoples(int page, NetworkUtils.PeopleLoadCallback callback) {
-        return new PeopleNetworkManager.PopularPeoplesTask(page, callback).execute();
+    public AsyncTask<Void, Void, Void> getPopularPeoples(int page, NetworkUtils.PeopleLoadCallback callback) {
+        return new PeoplesRepository.PopularPeoplesTask(page, callback).execute();
     }
 
-    private static class PopularPeoplesTask extends AsyncTask<Void, Void, Void> {
+    private class PopularPeoplesTask extends AsyncTask<Void, Void, Void> {
 
         private int mPage;
         private NetworkUtils.PeopleLoadCallback mCallback;
@@ -63,11 +61,11 @@ public class PeopleNetworkManager {
         }
     }
 
-    public static AsyncTask<Void, Void, Void> getPeopleDetails(int page, NetworkUtils.PeopleDetailsLoadCallback callback) {
+    public AsyncTask<Void, Void, Void> getPeopleDetails(int page, NetworkUtils.PeopleDetailsLoadCallback callback) {
         return new PeopleDetailsTask(page, callback).execute();
     }
 
-    private static class PeopleDetailsTask extends AsyncTask<Void, Void, Void> {
+    private class PeopleDetailsTask extends AsyncTask<Void, Void, Void> {
 
         private int mPage;
         private NetworkUtils.PeopleDetailsLoadCallback mCallback;

@@ -4,39 +4,37 @@ import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
 
+import com.a.tmdbclient.App;
 import com.a.tmdbclient.api.NetworkUtils;
+import com.a.tmdbclient.api.movie.pojo.MovieDetails;
+import com.a.tmdbclient.api.movie.pojo.MoviePageModel;
+
+import javax.inject.Inject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MoviesNetworkManager {
+public class MoviesRepository {
 
-    private static final MoviesNetworkManager ourInstance = new MoviesNetworkManager();
-    private static Retrofit mRetrofit;
+    @Inject
+    Retrofit mRetrofit;
 
-    public static MoviesNetworkManager getInstance() {
-        return ourInstance;
+    @Inject
+    public MoviesRepository() {
+        App.getAppComponent().inject(this);
     }
 
-    private MoviesNetworkManager() {
-        mRetrofit = new Retrofit.Builder()
-                .baseUrl(NetworkUtils.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-    }
-
-    private static MovieApiService getAPI() {
+    private MovieApiService getAPI() {
         return mRetrofit.create(MovieApiService.class);
     }
 
-    public static AsyncTask<Void, Void, Void> getPopularMovies(int page, NetworkUtils.MovieListLoadCallback callback) {
+    public AsyncTask<Void, Void, Void> getPopularMovies(int page, NetworkUtils.MovieListLoadCallback callback) {
         return new PopularMoviesTask(page, callback).execute();
     }
 
-    private static class PopularMoviesTask extends AsyncTask<Void, Void, Void> {
+    private class PopularMoviesTask extends AsyncTask<Void, Void, Void> {
 
         private int mPage;
         private NetworkUtils.MovieListLoadCallback mCallback;
@@ -63,11 +61,11 @@ public class MoviesNetworkManager {
         }
     }
 
-    public static AsyncTask<Void, Void, Void> getUpcomingMovies(int page, NetworkUtils.MovieListLoadCallback callback) {
+    public AsyncTask<Void, Void, Void> getUpcomingMovies(int page, NetworkUtils.MovieListLoadCallback callback) {
         return new UpcomingMoviesTask(page, callback).execute();
     }
 
-    private static class UpcomingMoviesTask extends AsyncTask<Void, Void, Void> {
+    private class UpcomingMoviesTask extends AsyncTask<Void, Void, Void> {
 
         private int mPage;
         private NetworkUtils.MovieListLoadCallback mCallback;
@@ -94,11 +92,11 @@ public class MoviesNetworkManager {
         }
     }
 
-    public static AsyncTask<Void, Void, Void> getTopRatedMovies(int page, NetworkUtils.MovieListLoadCallback callback) {
+    public AsyncTask<Void, Void, Void> getTopRatedMovies(int page, NetworkUtils.MovieListLoadCallback callback) {
         return new TopRatedMoviesTask(page, callback).execute();
     }
 
-    private static class TopRatedMoviesTask extends AsyncTask<Void, Void, Void> {
+    private class TopRatedMoviesTask extends AsyncTask<Void, Void, Void> {
 
         private int mPage;
         private NetworkUtils.MovieListLoadCallback mCallback;
@@ -125,16 +123,16 @@ public class MoviesNetworkManager {
         }
     }
 
-    public static AsyncTask<Void, Void, Void> getNowPlayingMovies(int page, NetworkUtils.MovieListLoadCallback callback) {
+    public AsyncTask<Void, Void, Void> getNowPlayingMovies(int page, NetworkUtils.MovieListLoadCallback callback) {
         return new NowPlayingMoviesTask(page, callback).execute();
     }
 
-    private static class NowPlayingMoviesTask extends AsyncTask<Void, Void, Void> {
+    private class NowPlayingMoviesTask extends AsyncTask<Void, Void, Void> {
 
         private int mPage;
         private NetworkUtils.MovieListLoadCallback mCallback;
 
-        public NowPlayingMoviesTask(int page, NetworkUtils.MovieListLoadCallback callback) {
+        NowPlayingMoviesTask(int page, NetworkUtils.MovieListLoadCallback callback) {
             mPage = page;
             mCallback = callback;
         }
@@ -156,11 +154,11 @@ public class MoviesNetworkManager {
         }
     }
 
-    public static AsyncTask<Void, Void, Void> getMovieDetails(int id, NetworkUtils.MovieDetailsLoadCallback callback) {
+    public AsyncTask<Void, Void, Void> getMovieDetails(int id, NetworkUtils.MovieDetailsLoadCallback callback) {
         return new MovieDetailsTask(id, callback).execute();
     }
 
-    private static class MovieDetailsTask extends AsyncTask<Void, Void, Void> {
+    private class MovieDetailsTask extends AsyncTask<Void, Void, Void> {
 
         private int mId;
         private NetworkUtils.MovieDetailsLoadCallback mCallback;
