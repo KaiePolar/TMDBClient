@@ -14,24 +14,18 @@ import javax.inject.Inject;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class MoviesRepository {
 
     @Inject
-    Retrofit mRetrofit;
+    MovieApi api;
 
-    @Inject
     public MoviesRepository() {
         App.getAppComponent().inject(this);
     }
 
-    private MovieApiService getAPI() {
-        return mRetrofit.create(MovieApiService.class);
-    }
-
-    public AsyncTask<Void, Void, Void> getPopularMovies(int page, NetworkUtils.MovieListLoadCallback callback) {
-        return new PopularMoviesTask(page, callback).execute();
+    public void getPopularMovies(int page, NetworkUtils.MovieListLoadCallback callback) {
+        new PopularMoviesTask(page, callback).execute();
     }
 
     private class PopularMoviesTask extends AsyncTask<Void, Void, Void> {
@@ -46,7 +40,7 @@ public class MoviesRepository {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            getAPI().getPopularMovies(mPage, NetworkUtils.API_KEY).enqueue(new Callback<MoviePageModel>() {
+            api.getPopularMovies(mPage, NetworkUtils.API_KEY).enqueue(new Callback<MoviePageModel>() {
                 @Override
                 public void onResponse(@NonNull Call<MoviePageModel> call, @NonNull Response<MoviePageModel> response) {
                     mCallback.onLoadSuccess(response, response.body().getMovieModel());
@@ -61,8 +55,8 @@ public class MoviesRepository {
         }
     }
 
-    public AsyncTask<Void, Void, Void> getUpcomingMovies(int page, NetworkUtils.MovieListLoadCallback callback) {
-        return new UpcomingMoviesTask(page, callback).execute();
+    public void getUpcomingMovies(int page, NetworkUtils.MovieListLoadCallback callback) {
+        new UpcomingMoviesTask(page, callback).execute();
     }
 
     private class UpcomingMoviesTask extends AsyncTask<Void, Void, Void> {
@@ -77,7 +71,7 @@ public class MoviesRepository {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            getAPI().getUpcomingMovies(mPage, NetworkUtils.API_KEY).enqueue(new Callback<MoviePageModel>() {
+            api.getUpcomingMovies(mPage, NetworkUtils.API_KEY).enqueue(new Callback<MoviePageModel>() {
                 @Override
                 public void onResponse(@NonNull Call<MoviePageModel> call, @NonNull Response<MoviePageModel> response) {
                     mCallback.onLoadSuccess(response, response.body().getMovieModel());
@@ -92,8 +86,8 @@ public class MoviesRepository {
         }
     }
 
-    public AsyncTask<Void, Void, Void> getTopRatedMovies(int page, NetworkUtils.MovieListLoadCallback callback) {
-        return new TopRatedMoviesTask(page, callback).execute();
+    public void getTopRatedMovies(int page, NetworkUtils.MovieListLoadCallback callback) {
+        new TopRatedMoviesTask(page, callback).execute();
     }
 
     private class TopRatedMoviesTask extends AsyncTask<Void, Void, Void> {
@@ -108,7 +102,7 @@ public class MoviesRepository {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            getAPI().getTopRatedMovies(mPage, NetworkUtils.API_KEY).enqueue(new Callback<MoviePageModel>() {
+            api.getTopRatedMovies(mPage, NetworkUtils.API_KEY).enqueue(new Callback<MoviePageModel>() {
                 @Override
                 public void onResponse(@NonNull Call<MoviePageModel> call, @NonNull Response<MoviePageModel> response) {
                     mCallback.onLoadSuccess(response, response.body().getMovieModel());
@@ -123,8 +117,8 @@ public class MoviesRepository {
         }
     }
 
-    public AsyncTask<Void, Void, Void> getNowPlayingMovies(int page, NetworkUtils.MovieListLoadCallback callback) {
-        return new NowPlayingMoviesTask(page, callback).execute();
+    public void getNowPlayingMovies(int page, NetworkUtils.MovieListLoadCallback callback) {
+        new NowPlayingMoviesTask(page, callback).execute();
     }
 
     private class NowPlayingMoviesTask extends AsyncTask<Void, Void, Void> {
@@ -139,7 +133,7 @@ public class MoviesRepository {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            getAPI().getNowPlayingMovies(mPage, NetworkUtils.API_KEY).enqueue(new Callback<MoviePageModel>() {
+            api.getNowPlayingMovies(mPage, NetworkUtils.API_KEY).enqueue(new Callback<MoviePageModel>() {
                 @Override
                 public void onResponse(@NonNull Call<MoviePageModel> call, @NonNull Response<MoviePageModel> response) {
                     mCallback.onLoadSuccess(response, response.body().getMovieModel());
@@ -154,8 +148,8 @@ public class MoviesRepository {
         }
     }
 
-    public AsyncTask<Void, Void, Void> getMovieDetails(int id, NetworkUtils.MovieDetailsLoadCallback callback) {
-        return new MovieDetailsTask(id, callback).execute();
+    public void getMovieDetails(int id, NetworkUtils.MovieDetailsLoadCallback callback) {
+        new MovieDetailsTask(id, callback).execute();
     }
 
     private class MovieDetailsTask extends AsyncTask<Void, Void, Void> {
@@ -170,7 +164,7 @@ public class MoviesRepository {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            getAPI().getMovieDetails(mId, NetworkUtils.API_KEY).enqueue(new Callback<MovieDetails>() {
+            api.getMovieDetails(mId, NetworkUtils.API_KEY).enqueue(new Callback<MovieDetails>() {
                 @Override
                 public void onResponse(@NonNull Call<MovieDetails> call, @NonNull Response<MovieDetails> response) {
                     mCallback.onLoadSuccess(response, response.body());

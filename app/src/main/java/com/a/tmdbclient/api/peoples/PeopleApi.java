@@ -8,7 +8,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-public interface PeoplesApiService {
+public interface PeopleApi {
 
     @GET("person/popular")
     Call<PeoplePageModel> getPopularPeoples(@Query("page") int page, @Query("api_key") String userKey);

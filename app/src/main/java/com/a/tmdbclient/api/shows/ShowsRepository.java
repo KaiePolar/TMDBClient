@@ -14,23 +14,18 @@ import javax.inject.Inject;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class ShowsRepository {
 
     @Inject
-    Retrofit mRetrofit;
+    ShowApi api;
 
     public ShowsRepository() {
         App.getAppComponent().inject(this);
     }
 
-    private ShowApiService getAPI() {
-        return mRetrofit.create(ShowApiService.class);
-    }
-
-    public AsyncTask<Void, Void, Void> getPopularShows(int page, NetworkUtils.ShowLoadCallback callback) {
-        return new ShowsRepository.PopularShowTask(page, callback).execute();
+    public void getPopularShows(int page, NetworkUtils.ShowLoadCallback callback) {
+        new PopularShowTask(page, callback).execute();
     }
 
     private class PopularShowTask extends AsyncTask<Void, Void, Void> {
@@ -45,7 +40,7 @@ public class ShowsRepository {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            getAPI().getPopularShows(mPage, NetworkUtils.API_KEY).enqueue(new Callback<ShowPageModel>() {
+            api.getPopularShows(mPage, NetworkUtils.API_KEY).enqueue(new Callback<ShowPageModel>() {
                 @Override
                 public void onResponse(@NonNull Call<ShowPageModel> call, @NonNull Response<ShowPageModel> response) {
                     mCallback.onLoadSuccess(response, response.body().getShowModels());
@@ -60,8 +55,8 @@ public class ShowsRepository {
         }
     }
 
-    public AsyncTask<Void, Void, Void> getTopRatedShows(int page, NetworkUtils.ShowLoadCallback callback) {
-        return new ShowsRepository.TopRatedShowTask(page, callback).execute();
+    public void getTopRatedShows(int page, NetworkUtils.ShowLoadCallback callback) {
+        new TopRatedShowTask(page, callback).execute();
     }
 
     private class TopRatedShowTask extends AsyncTask<Void, Void, Void> {
@@ -76,7 +71,7 @@ public class ShowsRepository {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            getAPI().getTopRatedShows(mPage, NetworkUtils.API_KEY).enqueue(new Callback<ShowPageModel>() {
+            api.getTopRatedShows(mPage, NetworkUtils.API_KEY).enqueue(new Callback<ShowPageModel>() {
                 @Override
                 public void onResponse(@NonNull Call<ShowPageModel> call, @NonNull Response<ShowPageModel> response) {
                     mCallback.onLoadSuccess(response, response.body().getShowModels());
@@ -91,8 +86,8 @@ public class ShowsRepository {
         }
     }
 
-    public AsyncTask<Void, Void, Void> getUpcomingShows(int page, NetworkUtils.ShowLoadCallback callback) {
-        return new ShowsRepository.UpcomingShowTask(page, callback).execute();
+    public void getUpcomingShows(int page, NetworkUtils.ShowLoadCallback callback) {
+        new UpcomingShowTask(page, callback).execute();
     }
 
     private class UpcomingShowTask extends AsyncTask<Void, Void, Void> {
@@ -107,7 +102,7 @@ public class ShowsRepository {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            getAPI().getUpcomingShows(mPage, NetworkUtils.API_KEY).enqueue(new Callback<ShowPageModel>() {
+            api.getUpcomingShows(mPage, NetworkUtils.API_KEY).enqueue(new Callback<ShowPageModel>() {
                 @Override
                 public void onResponse(@NonNull Call<ShowPageModel> call, @NonNull Response<ShowPageModel> response) {
                     mCallback.onLoadSuccess(response, response.body().getShowModels());
@@ -122,8 +117,8 @@ public class ShowsRepository {
         }
     }
 
-    public AsyncTask<Void, Void, Void> getNowPlayingShows(int page, NetworkUtils.ShowLoadCallback callback) {
-        return new ShowsRepository.NowPlayingShowTask(page, callback).execute();
+    public void getNowPlayingShows(int page, NetworkUtils.ShowLoadCallback callback) {
+        new NowPlayingShowTask(page, callback).execute();
     }
 
     private class NowPlayingShowTask extends AsyncTask<Void, Void, Void> {
@@ -138,7 +133,7 @@ public class ShowsRepository {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            getAPI().getNowPlayingShows(mPage, NetworkUtils.API_KEY).enqueue(new Callback<ShowPageModel>() {
+            api.getNowPlayingShows(mPage, NetworkUtils.API_KEY).enqueue(new Callback<ShowPageModel>() {
                 @Override
                 public void onResponse(@NonNull Call<ShowPageModel> call, @NonNull Response<ShowPageModel> response) {
                     mCallback.onLoadSuccess(response, response.body().getShowModels());
@@ -153,8 +148,8 @@ public class ShowsRepository {
         }
     }
 
-    public AsyncTask<Void, Void, Void> getShowDetails(int page, NetworkUtils.ShowDetailsLoadCallback callback) {
-        return new ShowsRepository.ShowDetailsTask(page, callback).execute();
+    public void getShowDetails(int page, NetworkUtils.ShowDetailsLoadCallback callback) {
+        new ShowDetailsTask(page, callback).execute();
     }
 
     private class ShowDetailsTask extends AsyncTask<Void, Void, Void> {
@@ -169,7 +164,7 @@ public class ShowsRepository {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            getAPI().getShowDetails(mPage, NetworkUtils.API_KEY).enqueue(new Callback<ShowDetails>() {
+            api.getShowDetails(mPage, NetworkUtils.API_KEY).enqueue(new Callback<ShowDetails>() {
                 @Override
                 public void onResponse(@NonNull Call<ShowDetails> call, @NonNull Response<ShowDetails> response) {
                     mCallback.onLoadSuccess(response, response.body());

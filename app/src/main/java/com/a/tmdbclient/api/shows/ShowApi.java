@@ -8,7 +8,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-public interface ShowApiService {
+public interface ShowApi {
 
     @GET("tv/popular")
     Call<ShowPageModel> getPopularShows(@Query("page") int page, @Query("api_key") String userKey);

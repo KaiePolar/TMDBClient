@@ -14,24 +14,18 @@ import javax.inject.Inject;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class PeoplesRepository {
 
     @Inject
-    Retrofit mRetrofit;
+    PeopleApi api;
 
-    @Inject
     public PeoplesRepository() {
         App.getAppComponent().inject(this);
     }
 
-    private PeoplesApiService getAPI() {
-        return mRetrofit.create(PeoplesApiService.class);
-    }
-
-    public AsyncTask<Void, Void, Void> getPopularPeoples(int page, NetworkUtils.PeopleLoadCallback callback) {
-        return new PeoplesRepository.PopularPeoplesTask(page, callback).execute();
+    public void getPopularPeoples(int page, NetworkUtils.PeopleLoadCallback callback) {
+        new PopularPeoplesTask(page, callback).execute();
     }
 
     private class PopularPeoplesTask extends AsyncTask<Void, Void, Void> {
@@ -46,7 +40,7 @@ public class PeoplesRepository {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            getAPI().getPopularPeoples(mPage, NetworkUtils.API_KEY).enqueue(new Callback<PeoplePageModel>() {
+            api.getPopularPeoples(mPage, NetworkUtils.API_KEY).enqueue(new Callback<PeoplePageModel>() {
                 @Override
                 public void onResponse(@NonNull Call<PeoplePageModel> call, @NonNull Response<PeoplePageModel> response) {
                     mCallback.onLoadSuccess(response, response.body().getResults());
@@ -61,8 +55,8 @@ public class PeoplesRepository {
         }
     }
 
-    public AsyncTask<Void, Void, Void> getPeopleDetails(int page, NetworkUtils.PeopleDetailsLoadCallback callback) {
-        return new PeopleDetailsTask(page, callback).execute();
+    public void getPeopleDetails(int page, NetworkUtils.PeopleDetailsLoadCallback callback) {
+        new PeopleDetailsTask(page, callback).execute();
     }
 
     private class PeopleDetailsTask extends AsyncTask<Void, Void, Void> {
@@ -77,7 +71,7 @@ public class PeoplesRepository {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            getAPI().getPeopleDetails(mPage, NetworkUtils.API_KEY).enqueue(new Callback<PeopleDetails>() {
+            api.getPeopleDetails(mPage, NetworkUtils.API_KEY).enqueue(new Callback<PeopleDetails>() {
                 @Override
                 public void onResponse(@NonNull Call<PeopleDetails> call, @NonNull Response<PeopleDetails> response) {
                     mCallback.onLoadSuccess(response, response.body());
