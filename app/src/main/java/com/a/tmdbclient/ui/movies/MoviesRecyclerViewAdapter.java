@@ -22,15 +22,53 @@ import java.util.List;
 
 public class MoviesRecyclerViewAdapter extends RecyclerView.Adapter<MoviesRecyclerViewAdapter.ViewHolder> {
 
+    private List<MovieModel> mCategoryData;
+    private List<MovieModel> mSearchData;
     private List<MovieModel> mData;
+    private boolean isSearchDataMain;
     private Context mContext;
 
     public MoviesRecyclerViewAdapter() {
-        mData = new ArrayList<>();
+        mCategoryData = new ArrayList<>();
+        mSearchData = new ArrayList<>();
+        mData = mCategoryData;
     }
 
-    public void loadData(List<MovieModel> data) {
-        mData.addAll(data);
+    public void addData(List<MovieModel> data) {
+        mCategoryData.addAll(data);
+        notifyDataSetChanged();
+    }
+
+    public void setData(List<MovieModel> data) {
+        mCategoryData.clear();
+        mCategoryData.addAll(data);
+        notifyDataSetChanged();
+    }
+
+    public void addSearchData(List<MovieModel> data) {
+        if (!mSearchData.containsAll(data)) {
+            mSearchData.addAll(data);
+            notifyDataSetChanged();
+        }
+    }
+
+    public void setSearchData(List<MovieModel> data) {
+        mSearchData.clear();
+        mSearchData.addAll(data);
+        notifyDataSetChanged();
+    }
+
+    public boolean isSearchDataMain() {
+        return isSearchDataMain;
+    }
+
+    public void setSearchDataMain(boolean b) {
+        isSearchDataMain = b;
+        if (isSearchDataMain) {
+            mData = mSearchData;
+        } else {
+            mData = mCategoryData;
+        }
         notifyDataSetChanged();
     }
 
@@ -74,7 +112,7 @@ public class MoviesRecyclerViewAdapter extends RecyclerView.Adapter<MoviesRecycl
         holder.releaseTextView.setText(item.getReleaseDate());
         holder.descriptionTextView.setText(item.getOverview());
         Glide.with(mContext)
-                .load(NetworkUtils.IMG_BASE_URL+item.getPosterPath())
+                .load(NetworkUtils.IMG_BASE_URL + item.getPosterPath())
                 .into(holder.imageView);
     }
 

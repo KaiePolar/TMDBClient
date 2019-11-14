@@ -18,9 +18,13 @@ import retrofit2.Response;
 
 public class PeoplesPresenter {
 
-    private PeoplesView mView;
     @Inject
     PeoplesRepository repository;
+    private PeoplesView mView;
+
+    private PeopleRecyclerViewAdapter mAdapter;
+    private String searchQuery;
+    private int searchPage = 1;
 
     public PeoplesPresenter(){
         App.getAppComponent().inject(this);
@@ -28,6 +32,10 @@ public class PeoplesPresenter {
 
     public void setView(PeoplesView view){
         mView = view;
+    }
+
+    public void setAdapter(PeopleRecyclerViewAdapter adapter) {
+        mAdapter = adapter;
     }
 
     public void getPeopleDetails(int id,final PeopleDetailsActivity activity) {
@@ -55,7 +63,49 @@ public class PeoplesPresenter {
 
                 @Override
                 public void onLoadSuccess(Response response, List<PeopleModel> peopleModels) {
-                    mView.setAdapterData(peopleModels);
+                    mAdapter.addData(peopleModels);
+                    mView.setProgressBarVisibility(false);
+                }
+            });
+        }
+    }
+
+    public void searchPeoples(String query,int page, Context context) {
+        if (NetworkUtils.isInternetUnavailable(context)) {
+            mView.showNoInternetError();
+        } else {
+            mView.setSearchProgressBarVisibility(true);
+            searchQuery = query;
+            searchPage = page;
+            repository.searchPeoples(query,page, new NetworkUtils.PeopleLoadCallback() {
+                @Override
+                public void onLoadFail(Call call) {
+                    mView.setSearchProgressBarVisibility(false);
+                    mView.showApiError();
+                }
+
+                @Override
+                public void onLoadSuccess(Response response, List<PeopleModel> movieModels) {
+                    mView.setSearchProgressBarVisibility(false);
+                    mAdapter.setSearchData(movieModels);
+                }
+            });
+        }
+    }
+
+    public void searchMorePeoples(Context context){
+        if (NetworkUtils.isInternetUnavailable(context)) {
+            mView.showNoInternetError();
+        } else {
+            repository.searchPeoples(searchQuery, ++searchPage, new NetworkUtils.PeopleLoadCallback() {
+                @Override
+                public void onLoadFail(Call call) {
+                    mView.showApiError();
+                }
+
+                @Override
+                public void onLoadSuccess(Response response, List<PeopleModel> peopleModels) {
+                    mAdapter.addSearchData(peopleModels);
                 }
             });
         }

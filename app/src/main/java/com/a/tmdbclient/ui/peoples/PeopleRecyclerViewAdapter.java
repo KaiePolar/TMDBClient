@@ -22,15 +22,53 @@ import java.util.List;
 
 public class PeopleRecyclerViewAdapter extends RecyclerView.Adapter<PeopleRecyclerViewAdapter.ViewHolder> {
 
+    private List<PeopleModel> mCategoryData;
+    private List<PeopleModel> mSearchData;
     private List<PeopleModel> mData;
+    private boolean isSearchDataMain;
     private Context mContext;
 
     public PeopleRecyclerViewAdapter() {
-        mData = new ArrayList<>();
+        mCategoryData = new ArrayList<>();
+        mSearchData = new ArrayList<>();
+        mData = mCategoryData;
     }
 
-    public void loadData(List<PeopleModel> data) {
+    public void addData(List<PeopleModel> data) {
         mData.addAll(data);
+        notifyDataSetChanged();
+    }
+
+    public void setData(List<PeopleModel> data) {
+        mCategoryData.clear();
+        mCategoryData.addAll(data);
+        notifyDataSetChanged();
+    }
+
+    public void addSearchData(List<PeopleModel> data) {
+        if (!mSearchData.containsAll(data)) {
+            mSearchData.addAll(data);
+            notifyDataSetChanged();
+        }
+    }
+
+    public void setSearchData(List<PeopleModel> data) {
+        mSearchData.clear();
+        mSearchData.addAll(data);
+        notifyDataSetChanged();
+    }
+
+    public boolean isSearchDataMain() {
+        return isSearchDataMain;
+    }
+
+    public void setSearchDataMain(boolean b) {
+        isSearchDataMain = b;
+        if (isSearchDataMain) {
+            mData = mSearchData;
+        } else {
+            mData = mCategoryData;
+        }
         notifyDataSetChanged();
     }
 

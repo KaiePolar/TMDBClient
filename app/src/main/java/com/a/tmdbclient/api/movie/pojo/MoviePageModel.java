@@ -35,7 +35,7 @@ public class MoviePageModel implements Serializable {
         return totalPages;
     }
 
-    public ArrayList<MovieModel> getMovieModel() {
+    public ArrayList<MovieModel> getMoviesList() {
         return movieModel;
     }
 

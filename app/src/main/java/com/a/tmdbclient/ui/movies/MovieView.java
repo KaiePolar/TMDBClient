@@ -2,13 +2,10 @@ package com.a.tmdbclient.ui.movies;
 
 import android.view.View;
 
-import com.a.tmdbclient.api.movie.pojo.MovieModel;
-
-import java.util.List;
-
 public interface MovieView {
     void init(View view);
-    void setAdapterData(List<MovieModel> data);
+    void setProgressBarVisibility(boolean visibility);
+    void setSearchProgressBarVisibility(boolean visibility);
     void showNoInternetError();
     void showApiError();
 }

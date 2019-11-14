@@ -18,9 +18,12 @@ import retrofit2.Response;
 
 public class MoviesPresenter {
 
-    private MovieView mView;
     @Inject
     MoviesRepository repository;
+    private MovieView mView;
+    private MoviesRecyclerViewAdapter mAdapter;
+    private String searchQuery;
+    private int searchPage = 1;
 
 
     public MoviesPresenter(){
@@ -30,6 +33,8 @@ public class MoviesPresenter {
     public void setView(MovieView view){
         mView = view;
     }
+
+    public void setAdapter(MoviesRecyclerViewAdapter adapter){mAdapter = adapter;}
 
     public void getMovieDetails(int id, final MovieDetailsActivity activity) {
         repository.getMovieDetails(id, new NetworkUtils.MovieDetailsLoadCallback() {
@@ -56,7 +61,8 @@ public class MoviesPresenter {
 
                 @Override
                 public void onLoadSuccess(Response response, List<MovieModel> movieModels) {
-                    mView.setAdapterData(movieModels);
+                    mAdapter.addData(movieModels);
+                    mView.setProgressBarVisibility(false);
                 }
             });
         }
@@ -74,7 +80,8 @@ public class MoviesPresenter {
 
                 @Override
                 public void onLoadSuccess(Response response, List<MovieModel> movieModels) {
-                    mView.setAdapterData(movieModels);
+                    mAdapter.addData(movieModels);
+                    mView.setProgressBarVisibility(false);
                 }
             });
         }
@@ -92,7 +99,8 @@ public class MoviesPresenter {
 
                 @Override
                 public void onLoadSuccess(Response response, List<MovieModel> movieModels) {
-                    mView.setAdapterData(movieModels);
+                    mAdapter.addData(movieModels);
+                    mView.setProgressBarVisibility(false);
                 }
             });
         }
@@ -110,7 +118,50 @@ public class MoviesPresenter {
 
                 @Override
                 public void onLoadSuccess(Response response, List<MovieModel> movieModels) {
-                    mView.setAdapterData(movieModels);
+                    mAdapter.addData(movieModels);
+                    mView.setProgressBarVisibility(false);
+                }
+            });
+        }
+    }
+
+    public void searchMovies(String query,int page, Context context) {
+        if (NetworkUtils.isInternetUnavailable(context)) {
+            mView.showNoInternetError();
+        } else {
+            mView.setSearchProgressBarVisibility(true);
+            searchQuery = query;
+            searchPage = page;
+            repository.searchMovies(query,page, new NetworkUtils.MovieListLoadCallback() {
+                @Override
+                public void onLoadFail(Call call) {
+                    mView.setSearchProgressBarVisibility(false);
+                    mView.showApiError();
+                }
+
+                @Override
+                public void onLoadSuccess(Response response, List<MovieModel> movieModels) {
+                    mView.setSearchProgressBarVisibility(false);
+                    mAdapter.setSearchData(movieModels);
+                }
+            });
+        }
+    }
+
+    public void searchMoreMovies(Context context){
+        if (NetworkUtils.isInternetUnavailable(context)) {
+            mView.showNoInternetError();
+        } else {
+            repository.searchMovies(searchQuery,++searchPage, new NetworkUtils.MovieListLoadCallback() {
+                @Override
+                public void onLoadFail(Call call) {
+                    mView.showApiError();
+                }
+
+                @Override
+                public void onLoadSuccess(Response response, List<MovieModel> movieModels) {
+                    mAdapter.addSearchData(movieModels);
+                    mView.setProgressBarVisibility(false);
                 }
             });
         }

@@ -1,6 +1,7 @@
 package com.a.tmdbclient.api.movie;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -43,7 +44,7 @@ public class MoviesRepository {
             api.getPopularMovies(mPage, NetworkUtils.API_KEY).enqueue(new Callback<MoviePageModel>() {
                 @Override
                 public void onResponse(@NonNull Call<MoviePageModel> call, @NonNull Response<MoviePageModel> response) {
-                    mCallback.onLoadSuccess(response, response.body().getMovieModel());
+                    mCallback.onLoadSuccess(response, response.body().getMoviesList());
                 }
 
                 @Override
@@ -74,7 +75,7 @@ public class MoviesRepository {
             api.getUpcomingMovies(mPage, NetworkUtils.API_KEY).enqueue(new Callback<MoviePageModel>() {
                 @Override
                 public void onResponse(@NonNull Call<MoviePageModel> call, @NonNull Response<MoviePageModel> response) {
-                    mCallback.onLoadSuccess(response, response.body().getMovieModel());
+                    mCallback.onLoadSuccess(response, response.body().getMoviesList());
                 }
 
                 @Override
@@ -105,7 +106,7 @@ public class MoviesRepository {
             api.getTopRatedMovies(mPage, NetworkUtils.API_KEY).enqueue(new Callback<MoviePageModel>() {
                 @Override
                 public void onResponse(@NonNull Call<MoviePageModel> call, @NonNull Response<MoviePageModel> response) {
-                    mCallback.onLoadSuccess(response, response.body().getMovieModel());
+                    mCallback.onLoadSuccess(response, response.body().getMoviesList());
                 }
 
                 @Override
@@ -136,7 +137,7 @@ public class MoviesRepository {
             api.getNowPlayingMovies(mPage, NetworkUtils.API_KEY).enqueue(new Callback<MoviePageModel>() {
                 @Override
                 public void onResponse(@NonNull Call<MoviePageModel> call, @NonNull Response<MoviePageModel> response) {
-                    mCallback.onLoadSuccess(response, response.body().getMovieModel());
+                    mCallback.onLoadSuccess(response, response.body().getMoviesList());
                 }
 
                 @Override
@@ -172,6 +173,40 @@ public class MoviesRepository {
 
                 @Override
                 public void onFailure(@NonNull Call<MovieDetails> call, @NonNull Throwable t) {
+                    mCallback.onLoadFail(call);
+                }
+            });
+            return null;
+        }
+    }
+
+    public void searchMovies(String query,int page, NetworkUtils.MovieListLoadCallback callback) {
+        new SearchMoviesTask(query,page, callback).execute();
+    }
+
+    private class SearchMoviesTask extends AsyncTask<Void, Void, Void> {
+
+        private String mQuery;
+        private int mPage;
+        private NetworkUtils.MovieListLoadCallback mCallback;
+
+        SearchMoviesTask(String query,int page, NetworkUtils.MovieListLoadCallback callback) {
+            mQuery = query;
+            mPage = page;
+            mCallback = callback;
+            Log.d("task", mQuery );
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            api.searchMovies(mQuery,mPage,NetworkUtils.API_KEY).enqueue(new Callback<MoviePageModel>() {
+                @Override
+                public void onResponse(@NonNull Call<MoviePageModel> call, @NonNull Response<MoviePageModel> response) {
+                    mCallback.onLoadSuccess(response, response.body().getMoviesList());
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<MoviePageModel> call, @NonNull Throwable t) {
                     mCallback.onLoadFail(call);
                 }
             });

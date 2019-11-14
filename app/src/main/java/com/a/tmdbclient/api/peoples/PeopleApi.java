@@ -16,4 +16,7 @@ public interface PeopleApi {
     @GET("person/{person_id}")
     Call<PeopleDetails> getPeopleDetails(@Path("person_id") int id, @Query("api_key") String userKey);
 
+    @GET("search/person")
+    Call<PeoplePageModel> searchPeoples(@Query("query") String query,@Query("page") int page, @Query("api_key") String userKey);
+
 }

@@ -1,6 +1,7 @@
 package com.a.tmdbclient.api.peoples;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -79,6 +80,40 @@ public class PeoplesRepository {
 
                 @Override
                 public void onFailure(@NonNull Call<PeopleDetails> call, @NonNull Throwable t) {
+                    mCallback.onLoadFail(call);
+                }
+            });
+            return null;
+        }
+    }
+
+    public void searchPeoples(String query,int page, NetworkUtils.PeopleLoadCallback callback) {
+        new SearchPeoplesTask(query,page, callback).execute();
+    }
+
+    private class SearchPeoplesTask extends AsyncTask<Void, Void, Void> {
+
+        private String mQuery;
+        private int mPage;
+        private NetworkUtils.PeopleLoadCallback mCallback;
+
+        SearchPeoplesTask(String query,int page, NetworkUtils.PeopleLoadCallback callback) {
+            mQuery = query;
+            mPage = page;
+            mCallback = callback;
+            Log.d("task", mQuery );
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            api.searchPeoples(mQuery,mPage,NetworkUtils.API_KEY).enqueue(new Callback<PeoplePageModel>() {
+                @Override
+                public void onResponse(@NonNull Call<PeoplePageModel> call, @NonNull Response<PeoplePageModel> response) {
+                    mCallback.onLoadSuccess(response, response.body().getResults());
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<PeoplePageModel> call, @NonNull Throwable t) {
                     mCallback.onLoadFail(call);
                 }
             });

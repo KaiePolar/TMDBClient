@@ -25,4 +25,7 @@ public interface MovieApi {
     @GET("movie/{movie_id}")
     Call<MovieDetails> getMovieDetails(@Path("movie_id") int id, @Query("api_key") String userKey);
 
+    @GET("search/movie")
+    Call<MoviePageModel> searchMovies(@Query("query") String query,@Query("page") int page, @Query("api_key") String userKey);
+
 }
