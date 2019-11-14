@@ -18,9 +18,12 @@ import retrofit2.Response;
 
 public class ShowsPresenter {
 
-    private ShowView mView;
     @Inject
     ShowsRepository repository;
+    private ShowView mView;
+    private ShowRecyclerViewAdapter mAdapter;
+    private String searchQuery;
+    private int searchPage = 1;
 
     public ShowsPresenter(){
         App.getAppComponent().inject(this);
@@ -28,6 +31,10 @@ public class ShowsPresenter {
 
     public void setView(ShowView view){
         mView = view;
+    }
+
+    public void setAdapter(ShowRecyclerViewAdapter adapter) {
+        mAdapter = adapter;
     }
 
     public void getShowsDetails(int id, final ShowDetailsActivity activity) {
@@ -55,7 +62,8 @@ public class ShowsPresenter {
 
                 @Override
                 public void onLoadSuccess(Response response, List<ShowModel> showModels) {
-                    mView.setAdapterData(showModels);
+                    mAdapter.addData(showModels);
+                    mView.setProgressBarVisibility(false);
                 }
             });
         }
@@ -73,7 +81,8 @@ public class ShowsPresenter {
 
                 @Override
                 public void onLoadSuccess(Response response, List<ShowModel> showModels) {
-                    mView.setAdapterData(showModels);
+                    mAdapter.addData(showModels);
+                    mView.setProgressBarVisibility(false);
                 }
             });
         }
@@ -91,7 +100,8 @@ public class ShowsPresenter {
 
                 @Override
                 public void onLoadSuccess(Response response, List<ShowModel> showModels) {
-                    mView.setAdapterData(showModels);
+                    mAdapter.addData(showModels);
+                    mView.setProgressBarVisibility(false);
                 }
             });
         }
@@ -109,8 +119,52 @@ public class ShowsPresenter {
 
                 @Override
                 public void onLoadSuccess(Response response, List<ShowModel> showModels) {
-                    mView.setAdapterData(showModels);
+                    mAdapter.addData(showModels);
+                    mView.setProgressBarVisibility(false);
                 }
+            });
+        }
+    }
+
+    public void searchShows(String query,int page, Context context) {
+        if (NetworkUtils.isInternetUnavailable(context)) {
+            mView.showNoInternetError();
+        } else {
+            mView.setSearchProgressBarVisibility(true);
+            searchQuery = query;
+            searchPage = page;
+            repository.searchShows(query,page, new NetworkUtils.ShowLoadCallback() {
+                @Override
+                public void onLoadFail(Call call) {
+                    mView.setSearchProgressBarVisibility(false);
+                    mView.showApiError();
+                }
+
+                @Override
+                public void onLoadSuccess(Response response, List<ShowModel> showModels) {
+                    mView.setSearchProgressBarVisibility(false);
+                    mAdapter.setSearchData(showModels);
+                }
+            });
+        }
+    }
+
+    public void searchMoreShows(Context context){
+        if (NetworkUtils.isInternetUnavailable(context)) {
+            mView.showNoInternetError();
+        } else {
+            repository.searchShows(searchQuery,++searchPage,new  NetworkUtils.ShowLoadCallback() {
+                @Override
+                public void onLoadFail(Call call) {
+                    mView.showApiError();
+                }
+
+                @Override
+                public void onLoadSuccess(Response response, List<ShowModel> showModels) {
+                    mAdapter.addSearchData(showModels);
+                    mView.setProgressBarVisibility(false);
+                }
+
             });
         }
     }

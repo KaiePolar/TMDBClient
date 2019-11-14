@@ -22,15 +22,53 @@ import java.util.List;
 
 public class ShowRecyclerViewAdapter extends RecyclerView.Adapter<ShowRecyclerViewAdapter.ViewHolder> {
 
+    private List<ShowModel> mCategoryData;
+    private List<ShowModel> mSearchData;
     private List<ShowModel> mData;
+    private boolean isSearchDataMain;
     private Context mContext;
 
     public ShowRecyclerViewAdapter() {
-        mData = new ArrayList<>();
+        mCategoryData = new ArrayList<>();
+        mSearchData = new ArrayList<>();
+        mData = mCategoryData;
     }
 
-    public void loadData(List<ShowModel> data) {
-        mData.addAll(data);
+    public void addData(List<ShowModel> data) {
+        mCategoryData.addAll(data);
+        notifyDataSetChanged();
+    }
+
+    public void setData(List<ShowModel> data) {
+        mCategoryData.clear();
+        mCategoryData.addAll(data);
+        notifyDataSetChanged();
+    }
+
+    public void addSearchData(List<ShowModel> data) {
+        if (!mSearchData.containsAll(data)) {
+            mSearchData.addAll(data);
+            notifyDataSetChanged();
+        }
+    }
+
+    public void setSearchData(List<ShowModel> data) {
+        mSearchData.clear();
+        mSearchData.addAll(data);
+        notifyDataSetChanged();
+    }
+
+    public boolean isSearchDataMain() {
+        return isSearchDataMain;
+    }
+
+    public void setSearchDataMain(boolean b) {
+        isSearchDataMain = b;
+        if (isSearchDataMain) {
+            mData = mSearchData;
+        } else {
+            mData = mCategoryData;
+        }
         notifyDataSetChanged();
     }
 

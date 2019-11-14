@@ -25,4 +25,7 @@ public interface ShowApi {
     @GET("tv/{tv_id}")
     Call<ShowDetails> getShowDetails(@Path("tv_id") int page, @Query("api_key") String userKey);
 
+    @GET("search/tv")
+    Call<ShowPageModel> searchShows(@Query("query") String query, @Query("page") int page, @Query("api_key") String userKey);
+
 }
