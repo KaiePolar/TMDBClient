@@ -24,13 +24,15 @@ public class ShowsPresenter {
     private ShowRecyclerViewAdapter mAdapter;
     private String searchQuery;
     private int searchPage = 1;
+    private Context context;
 
     public ShowsPresenter(){
         App.getAppComponent().inject(this);
     }
 
-    public void setView(ShowView view){
+    public void setView(ShowView view, Context context){
         mView = view;
+        this.context = context;
     }
 
     public void setAdapter(ShowRecyclerViewAdapter adapter) {
@@ -50,14 +52,14 @@ public class ShowsPresenter {
         });
     }
 
-    public void getPopularShows(int page, Context context) {
+    public void getPopularShows(int page) {
         if (NetworkUtils.isInternetUnavailable(context)) {
             mView.showNoInternetError();
         } else {
             repository.getPopularShows(page, new NetworkUtils.ShowLoadCallback() {
                 @Override
                 public void onLoadFail(Call call) {
-                    mView.showApiError();
+                    mView.showApiError(call.toString());
                 }
 
                 @Override
@@ -69,14 +71,33 @@ public class ShowsPresenter {
         }
     }
 
-    public void getBestShows(int page, Context context) {
+    public void setPopularShows(int page) {
+        if (NetworkUtils.isInternetUnavailable(context)) {
+            mView.showNoInternetError();
+        } else {
+            repository.getPopularShows(page, new NetworkUtils.ShowLoadCallback() {
+                @Override
+                public void onLoadFail(Call call) {
+                    mView.showApiError(call.toString());
+                }
+
+                @Override
+                public void onLoadSuccess(Response response, List<ShowModel> showModels) {
+                    mAdapter.setData(showModels);
+                    mView.setProgressBarVisibility(false);
+                }
+            });
+        }
+    }
+
+    public void getBestShows(int page) {
         if (NetworkUtils.isInternetUnavailable(context)) {
             mView.showNoInternetError();
         } else {
             repository.getTopRatedShows(page, new NetworkUtils.ShowLoadCallback() {
                 @Override
                 public void onLoadFail(Call call) {
-                    mView.showApiError();
+                    mView.showApiError(call.toString());
                 }
 
                 @Override
@@ -88,14 +109,33 @@ public class ShowsPresenter {
         }
     }
 
-    public void getUpcomingShows(int page, Context context) {
+    public void setBestShows(int page) {
+        if (NetworkUtils.isInternetUnavailable(context)) {
+            mView.showNoInternetError();
+        } else {
+            repository.getTopRatedShows(page, new NetworkUtils.ShowLoadCallback() {
+                @Override
+                public void onLoadFail(Call call) {
+                    mView.showApiError(call.toString());
+                }
+
+                @Override
+                public void onLoadSuccess(Response response, List<ShowModel> showModels) {
+                    mAdapter.setData(showModels);
+                    mView.setProgressBarVisibility(false);
+                }
+            });
+        }
+    }
+
+    public void getUpcomingShows(int page) {
         if (NetworkUtils.isInternetUnavailable(context)) {
             mView.showNoInternetError();
         } else {
             repository.getUpcomingShows(page, new NetworkUtils.ShowLoadCallback() {
                 @Override
                 public void onLoadFail(Call call) {
-                    mView.showApiError();
+                    mView.showApiError(call.toString());
                 }
 
                 @Override
@@ -107,14 +147,33 @@ public class ShowsPresenter {
         }
     }
 
-    public void getNowPlayingShows(int page, Context context) {
+    public void setUpcomingShows(int page) {
+        if (NetworkUtils.isInternetUnavailable(context)) {
+            mView.showNoInternetError();
+        } else {
+            repository.getUpcomingShows(page, new NetworkUtils.ShowLoadCallback() {
+                @Override
+                public void onLoadFail(Call call) {
+                    mView.showApiError(call.toString());
+                }
+
+                @Override
+                public void onLoadSuccess(Response response, List<ShowModel> showModels) {
+                    mAdapter.setData(showModels);
+                    mView.setProgressBarVisibility(false);
+                }
+            });
+        }
+    }
+
+    public void getNowPlayingShows(int page) {
         if (NetworkUtils.isInternetUnavailable(context)) {
             mView.showNoInternetError();
         } else {
             repository.getNowPlayingShows(page, new NetworkUtils.ShowLoadCallback() {
                 @Override
                 public void onLoadFail(Call call) {
-                    mView.showApiError();
+                    mView.showApiError(call.toString());
                 }
 
                 @Override
@@ -126,7 +185,26 @@ public class ShowsPresenter {
         }
     }
 
-    public void searchShows(String query,int page, Context context) {
+    public void setNowPlayingShows(int page) {
+        if (NetworkUtils.isInternetUnavailable(context)) {
+            mView.showNoInternetError();
+        } else {
+            repository.getNowPlayingShows(page, new NetworkUtils.ShowLoadCallback() {
+                @Override
+                public void onLoadFail(Call call) {
+                    mView.showApiError(call.toString());
+                }
+
+                @Override
+                public void onLoadSuccess(Response response, List<ShowModel> showModels) {
+                    mAdapter.setData(showModels);
+                    mView.setProgressBarVisibility(false);
+                }
+            });
+        }
+    }
+
+    public void searchShows(String query,int page) {
         if (NetworkUtils.isInternetUnavailable(context)) {
             mView.showNoInternetError();
         } else {
@@ -137,26 +215,28 @@ public class ShowsPresenter {
                 @Override
                 public void onLoadFail(Call call) {
                     mView.setSearchProgressBarVisibility(false);
-                    mView.showApiError();
+                    mView.setProgressBarVisibility(false);
+                    mView.showApiError(call.toString());
                 }
 
                 @Override
                 public void onLoadSuccess(Response response, List<ShowModel> showModels) {
                     mView.setSearchProgressBarVisibility(false);
                     mAdapter.setSearchData(showModels);
+                    mView.setProgressBarVisibility(false);
                 }
             });
         }
     }
 
-    public void searchMoreShows(Context context){
+    public void searchMoreShows(){
         if (NetworkUtils.isInternetUnavailable(context)) {
             mView.showNoInternetError();
         } else {
             repository.searchShows(searchQuery,++searchPage,new  NetworkUtils.ShowLoadCallback() {
                 @Override
                 public void onLoadFail(Call call) {
-                    mView.showApiError();
+                    mView.showApiError(call.toString());
                 }
 
                 @Override

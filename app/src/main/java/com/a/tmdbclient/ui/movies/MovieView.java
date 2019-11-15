@@ -7,5 +7,5 @@ public interface MovieView {
     void setProgressBarVisibility(boolean visibility);
     void setSearchProgressBarVisibility(boolean visibility);
     void showNoInternetError();
-    void showApiError();
+    void showApiError(String error);
 }

@@ -24,14 +24,16 @@ public class MoviesPresenter {
     private MoviesRecyclerViewAdapter mAdapter;
     private String searchQuery;
     private int searchPage = 1;
+    private Context mContext;
 
 
     public MoviesPresenter(){
         App.getAppComponent().inject(this);
     }
 
-    public void setView(MovieView view){
+    public void setView(MovieView view, Context context){
         mView = view;
+        mContext = context;
     }
 
     public void setAdapter(MoviesRecyclerViewAdapter adapter){mAdapter = adapter;}
@@ -49,14 +51,14 @@ public class MoviesPresenter {
         });
     }
 
-    public void getPopularMovies(int page, Context context) {
-        if (NetworkUtils.isInternetUnavailable(context)) {
+    public void addPopularMovies(int page) {
+        if (NetworkUtils.isInternetUnavailable(mContext)) {
             mView.showNoInternetError();
         } else {
             repository.getPopularMovies(page, new NetworkUtils.MovieListLoadCallback() {
                 @Override
                 public void onLoadFail(Call call) {
-                    mView.showApiError();
+                    mView.showApiError(call.toString());
                 }
 
                 @Override
@@ -68,14 +70,33 @@ public class MoviesPresenter {
         }
     }
 
-    public void getUpcomingMovies(int page, Context context) {
-        if (NetworkUtils.isInternetUnavailable(context)) {
+    public void setPopularMovies(int page) {
+        if (NetworkUtils.isInternetUnavailable(mContext)) {
+            mView.showNoInternetError();
+        } else {
+            repository.getPopularMovies(page, new NetworkUtils.MovieListLoadCallback() {
+                @Override
+                public void onLoadFail(Call call) {
+                    mView.showApiError(call.toString());
+                }
+
+                @Override
+                public void onLoadSuccess(Response response, List<MovieModel> movieModels) {
+                    mAdapter.setData(movieModels);
+                    mView.setProgressBarVisibility(false);
+                }
+            });
+        }
+    }
+
+    public void addUpcomingMovies(int page) {
+        if (NetworkUtils.isInternetUnavailable(mContext)) {
             mView.showNoInternetError();
         } else {
             repository.getUpcomingMovies(page, new NetworkUtils.MovieListLoadCallback() {
                 @Override
                 public void onLoadFail(Call call) {
-                    mView.showApiError();
+                    mView.showApiError(call.toString());
                 }
 
                 @Override
@@ -87,14 +108,33 @@ public class MoviesPresenter {
         }
     }
 
-    public void getTopRatedMovies(int page, Context context) {
-        if (NetworkUtils.isInternetUnavailable(context)) {
+    public void setUpcomingMovies(int page) {
+        if (NetworkUtils.isInternetUnavailable(mContext)) {
+            mView.showNoInternetError();
+        } else {
+            repository.getUpcomingMovies(page, new NetworkUtils.MovieListLoadCallback() {
+                @Override
+                public void onLoadFail(Call call) {
+                    mView.showApiError(call.toString());
+                }
+
+                @Override
+                public void onLoadSuccess(Response response, List<MovieModel> movieModels) {
+                    mAdapter.addData(movieModels);
+                    mView.setProgressBarVisibility(false);
+                }
+            });
+        }
+    }
+
+    public void addTopRatedMovies(int page) {
+        if (NetworkUtils.isInternetUnavailable(mContext)) {
             mView.showNoInternetError();
         } else {
             repository.getTopRatedMovies(page, new NetworkUtils.MovieListLoadCallback() {
                 @Override
                 public void onLoadFail(Call call) {
-                    mView.showApiError();
+                    mView.showApiError(call.toString());
                 }
 
                 @Override
@@ -106,14 +146,33 @@ public class MoviesPresenter {
         }
     }
 
-    public void getNowPlayingMovies(int page, Context context) {
-        if (NetworkUtils.isInternetUnavailable(context)) {
+    public void setTopRatedMovies(int page) {
+        if (NetworkUtils.isInternetUnavailable(mContext)) {
+            mView.showNoInternetError();
+        } else {
+            repository.getTopRatedMovies(page, new NetworkUtils.MovieListLoadCallback() {
+                @Override
+                public void onLoadFail(Call call) {
+                    mView.showApiError(call.toString());
+                }
+
+                @Override
+                public void onLoadSuccess(Response response, List<MovieModel> movieModels) {
+                    mAdapter.setData(movieModels);
+                    mView.setProgressBarVisibility(false);
+                }
+            });
+        }
+    }
+
+    public void addNowPlayingMovies(int page) {
+        if (NetworkUtils.isInternetUnavailable(mContext)) {
             mView.showNoInternetError();
         } else {
             repository.getNowPlayingMovies(page, new NetworkUtils.MovieListLoadCallback() {
                 @Override
                 public void onLoadFail(Call call) {
-                    mView.showApiError();
+                    mView.showApiError(call.toString());
                 }
 
                 @Override
@@ -125,37 +184,56 @@ public class MoviesPresenter {
         }
     }
 
-    public void searchMovies(String query,int page, Context context) {
-        if (NetworkUtils.isInternetUnavailable(context)) {
+    public void setNowPlayingMovies(int page) {
+        if (NetworkUtils.isInternetUnavailable(mContext)) {
             mView.showNoInternetError();
         } else {
-            mView.setSearchProgressBarVisibility(true);
-            searchQuery = query;
-            searchPage = page;
-            repository.searchMovies(query,page, new NetworkUtils.MovieListLoadCallback() {
+            repository.getNowPlayingMovies(page, new NetworkUtils.MovieListLoadCallback() {
                 @Override
                 public void onLoadFail(Call call) {
-                    mView.setSearchProgressBarVisibility(false);
-                    mView.showApiError();
+                    mView.showApiError(call.toString());
                 }
 
                 @Override
                 public void onLoadSuccess(Response response, List<MovieModel> movieModels) {
-                    mView.setSearchProgressBarVisibility(false);
-                    mAdapter.setSearchData(movieModels);
+                    mAdapter.setData(movieModels);
+                    mView.setProgressBarVisibility(false);
                 }
             });
         }
     }
 
-    public void searchMoreMovies(Context context){
-        if (NetworkUtils.isInternetUnavailable(context)) {
+    public void searchMovies(String query,int page) {
+        if (NetworkUtils.isInternetUnavailable(mContext)) {
+            mView.showNoInternetError();
+        } else {
+            searchQuery = query;
+            searchPage = page;
+            repository.searchMovies(query,page, new NetworkUtils.MovieListLoadCallback() {
+                @Override
+                public void onLoadFail(Call call) {
+                    mView.showApiError(call.toString());
+                    mView.setSearchProgressBarVisibility(false);
+                }
+
+                @Override
+                public void onLoadSuccess(Response response, List<MovieModel> movieModels) {
+                    mAdapter.setSearchData(movieModels);
+                    mView.setSearchProgressBarVisibility(false);
+                    mView.setProgressBarVisibility(false);
+                }
+            });
+        }
+    }
+
+    public void searchMoreMovies(){
+        if (NetworkUtils.isInternetUnavailable(mContext)) {
             mView.showNoInternetError();
         } else {
             repository.searchMovies(searchQuery,++searchPage, new NetworkUtils.MovieListLoadCallback() {
                 @Override
                 public void onLoadFail(Call call) {
-                    mView.showApiError();
+                    mView.showApiError(call.toString());
                 }
 
                 @Override

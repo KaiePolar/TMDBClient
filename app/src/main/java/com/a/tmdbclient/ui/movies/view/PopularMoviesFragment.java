@@ -9,11 +9,13 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.a.tmdbclient.App;
 import com.a.tmdbclient.R;
@@ -27,11 +29,11 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
-public class PopularMoviesFragment extends Fragment implements MovieView {
+public class PopularMoviesFragment extends Fragment implements MovieView, SwipeRefreshLayout.OnRefreshListener {
 
     @Inject
     MoviesPresenter presenter;
-    private ProgressBar progressBar;
+    private SwipeRefreshLayout swipeLayout;
     private ProgressBar searchProgressBar;
     private RecyclerView recyclerView;
     private MoviesRecyclerViewAdapter adapter;
@@ -49,17 +51,15 @@ public class PopularMoviesFragment extends Fragment implements MovieView {
         App.getAppComponent().inject(this);
         init(root);
 
-        presenter.setView(this);
-        presenter.setAdapter(adapter);
-        presenter.getPopularMovies(dataPage, getContext());
+        presenter.addPopularMovies(dataPage);
 
         endlessScrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 if (!adapter.isSearchDataMain()) {
-                    presenter.getPopularMovies(++dataPage, getContext());
+                    presenter.addPopularMovies(++dataPage);
                 } else {
-                    presenter.searchMoreMovies(getContext());
+                    presenter.searchMoreMovies();
                 }
             }
 
@@ -77,16 +77,19 @@ public class PopularMoviesFragment extends Fragment implements MovieView {
 
             @Override
             public void afterTextChanged(Editable s) {
-                searchQuery = s.toString().trim();
-                if (!searchQuery.isEmpty()) {
-                    presenter.searchMovies(searchQuery, searchPage, getContext());
+                setSearchProgressBarVisibility(true);
+                if (!s.toString().trim().isEmpty()) {
+                    searchQuery = s.toString().trim();
+                    presenter.searchMovies(s.toString().trim(), searchPage);
                     adapter.setSearchDataMain(true);
+                    dataPage = 1;
                 } else {
                     adapter.setSearchDataMain(false);
-
+                    searchQuery = "";
+                    searchPage = 1;
+                    setSearchProgressBarVisibility(false);
                 }
             }
-
         });
 
         return root;
@@ -94,25 +97,28 @@ public class PopularMoviesFragment extends Fragment implements MovieView {
 
     @Override
     public void init(View view) {
-        progressBar = view.findViewById(R.id.movies_progress_bar);
         searchProgressBar = view.findViewById(R.id.movies_search_progress_bar);
         recyclerView = view.findViewById(R.id.movies_recycler_view);
         searchEditText = view.findViewById(R.id.movie_search_edit_text);
         internetErrorTextView = view.findViewById(R.id.movies_internet_error);
+        swipeLayout = view.findViewById(R.id.swipe_layout);
+        swipeLayout.setOnRefreshListener(this);
         linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         adapter = new MoviesRecyclerViewAdapter();
         recyclerView.setAdapter(adapter);
         adapter.addData(new ArrayList<MovieModel>());
+        presenter.setView(this,getContext());
+        presenter.setAdapter(adapter);
     }
 
     @Override
     public void setProgressBarVisibility(boolean visibility) {
         if (visibility) {
-            progressBar.setVisibility(View.VISIBLE);
+            swipeLayout.setRefreshing(true);
             recyclerView.setVisibility(View.GONE);
         } else {
-            progressBar.setVisibility(View.GONE);
+            swipeLayout.setRefreshing(false);
             recyclerView.setVisibility(View.VISIBLE);
         }
     }
@@ -128,14 +134,24 @@ public class PopularMoviesFragment extends Fragment implements MovieView {
 
     @Override
     public void showNoInternetError() {
-        progressBar.setVisibility(View.GONE);
+        swipeLayout.setRefreshing(false);
         recyclerView.setVisibility(View.GONE);
         internetErrorTextView.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void showApiError() {
-
+    public void showApiError(String error) {
+        Toast.makeText(getContext(),error,Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void onRefresh() {
+        dataPage = 1;
+        searchPage = 1;
+        if (!adapter.isSearchDataMain()) {
+            presenter.setPopularMovies(dataPage);
+        } else {
+            presenter.searchMovies(searchQuery,searchPage);
+        }
+    }
 }

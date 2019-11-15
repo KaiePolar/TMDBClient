@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.a.tmdbclient.App;
 import com.a.tmdbclient.R;
@@ -27,13 +28,13 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
-public class UpcomingShowsFragment extends Fragment implements ShowView {
+public class UpcomingShowsFragment extends Fragment implements ShowView, SwipeRefreshLayout.OnRefreshListener {
 
     @Inject
     ShowsPresenter presenter;
-    private ProgressBar progressBar;
     private ProgressBar searchProgressBar;
     private RecyclerView recyclerView;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private ShowRecyclerViewAdapter adapter;
     private EditText searchEditText;
     private LinearLayoutManager linearLayoutManager;
@@ -49,14 +50,18 @@ public class UpcomingShowsFragment extends Fragment implements ShowView {
         App.getAppComponent().inject(this);
         init(root);
 
-        presenter.setView(this);
+        presenter.setView(this, getContext());
         presenter.setAdapter(adapter);
-        presenter.getPopularShows(dataPage,getContext());
+        presenter.getUpcomingShows(dataPage);
 
         endlessScrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                presenter.getPopularShows(++dataPage,getContext());
+                if (!adapter.isSearchDataMain()) {
+                    presenter.getUpcomingShows(++dataPage);
+                } else {
+                    presenter.searchMoreShows();
+                }
             }
         };
         recyclerView.addOnScrollListener(endlessScrollListener);
@@ -72,13 +77,17 @@ public class UpcomingShowsFragment extends Fragment implements ShowView {
 
             @Override
             public void afterTextChanged(Editable s) {
-                searchQuery = s.toString().trim();
-                if (!searchQuery.isEmpty()) {
-                    presenter.searchShows(searchQuery, searchPage, getContext());
+                setSearchProgressBarVisibility(true);
+                if (!s.toString().trim().isEmpty()) {
+                    searchQuery = s.toString().trim();
+                    presenter.searchShows(s.toString().trim(), searchPage);
                     adapter.setSearchDataMain(true);
+                    dataPage = 1;
                 } else {
                     adapter.setSearchDataMain(false);
-
+                    searchQuery = "";
+                    searchPage = 1;
+                    setSearchProgressBarVisibility(false);
                 }
             }
 
@@ -89,11 +98,12 @@ public class UpcomingShowsFragment extends Fragment implements ShowView {
 
     @Override
     public void init(View view) {
-        progressBar = view.findViewById(R.id.shows_progress_bar);
         searchProgressBar = view.findViewById(R.id.shows_search_progress_bar);
         recyclerView = view.findViewById(R.id.shows_recycler_view);
         searchEditText = view.findViewById(R.id.shows_search_edit_text);
         internetErrorTextView = view.findViewById(R.id.shows_internet_error);
+        swipeRefreshLayout = view.findViewById(R.id.swipe_layout);
+        swipeRefreshLayout.setOnRefreshListener(this);
         linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         adapter = new ShowRecyclerViewAdapter();
@@ -104,10 +114,10 @@ public class UpcomingShowsFragment extends Fragment implements ShowView {
     @Override
     public void setProgressBarVisibility(boolean visibility) {
         if (visibility) {
-            progressBar.setVisibility(View.VISIBLE);
+            swipeRefreshLayout.setRefreshing(true);
             recyclerView.setVisibility(View.GONE);
         } else {
-            progressBar.setVisibility(View.GONE);
+            swipeRefreshLayout.setRefreshing(false);
             recyclerView.setVisibility(View.VISIBLE);
         }
     }
@@ -123,14 +133,25 @@ public class UpcomingShowsFragment extends Fragment implements ShowView {
 
     @Override
     public void showNoInternetError() {
-        progressBar.setVisibility(View.GONE);
+        swipeRefreshLayout.setRefreshing(false);
         recyclerView.setVisibility(View.GONE);
         internetErrorTextView.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void showApiError() {
+    public void showApiError(String error) {
 
+    }
+
+    @Override
+    public void onRefresh() {
+        dataPage = 1;
+        searchPage = 1;
+        if (!adapter.isSearchDataMain()) {
+            presenter.setUpcomingShows(dataPage);
+        } else {
+            presenter.searchShows(searchQuery,searchPage);
+        }
     }
 
 }
