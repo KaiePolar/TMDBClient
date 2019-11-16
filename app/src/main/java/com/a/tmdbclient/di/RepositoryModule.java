@@ -1,8 +1,8 @@
 package com.a.tmdbclient.di;
 
-import com.a.tmdbclient.api.movie.MoviesRepository;
-import com.a.tmdbclient.api.peoples.PeoplesRepository;
-import com.a.tmdbclient.api.shows.ShowsRepository;
+import com.a.tmdbclient.data.movie.MoviesRepository;
+import com.a.tmdbclient.data.peoples.PeoplesRepository;
+import com.a.tmdbclient.data.shows.ShowsRepository;
 
 import javax.inject.Singleton;
 

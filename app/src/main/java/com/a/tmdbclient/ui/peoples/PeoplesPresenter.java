@@ -3,10 +3,10 @@ package com.a.tmdbclient.ui.peoples;
 import android.content.Context;
 
 import com.a.tmdbclient.App;
-import com.a.tmdbclient.api.NetworkUtils;
-import com.a.tmdbclient.api.peoples.PeoplesRepository;
-import com.a.tmdbclient.api.peoples.pojo.PeopleDetails;
-import com.a.tmdbclient.api.peoples.pojo.PeopleModel;
+import com.a.tmdbclient.data.NetworkUtils;
+import com.a.tmdbclient.data.peoples.PeoplesRepository;
+import com.a.tmdbclient.data.peoples.pojo.PeopleDetails;
+import com.a.tmdbclient.data.peoples.pojo.PeopleModel;
 import com.a.tmdbclient.ui.peoples.view.PeopleDetailsActivity;
 
 import java.util.List;

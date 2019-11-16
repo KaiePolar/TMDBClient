@@ -3,10 +3,10 @@ package com.a.tmdbclient.ui.movies;
 import android.content.Context;
 
 import com.a.tmdbclient.App;
-import com.a.tmdbclient.api.NetworkUtils;
-import com.a.tmdbclient.api.movie.MoviesRepository;
-import com.a.tmdbclient.api.movie.pojo.MovieDetails;
-import com.a.tmdbclient.api.movie.pojo.MovieModel;
+import com.a.tmdbclient.data.NetworkUtils;
+import com.a.tmdbclient.data.movie.MoviesRepository;
+import com.a.tmdbclient.data.movie.pojo.MovieDetails;
+import com.a.tmdbclient.data.movie.pojo.MovieModel;
 import com.a.tmdbclient.ui.movies.view.MovieDetailsActivity;
 
 import java.util.List;
@@ -27,16 +27,18 @@ public class MoviesPresenter {
     private Context mContext;
 
 
-    public MoviesPresenter(){
+    public MoviesPresenter() {
         App.getAppComponent().inject(this);
     }
 
-    public void setView(MovieView view, Context context){
+    public void setView(MovieView view, Context context) {
         mView = view;
         mContext = context;
     }
 
-    public void setAdapter(MoviesRecyclerViewAdapter adapter){mAdapter = adapter;}
+    public void setAdapter(MoviesRecyclerViewAdapter adapter) {
+        mAdapter = adapter;
+    }
 
     public void getMovieDetails(int id, final MovieDetailsActivity activity) {
         repository.getMovieDetails(id, new NetworkUtils.MovieDetailsLoadCallback() {
@@ -63,8 +65,10 @@ public class MoviesPresenter {
 
                 @Override
                 public void onLoadSuccess(Response response, List<MovieModel> movieModels) {
-                    mAdapter.addData(movieModels);
-                    mView.setProgressBarVisibility(false);
+                    if (mAdapter != null) {
+                        mAdapter.addData(movieModels);
+                        mView.setProgressBarVisibility(false);
+                    }
                 }
             });
         }
@@ -101,8 +105,10 @@ public class MoviesPresenter {
 
                 @Override
                 public void onLoadSuccess(Response response, List<MovieModel> movieModels) {
-                    mAdapter.addData(movieModels);
-                    mView.setProgressBarVisibility(false);
+                    if (mAdapter != null) {
+                        mAdapter.addData(movieModels);
+                        mView.setProgressBarVisibility(false);
+                    }
                 }
             });
         }
@@ -139,8 +145,10 @@ public class MoviesPresenter {
 
                 @Override
                 public void onLoadSuccess(Response response, List<MovieModel> movieModels) {
-                    mAdapter.addData(movieModels);
-                    mView.setProgressBarVisibility(false);
+                    if (mAdapter != null) {
+                        mAdapter.addData(movieModels);
+                        mView.setProgressBarVisibility(false);
+                    }
                 }
             });
         }
@@ -177,8 +185,10 @@ public class MoviesPresenter {
 
                 @Override
                 public void onLoadSuccess(Response response, List<MovieModel> movieModels) {
-                    mAdapter.addData(movieModels);
-                    mView.setProgressBarVisibility(false);
+                    if (mAdapter != null) {
+                        mAdapter.addData(movieModels);
+                        mView.setProgressBarVisibility(false);
+                    }
                 }
             });
         }
@@ -203,13 +213,13 @@ public class MoviesPresenter {
         }
     }
 
-    public void searchMovies(String query,int page) {
+    public void searchMovies(String query, int page) {
         if (NetworkUtils.isInternetUnavailable(mContext)) {
             mView.showNoInternetError();
         } else {
             searchQuery = query;
             searchPage = page;
-            repository.searchMovies(query,page, new NetworkUtils.MovieListLoadCallback() {
+            repository.searchMovies(query, page, new NetworkUtils.MovieListLoadCallback() {
                 @Override
                 public void onLoadFail(Call call) {
                     mView.showApiError(call.toString());
@@ -226,11 +236,11 @@ public class MoviesPresenter {
         }
     }
 
-    public void searchMoreMovies(){
+    public void searchMoreMovies() {
         if (NetworkUtils.isInternetUnavailable(mContext)) {
             mView.showNoInternetError();
         } else {
-            repository.searchMovies(searchQuery,++searchPage, new NetworkUtils.MovieListLoadCallback() {
+            repository.searchMovies(searchQuery, ++searchPage, new NetworkUtils.MovieListLoadCallback() {
                 @Override
                 public void onLoadFail(Call call) {
                     mView.showApiError(call.toString());

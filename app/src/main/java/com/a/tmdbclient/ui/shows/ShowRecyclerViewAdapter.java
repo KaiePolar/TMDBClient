@@ -12,8 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.a.tmdbclient.R;
-import com.a.tmdbclient.api.NetworkUtils;
-import com.a.tmdbclient.api.shows.pojo.ShowModel;
+import com.a.tmdbclient.data.NetworkUtils;
+import com.a.tmdbclient.data.shows.pojo.ShowModel;
 import com.a.tmdbclient.ui.shows.view.ShowDetailsActivity;
 import com.bumptech.glide.Glide;
 

@@ -19,13 +19,10 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.a.tmdbclient.App;
 import com.a.tmdbclient.R;
-import com.a.tmdbclient.api.movie.pojo.MovieModel;
 import com.a.tmdbclient.ui.EndlessRecyclerViewScrollListener;
 import com.a.tmdbclient.ui.movies.MovieView;
 import com.a.tmdbclient.ui.movies.MoviesPresenter;
 import com.a.tmdbclient.ui.movies.MoviesRecyclerViewAdapter;
-
-import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -45,13 +42,32 @@ public class TopRatedMoviesFragment extends Fragment implements MovieView,SwipeR
     private int dataPage = 1;
     private int searchPage = 1;
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        recyclerView.removeOnScrollListener(endlessScrollListener);
+        recyclerView.setLayoutManager(null);
+        recyclerView.setAdapter(null);
+        swipeLayout.setOnRefreshListener(null);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        swipeLayout.setOnRefreshListener(this);
+        recyclerView.addOnScrollListener(endlessScrollListener);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(adapter);
+        presenter.setAdapter(adapter);
+        presenter.setView(this, getContext());
+        presenter.addTopRatedMovies(dataPage);
+    }
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_movies, container, false);
         App.getAppComponent().inject(this);
         init(root);
-
-        presenter.addTopRatedMovies(dataPage);
 
         endlessScrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
@@ -64,7 +80,6 @@ public class TopRatedMoviesFragment extends Fragment implements MovieView,SwipeR
             }
 
         };
-        recyclerView.addOnScrollListener(endlessScrollListener);
 
         searchEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -102,14 +117,8 @@ public class TopRatedMoviesFragment extends Fragment implements MovieView,SwipeR
         searchEditText = view.findViewById(R.id.movie_search_edit_text);
         internetErrorTextView = view.findViewById(R.id.movies_internet_error);
         swipeLayout = view.findViewById(R.id.swipe_layout);
-        swipeLayout.setOnRefreshListener(this);
         linearLayoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(linearLayoutManager);
         adapter = new MoviesRecyclerViewAdapter();
-        recyclerView.setAdapter(adapter);
-        adapter.addData(new ArrayList<MovieModel>());
-        presenter.setView(this,getContext());
-        presenter.setAdapter(adapter);
     }
 
     @Override

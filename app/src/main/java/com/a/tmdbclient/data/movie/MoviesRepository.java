@@ -1,4 +1,4 @@
-package com.a.tmdbclient.api.movie;
+package com.a.tmdbclient.data.movie;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -6,9 +6,9 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.a.tmdbclient.App;
-import com.a.tmdbclient.api.NetworkUtils;
-import com.a.tmdbclient.api.movie.pojo.MovieDetails;
-import com.a.tmdbclient.api.movie.pojo.MoviePageModel;
+import com.a.tmdbclient.data.NetworkUtils;
+import com.a.tmdbclient.data.movie.pojo.MovieDetails;
+import com.a.tmdbclient.data.movie.pojo.MoviePageModel;
 
 import javax.inject.Inject;
 

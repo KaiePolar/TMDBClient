@@ -12,8 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.a.tmdbclient.R;
-import com.a.tmdbclient.api.NetworkUtils;
-import com.a.tmdbclient.api.movie.pojo.MovieModel;
+import com.a.tmdbclient.data.NetworkUtils;
+import com.a.tmdbclient.data.movie.pojo.MovieModel;
 import com.a.tmdbclient.ui.movies.view.MovieDetailsActivity;
 import com.bumptech.glide.Glide;
 
@@ -31,6 +31,7 @@ public class MoviesRecyclerViewAdapter extends RecyclerView.Adapter<MoviesRecycl
     public MoviesRecyclerViewAdapter() {
         mCategoryData = new ArrayList<>();
         mSearchData = new ArrayList<>();
+        mData = new ArrayList<>();
         mData = mCategoryData;
     }
 

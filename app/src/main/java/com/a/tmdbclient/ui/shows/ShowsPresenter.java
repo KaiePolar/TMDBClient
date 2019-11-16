@@ -3,10 +3,10 @@ package com.a.tmdbclient.ui.shows;
 import android.content.Context;
 
 import com.a.tmdbclient.App;
-import com.a.tmdbclient.api.NetworkUtils;
-import com.a.tmdbclient.api.shows.ShowsRepository;
-import com.a.tmdbclient.api.shows.pojo.ShowDetails;
-import com.a.tmdbclient.api.shows.pojo.ShowModel;
+import com.a.tmdbclient.data.NetworkUtils;
+import com.a.tmdbclient.data.shows.ShowsRepository;
+import com.a.tmdbclient.data.shows.pojo.ShowDetails;
+import com.a.tmdbclient.data.shows.pojo.ShowModel;
 import com.a.tmdbclient.ui.shows.view.ShowDetailsActivity;
 
 import java.util.List;

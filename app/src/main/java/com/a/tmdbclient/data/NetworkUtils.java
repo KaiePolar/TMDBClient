@@ -1,15 +1,15 @@
-package com.a.tmdbclient.api;
+package com.a.tmdbclient.data;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import com.a.tmdbclient.api.movie.pojo.MovieDetails;
-import com.a.tmdbclient.api.movie.pojo.MovieModel;
-import com.a.tmdbclient.api.peoples.pojo.PeopleDetails;
-import com.a.tmdbclient.api.peoples.pojo.PeopleModel;
-import com.a.tmdbclient.api.shows.pojo.ShowDetails;
-import com.a.tmdbclient.api.shows.pojo.ShowModel;
+import com.a.tmdbclient.data.movie.pojo.MovieDetails;
+import com.a.tmdbclient.data.movie.pojo.MovieModel;
+import com.a.tmdbclient.data.peoples.pojo.PeopleDetails;
+import com.a.tmdbclient.data.peoples.pojo.PeopleModel;
+import com.a.tmdbclient.data.shows.pojo.ShowDetails;
+import com.a.tmdbclient.data.shows.pojo.ShowModel;
 
 import java.util.List;
 
@@ -20,7 +20,8 @@ public class NetworkUtils {
 
     public static final String BASE_URL = "https://api.themoviedb.org/3/";
     public static final String API_KEY = "9bd3b90bce7cf27fc87c740e0442a798";
-    public static final String IMG_BASE_URL = "http://image.tmdb.org/t/p/w185/";
+    public static final String IMG_BASE_URL = "http://image.tmdb.org/t/p/w342/";
+    public static final String IMG_BIG_SIZE_URL = "http://image.tmdb.org/t/p/w780/";
 
 
     public interface MovieListLoadCallback {

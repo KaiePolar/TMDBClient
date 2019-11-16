@@ -53,10 +53,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init() {
-        Toolbar toolbar = findViewById(R.id.main_toolbar);
-        setSupportActionBar(toolbar);
         mDrawer = findViewById(R.id.drawer_layout);
+        mExpandableListView = findViewById(R.id.activity_main_expandable_list_view);
+        Toolbar toolbar = findViewById(R.id.main_toolbar);
         NavigationView navigationView = findViewById(R.id.activity_main_nav_view);
+        setSupportActionBar(toolbar);
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_top_rated_movies,
                 R.id.nav_now_playing_movies,
@@ -72,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         mNavController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, mNavController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, mNavController);
-        mExpandableListView = findViewById(R.id.activity_main_expandable_list_view);
+
         mExpandableListAdapter = new MenuListViewAdapter(this);
         mExpandableListView.setAdapter(mExpandableListAdapter);
     }

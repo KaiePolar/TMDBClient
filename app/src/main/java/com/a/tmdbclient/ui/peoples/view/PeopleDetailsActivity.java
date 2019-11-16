@@ -10,8 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.a.tmdbclient.App;
 import com.a.tmdbclient.R;
-import com.a.tmdbclient.api.NetworkUtils;
-import com.a.tmdbclient.api.peoples.pojo.PeopleDetails;
+import com.a.tmdbclient.data.NetworkUtils;
+import com.a.tmdbclient.data.peoples.pojo.PeopleDetails;
 import com.a.tmdbclient.ui.peoples.PeoplesPresenter;
 import com.bumptech.glide.Glide;
 
@@ -56,7 +56,7 @@ public class PeopleDetailsActivity extends AppCompatActivity {
         description.setText(details.getBiography());
         poster.setVisibility(View.VISIBLE);
         Glide.with(this)
-                .load(NetworkUtils.IMG_BASE_URL.concat(details.getProfilePath()))
+                .load(NetworkUtils.IMG_BIG_SIZE_URL.concat(details.getProfilePath()))
                 .into(poster);
     }
 

@@ -1,4 +1,4 @@
-package com.a.tmdbclient.api.peoples;
+package com.a.tmdbclient.data.peoples;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -6,9 +6,9 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.a.tmdbclient.App;
-import com.a.tmdbclient.api.NetworkUtils;
-import com.a.tmdbclient.api.peoples.pojo.PeopleDetails;
-import com.a.tmdbclient.api.peoples.pojo.PeoplePageModel;
+import com.a.tmdbclient.data.NetworkUtils;
+import com.a.tmdbclient.data.peoples.pojo.PeopleDetails;
+import com.a.tmdbclient.data.peoples.pojo.PeoplePageModel;
 
 import javax.inject.Inject;
 

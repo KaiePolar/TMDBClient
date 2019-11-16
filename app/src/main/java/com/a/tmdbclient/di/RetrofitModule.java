@@ -1,9 +1,9 @@
 package com.a.tmdbclient.di;
 
-import com.a.tmdbclient.api.NetworkUtils;
-import com.a.tmdbclient.api.movie.MovieApi;
-import com.a.tmdbclient.api.peoples.PeopleApi;
-import com.a.tmdbclient.api.shows.ShowApi;
+import com.a.tmdbclient.data.NetworkUtils;
+import com.a.tmdbclient.data.movie.MovieApi;
+import com.a.tmdbclient.data.peoples.PeopleApi;
+import com.a.tmdbclient.data.shows.ShowApi;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

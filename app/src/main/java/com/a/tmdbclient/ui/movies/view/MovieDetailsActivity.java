@@ -10,8 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.a.tmdbclient.App;
 import com.a.tmdbclient.R;
-import com.a.tmdbclient.api.NetworkUtils;
-import com.a.tmdbclient.api.movie.pojo.MovieDetails;
+import com.a.tmdbclient.data.NetworkUtils;
+import com.a.tmdbclient.data.movie.pojo.MovieDetails;
 import com.a.tmdbclient.ui.movies.MoviesPresenter;
 import com.bumptech.glide.Glide;
 
@@ -56,7 +56,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
         description.setText(details.getOverview());
         poster.setVisibility(View.VISIBLE);
         Glide.with(this)
-                .load(NetworkUtils.IMG_BASE_URL.concat(details.getPosterPath()))
+                .load(NetworkUtils.IMG_BIG_SIZE_URL.concat(details.getPosterPath()))
                 .into(poster);
     }
 

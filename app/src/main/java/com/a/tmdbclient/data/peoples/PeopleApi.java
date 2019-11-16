@@ -1,7 +1,7 @@
-package com.a.tmdbclient.api.peoples;
+package com.a.tmdbclient.data.peoples;
 
-import com.a.tmdbclient.api.peoples.pojo.PeopleDetails;
-import com.a.tmdbclient.api.peoples.pojo.PeoplePageModel;
+import com.a.tmdbclient.data.peoples.pojo.PeopleDetails;
+import com.a.tmdbclient.data.peoples.pojo.PeoplePageModel;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

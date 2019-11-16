@@ -1,4 +1,4 @@
-package com.a.tmdbclient.api.movie.pojo;
+package com.a.tmdbclient.data.movie.pojo;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

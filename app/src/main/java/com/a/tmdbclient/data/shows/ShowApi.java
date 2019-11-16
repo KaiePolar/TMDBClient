@@ -1,7 +1,7 @@
-package com.a.tmdbclient.api.shows;
+package com.a.tmdbclient.data.shows;
 
-import com.a.tmdbclient.api.shows.pojo.ShowDetails;
-import com.a.tmdbclient.api.shows.pojo.ShowPageModel;
+import com.a.tmdbclient.data.shows.pojo.ShowDetails;
+import com.a.tmdbclient.data.shows.pojo.ShowPageModel;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

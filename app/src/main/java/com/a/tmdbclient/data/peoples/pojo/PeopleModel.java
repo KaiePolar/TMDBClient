@@ -1,11 +1,11 @@
-package com.a.tmdbclient.api.peoples.pojo;
+package com.a.tmdbclient.data.peoples.pojo;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class PeopleDetails {
+public class PeopleModel {
 
     @SerializedName("birthday")
     @Expose
@@ -50,13 +50,13 @@ public class PeopleDetails {
     @Expose
     private Object homepage;
 
-    public PeopleDetails() {
+    public PeopleModel() {
     }
 
-    public PeopleDetails(String birthday, String knownForDepartment, Object deathday, Integer id,
-                         String name, List<String> alsoKnownAs, Integer gender, String biography,
-                         Double popularity, String placeOfBirth, String profilePath, Boolean adult,
-                         String imdbId, Object homepage) {
+    public PeopleModel(String birthday, String knownForDepartment, Object deathday,
+                       Integer id, String name, List<String> alsoKnownAs, Integer gender,
+                       String biography, Double popularity, String placeOfBirth, String profilePath,
+                       Boolean adult, String imdbId, Object homepage) {
         super();
         this.birthday = birthday;
         this.knownForDepartment = knownForDepartment;

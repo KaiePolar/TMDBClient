@@ -18,13 +18,10 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.a.tmdbclient.App;
 import com.a.tmdbclient.R;
-import com.a.tmdbclient.api.shows.pojo.ShowModel;
 import com.a.tmdbclient.ui.EndlessRecyclerViewScrollListener;
 import com.a.tmdbclient.ui.shows.ShowRecyclerViewAdapter;
 import com.a.tmdbclient.ui.shows.ShowView;
 import com.a.tmdbclient.ui.shows.ShowsPresenter;
-
-import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -34,7 +31,7 @@ public class NowPlayingShowsFragment extends Fragment implements ShowView, Swipe
     ShowsPresenter presenter;
     private ProgressBar searchProgressBar;
     private RecyclerView recyclerView;
-    private SwipeRefreshLayout swipeRefreshLayout;
+    private SwipeRefreshLayout swipeLayout;
     private ShowRecyclerViewAdapter adapter;
     private EditText searchEditText;
     private LinearLayoutManager linearLayoutManager;
@@ -44,15 +41,32 @@ public class NowPlayingShowsFragment extends Fragment implements ShowView, Swipe
     private int dataPage = 1;
     private int searchPage = 1;
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        recyclerView.removeOnScrollListener(endlessScrollListener);
+        recyclerView.setLayoutManager(null);
+        recyclerView.setAdapter(null);
+        swipeLayout.setOnRefreshListener(null);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        swipeLayout.setOnRefreshListener(this);
+        recyclerView.addOnScrollListener(endlessScrollListener);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(adapter);
+        presenter.setAdapter(adapter);
+        presenter.setView(this, getContext());
+        presenter.getNowPlayingShows(dataPage);
+    }
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_shows, container, false);
         App.getAppComponent().inject(this);
         init(root);
-
-        presenter.setView(this, getContext());
-        presenter.setAdapter(adapter);
-        presenter.getNowPlayingShows(dataPage);
 
         endlessScrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
@@ -64,7 +78,6 @@ public class NowPlayingShowsFragment extends Fragment implements ShowView, Swipe
                 }
             }
         };
-        recyclerView.addOnScrollListener(endlessScrollListener);
 
         searchEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -98,26 +111,22 @@ public class NowPlayingShowsFragment extends Fragment implements ShowView, Swipe
 
     @Override
     public void init(View view) {
-        searchProgressBar = view.findViewById(R.id.shows_search_progress_bar);
-        recyclerView = view.findViewById(R.id.shows_recycler_view);
-        searchEditText = view.findViewById(R.id.shows_search_edit_text);
-        internetErrorTextView = view.findViewById(R.id.shows_internet_error);
-        swipeRefreshLayout = view.findViewById(R.id.swipe_layout);
-        swipeRefreshLayout.setOnRefreshListener(this);
+        searchProgressBar = view.findViewById(R.id.movies_search_progress_bar);
+        recyclerView = view.findViewById(R.id.movies_recycler_view);
+        searchEditText = view.findViewById(R.id.movie_search_edit_text);
+        internetErrorTextView = view.findViewById(R.id.movies_internet_error);
+        swipeLayout = view.findViewById(R.id.swipe_layout);
         linearLayoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(linearLayoutManager);
         adapter = new ShowRecyclerViewAdapter();
-        recyclerView.setAdapter(adapter);
-        adapter.addData(new ArrayList<ShowModel>());
     }
 
     @Override
     public void setProgressBarVisibility(boolean visibility) {
         if (visibility) {
-            swipeRefreshLayout.setRefreshing(true);
+            swipeLayout.setRefreshing(true);
             recyclerView.setVisibility(View.GONE);
         } else {
-            swipeRefreshLayout.setRefreshing(false);
+            swipeLayout.setRefreshing(false);
             recyclerView.setVisibility(View.VISIBLE);
         }
     }
@@ -133,7 +142,7 @@ public class NowPlayingShowsFragment extends Fragment implements ShowView, Swipe
 
     @Override
     public void showNoInternetError() {
-        swipeRefreshLayout.setRefreshing(false);
+        swipeLayout.setRefreshing(false);
         recyclerView.setVisibility(View.GONE);
         internetErrorTextView.setVisibility(View.VISIBLE);
     }

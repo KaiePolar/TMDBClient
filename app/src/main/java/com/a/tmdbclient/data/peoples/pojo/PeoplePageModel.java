@@ -1,4 +1,4 @@
-package com.a.tmdbclient.api.peoples.pojo;
+package com.a.tmdbclient.data.peoples.pojo;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
