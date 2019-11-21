@@ -17,15 +17,16 @@ import com.bumptech.glide.Glide;
 
 import javax.inject.Inject;
 
-public class PeopleDetailsActivity extends AppCompatActivity {
+public class PeoplesDetailsActivity extends AppCompatActivity {
 
+    @Inject
+    PeoplesPresenter presenter;
     private TextView title;
     private TextView tag;
     private TextView description;
     private ImageView poster;
     private ProgressBar progressBar;
-    @Inject
-    PeoplesPresenter presenter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,7 +1,6 @@
 package com.a.tmdbclient.data.peoples;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -19,7 +18,7 @@ import retrofit2.Response;
 public class PeoplesRepository {
 
     @Inject
-    PeopleApi api;
+    PeoplesApi api;
 
     public PeoplesRepository() {
         App.getAppComponent().inject(this);
@@ -87,8 +86,8 @@ public class PeoplesRepository {
         }
     }
 
-    public void searchPeoples(String query,int page, NetworkUtils.PeopleLoadCallback callback) {
-        new SearchPeoplesTask(query,page, callback).execute();
+    public void searchPeoples(String query, int page, NetworkUtils.PeopleLoadCallback callback) {
+        new SearchPeoplesTask(query, page, callback).execute();
     }
 
     private class SearchPeoplesTask extends AsyncTask<Void, Void, Void> {
@@ -97,16 +96,15 @@ public class PeoplesRepository {
         private int mPage;
         private NetworkUtils.PeopleLoadCallback mCallback;
 
-        SearchPeoplesTask(String query,int page, NetworkUtils.PeopleLoadCallback callback) {
+        SearchPeoplesTask(String query, int page, NetworkUtils.PeopleLoadCallback callback) {
             mQuery = query;
             mPage = page;
             mCallback = callback;
-            Log.d("task", mQuery );
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            api.searchPeoples(mQuery,mPage,NetworkUtils.API_KEY).enqueue(new Callback<PeoplePageModel>() {
+            api.searchPeoples(mQuery, mPage, NetworkUtils.API_KEY).enqueue(new Callback<PeoplePageModel>() {
                 @Override
                 public void onResponse(@NonNull Call<PeoplePageModel> call, @NonNull Response<PeoplePageModel> response) {
                     mCallback.onLoadSuccess(response, response.body().getResults());

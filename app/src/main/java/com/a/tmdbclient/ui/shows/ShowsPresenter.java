@@ -7,7 +7,7 @@ import com.a.tmdbclient.data.NetworkUtils;
 import com.a.tmdbclient.data.shows.ShowsRepository;
 import com.a.tmdbclient.data.shows.pojo.ShowDetails;
 import com.a.tmdbclient.data.shows.pojo.ShowModel;
-import com.a.tmdbclient.ui.shows.view.ShowDetailsActivity;
+import com.a.tmdbclient.ui.shows.view.ShowsDetailsActivity;
 
 import java.util.List;
 
@@ -20,8 +20,8 @@ public class ShowsPresenter {
 
     @Inject
     ShowsRepository repository;
-    private ShowView mView;
-    private ShowRecyclerViewAdapter mAdapter;
+    private ShowsView mView;
+    private ShowsRecyclerViewAdapter mAdapter;
     private String searchQuery;
     private int searchPage = 1;
     private Context context;
@@ -30,16 +30,16 @@ public class ShowsPresenter {
         App.getAppComponent().inject(this);
     }
 
-    public void setView(ShowView view, Context context){
+    public void setView(ShowsView view, Context context){
         mView = view;
         this.context = context;
     }
 
-    public void setAdapter(ShowRecyclerViewAdapter adapter) {
+    public void setAdapter(ShowsRecyclerViewAdapter adapter) {
         mAdapter = adapter;
     }
 
-    public void getShowsDetails(int id, final ShowDetailsActivity activity) {
+    public void getShowsDetails(int id, final ShowsDetailsActivity activity) {
         repository.getShowDetails(id, new NetworkUtils.ShowDetailsLoadCallback() {
             @Override
             public void onLoadFail(Call call) {
@@ -52,7 +52,7 @@ public class ShowsPresenter {
         });
     }
 
-    public void getPopularShows(int page) {
+    public void addPopularShows(int page) {
         if (NetworkUtils.isInternetUnavailable(context)) {
             mView.showNoInternetError();
         } else {
@@ -90,7 +90,7 @@ public class ShowsPresenter {
         }
     }
 
-    public void getBestShows(int page) {
+    public void addBestShows(int page) {
         if (NetworkUtils.isInternetUnavailable(context)) {
             mView.showNoInternetError();
         } else {
@@ -128,7 +128,7 @@ public class ShowsPresenter {
         }
     }
 
-    public void getUpcomingShows(int page) {
+    public void addUpcomingShows(int page) {
         if (NetworkUtils.isInternetUnavailable(context)) {
             mView.showNoInternetError();
         } else {
@@ -166,7 +166,7 @@ public class ShowsPresenter {
         }
     }
 
-    public void getNowPlayingShows(int page) {
+    public void addNowPlayingShows(int page) {
         if (NetworkUtils.isInternetUnavailable(context)) {
             mView.showNoInternetError();
         } else {

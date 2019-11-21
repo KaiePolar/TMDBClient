@@ -19,20 +19,20 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.a.tmdbclient.App;
 import com.a.tmdbclient.R;
 import com.a.tmdbclient.ui.EndlessRecyclerViewScrollListener;
-import com.a.tmdbclient.ui.shows.ShowRecyclerViewAdapter;
-import com.a.tmdbclient.ui.shows.ShowView;
 import com.a.tmdbclient.ui.shows.ShowsPresenter;
+import com.a.tmdbclient.ui.shows.ShowsRecyclerViewAdapter;
+import com.a.tmdbclient.ui.shows.ShowsView;
 
 import javax.inject.Inject;
 
-public class TopRatedShowsFragment extends Fragment implements ShowView, SwipeRefreshLayout.OnRefreshListener {
+public class TopRatedShowsFragment extends Fragment implements ShowsView, SwipeRefreshLayout.OnRefreshListener {
 
     @Inject
     ShowsPresenter presenter;
     private ProgressBar searchProgressBar;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeLayout;
-    private ShowRecyclerViewAdapter adapter;
+    private ShowsRecyclerViewAdapter adapter;
     private EditText searchEditText;
     private LinearLayoutManager linearLayoutManager;
     private TextView internetErrorTextView;
@@ -42,24 +42,13 @@ public class TopRatedShowsFragment extends Fragment implements ShowView, SwipeRe
     private int searchPage = 1;
 
     @Override
-    public void onPause() {
-        super.onPause();
+    public void onDestroyView() {
+        super.onDestroyView();
         recyclerView.removeOnScrollListener(endlessScrollListener);
-        recyclerView.setLayoutManager(null);
+        linearLayoutManager = null;
         recyclerView.setAdapter(null);
+        presenter =  null;
         swipeLayout.setOnRefreshListener(null);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        swipeLayout.setOnRefreshListener(this);
-        recyclerView.addOnScrollListener(endlessScrollListener);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(adapter);
-        presenter.setAdapter(adapter);
-        presenter.setView(this, getContext());
-        presenter.getBestShows(dataPage);
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -72,12 +61,13 @@ public class TopRatedShowsFragment extends Fragment implements ShowView, SwipeRe
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 if (!adapter.isSearchDataMain()) {
-                    presenter.getBestShows(++dataPage);
+                    presenter.addBestShows(++dataPage);
                 } else {
                     presenter.searchMoreShows();
                 }
             }
         };
+        recyclerView.addOnScrollListener(endlessScrollListener);
 
         searchEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -111,13 +101,23 @@ public class TopRatedShowsFragment extends Fragment implements ShowView, SwipeRe
 
     @Override
     public void init(View view) {
-        searchProgressBar = view.findViewById(R.id.shows_search_progress_bar);
+        swipeLayout = view.findViewById(R.id.swipe_layout);
         recyclerView = view.findViewById(R.id.shows_recycler_view);
         searchEditText = view.findViewById(R.id.shows_search_edit_text);
+        searchProgressBar = view.findViewById(R.id.shows_search_progress_bar);
         internetErrorTextView = view.findViewById(R.id.shows_internet_error);
-        swipeLayout = view.findViewById(R.id.swipe_layout);
+
         linearLayoutManager = new LinearLayoutManager(getContext());
-        adapter = new ShowRecyclerViewAdapter();
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        adapter = new ShowsRecyclerViewAdapter();
+        recyclerView.setAdapter(adapter);
+
+        swipeLayout.setOnRefreshListener(this);
+
+        presenter.setView(this, getContext());
+        presenter.setAdapter(adapter);
+        presenter.addBestShows(dataPage);
     }
 
     @Override

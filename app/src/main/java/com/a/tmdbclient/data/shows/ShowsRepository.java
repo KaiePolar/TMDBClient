@@ -1,7 +1,6 @@
 package com.a.tmdbclient.data.shows;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -19,7 +18,7 @@ import retrofit2.Response;
 public class ShowsRepository {
 
     @Inject
-    ShowApi api;
+    ShowsApi api;
 
     public ShowsRepository() {
         App.getAppComponent().inject(this);
@@ -180,8 +179,8 @@ public class ShowsRepository {
         }
     }
 
-    public void searchShows(String query,int page, NetworkUtils.ShowLoadCallback callback) {
-        new SearchShowsTask(query,page, callback).execute();
+    public void searchShows(String query, int page, NetworkUtils.ShowLoadCallback callback) {
+        new SearchShowsTask(query, page, callback).execute();
     }
 
     private class SearchShowsTask extends AsyncTask<Void, Void, Void> {
@@ -190,23 +189,22 @@ public class ShowsRepository {
         private int mPage;
         private NetworkUtils.ShowLoadCallback mCallback;
 
-        SearchShowsTask(String query,int page, NetworkUtils.ShowLoadCallback callback) {
+        SearchShowsTask(String query, int page, NetworkUtils.ShowLoadCallback callback) {
             mQuery = query;
             mPage = page;
             mCallback = callback;
-            Log.d("task", mQuery );
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            api.searchShows(mQuery,mPage,NetworkUtils.API_KEY).enqueue(new Callback<ShowPageModel>() {
+            api.searchShows(mQuery, mPage, NetworkUtils.API_KEY).enqueue(new Callback<ShowPageModel>() {
                 @Override
-                public void onResponse(Call<ShowPageModel> call, Response<ShowPageModel> response) {
+                public void onResponse(@NonNull Call<ShowPageModel> call, @NonNull Response<ShowPageModel> response) {
                     mCallback.onLoadSuccess(response, response.body().getShowModels());
                 }
 
                 @Override
-                public void onFailure(Call<ShowPageModel> call, Throwable t) {
+                public void onFailure(@NonNull Call<ShowPageModel> call, @NonNull Throwable t) {
                     mCallback.onLoadFail(call);
                 }
             });

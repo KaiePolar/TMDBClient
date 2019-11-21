@@ -14,13 +14,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.a.tmdbclient.R;
 import com.a.tmdbclient.data.NetworkUtils;
 import com.a.tmdbclient.data.shows.pojo.ShowModel;
-import com.a.tmdbclient.ui.shows.view.ShowDetailsActivity;
+import com.a.tmdbclient.ui.shows.view.ShowsDetailsActivity;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShowRecyclerViewAdapter extends RecyclerView.Adapter<ShowRecyclerViewAdapter.ViewHolder> {
+public class ShowsRecyclerViewAdapter extends RecyclerView.Adapter<ShowsRecyclerViewAdapter.ViewHolder> {
 
     private List<ShowModel> mCategoryData;
     private List<ShowModel> mSearchData;
@@ -28,13 +28,13 @@ public class ShowRecyclerViewAdapter extends RecyclerView.Adapter<ShowRecyclerVi
     private boolean isSearchDataMain;
     private Context mContext;
 
-    public ShowRecyclerViewAdapter() {
+    public ShowsRecyclerViewAdapter() {
         mCategoryData = new ArrayList<>();
         mSearchData = new ArrayList<>();
         mData = mCategoryData;
     }
 
-    public void addData(List<ShowModel> data) {
+    void addData(List<ShowModel> data) {
         mCategoryData.addAll(data);
         notifyDataSetChanged();
     }
@@ -45,14 +45,14 @@ public class ShowRecyclerViewAdapter extends RecyclerView.Adapter<ShowRecyclerVi
         notifyDataSetChanged();
     }
 
-    public void addSearchData(List<ShowModel> data) {
+    void addSearchData(List<ShowModel> data) {
         if (!mSearchData.containsAll(data)) {
             mSearchData.addAll(data);
             notifyDataSetChanged();
         }
     }
 
-    public void setSearchData(List<ShowModel> data) {
+    void setSearchData(List<ShowModel> data) {
         mSearchData.clear();
         mSearchData.addAll(data);
         notifyDataSetChanged();
@@ -90,7 +90,7 @@ public class ShowRecyclerViewAdapter extends RecyclerView.Adapter<ShowRecyclerVi
 
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(mContext, ShowDetailsActivity.class);
+            Intent intent = new Intent(mContext, ShowsDetailsActivity.class);
             intent.putExtra("id", mData.get(getAdapterPosition()).getId());
             mContext.startActivity(intent);
         }
@@ -98,15 +98,15 @@ public class ShowRecyclerViewAdapter extends RecyclerView.Adapter<ShowRecyclerVi
 
     @NonNull
     @Override
-    public ShowRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        ShowRecyclerViewAdapter.ViewHolder viewHolder = new ShowRecyclerViewAdapter.ViewHolder(LayoutInflater.from(parent.getContext())
+    public ShowsRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        ShowsRecyclerViewAdapter.ViewHolder viewHolder = new ShowsRecyclerViewAdapter.ViewHolder(LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.recycler_view_item, parent, false));
         mContext = parent.getContext();
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(final ShowRecyclerViewAdapter.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final ShowsRecyclerViewAdapter.ViewHolder holder, final int position) {
         ShowModel item = mData.get(position);
         holder.titleTextView.setText(item.getName());
         holder.releaseTextView.setText(item.getFirstAirDate());

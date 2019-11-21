@@ -1,14 +1,13 @@
-package com.a.tmdbclient.data.movie;
+package com.a.tmdbclient.data.movies;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
 import com.a.tmdbclient.App;
 import com.a.tmdbclient.data.NetworkUtils;
-import com.a.tmdbclient.data.movie.pojo.MovieDetails;
-import com.a.tmdbclient.data.movie.pojo.MoviePageModel;
+import com.a.tmdbclient.data.movies.pojo.MovieDetails;
+import com.a.tmdbclient.data.movies.pojo.MoviePageModel;
 
 import javax.inject.Inject;
 
@@ -19,7 +18,7 @@ import retrofit2.Response;
 public class MoviesRepository {
 
     @Inject
-    MovieApi api;
+    MoviesApi api;
 
     public MoviesRepository() {
         App.getAppComponent().inject(this);
@@ -180,8 +179,8 @@ public class MoviesRepository {
         }
     }
 
-    public void searchMovies(String query,int page, NetworkUtils.MovieListLoadCallback callback) {
-        new SearchMoviesTask(query,page, callback).execute();
+    public void searchMovies(String query, int page, NetworkUtils.MovieListLoadCallback callback) {
+        new SearchMoviesTask(query, page, callback).execute();
     }
 
     private class SearchMoviesTask extends AsyncTask<Void, Void, Void> {
@@ -190,16 +189,15 @@ public class MoviesRepository {
         private int mPage;
         private NetworkUtils.MovieListLoadCallback mCallback;
 
-        SearchMoviesTask(String query,int page, NetworkUtils.MovieListLoadCallback callback) {
+        SearchMoviesTask(String query, int page, NetworkUtils.MovieListLoadCallback callback) {
             mQuery = query;
             mPage = page;
             mCallback = callback;
-            Log.d("task", mQuery );
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            api.searchMovies(mQuery,mPage,NetworkUtils.API_KEY).enqueue(new Callback<MoviePageModel>() {
+            api.searchMovies(mQuery, mPage, NetworkUtils.API_KEY).enqueue(new Callback<MoviePageModel>() {
                 @Override
                 public void onResponse(@NonNull Call<MoviePageModel> call, @NonNull Response<MoviePageModel> response) {
                     mCallback.onLoadSuccess(response, response.body().getMoviesList());

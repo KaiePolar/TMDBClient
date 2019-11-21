@@ -1,6 +1,6 @@
 package com.a.tmdbclient.di;
 
-import com.a.tmdbclient.data.movie.MoviesRepository;
+import com.a.tmdbclient.data.movies.MoviesRepository;
 import com.a.tmdbclient.data.peoples.PeoplesRepository;
 import com.a.tmdbclient.data.shows.ShowsRepository;
 import com.a.tmdbclient.ui.main.MainActivity;
@@ -11,12 +11,12 @@ import com.a.tmdbclient.ui.movies.view.PopularMoviesFragment;
 import com.a.tmdbclient.ui.movies.view.TopRatedMoviesFragment;
 import com.a.tmdbclient.ui.movies.view.UpcomingMoviesFragment;
 import com.a.tmdbclient.ui.peoples.PeoplesPresenter;
-import com.a.tmdbclient.ui.peoples.view.PeopleDetailsActivity;
+import com.a.tmdbclient.ui.peoples.view.PeoplesDetailsActivity;
 import com.a.tmdbclient.ui.peoples.view.PeoplesFragment;
 import com.a.tmdbclient.ui.shows.ShowsPresenter;
 import com.a.tmdbclient.ui.shows.view.NowPlayingShowsFragment;
 import com.a.tmdbclient.ui.shows.view.PopularShowsFragment;
-import com.a.tmdbclient.ui.shows.view.ShowDetailsActivity;
+import com.a.tmdbclient.ui.shows.view.ShowsDetailsActivity;
 import com.a.tmdbclient.ui.shows.view.TopRatedShowsFragment;
 import com.a.tmdbclient.ui.shows.view.UpcomingShowsFragment;
 
@@ -38,8 +38,8 @@ public interface AppComponent {
     void inject(UpcomingShowsFragment fragment);
     void inject(PeoplesFragment fragment);
 
-    void inject(PeopleDetailsActivity activity);
-    void inject(ShowDetailsActivity activity);
+    void inject(PeoplesDetailsActivity activity);
+    void inject(ShowsDetailsActivity activity);
     void inject(MovieDetailsActivity activity);
     void inject(MainActivity activity);
 

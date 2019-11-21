@@ -14,15 +14,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning">
+        tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <activity
-            android:name=".ui.peoples.view.PeopleDetailsActivity"
+            android:name=".ui.peoples.view.PeoplesDetailsActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:label="Person Details" />
         <activity
-            android:name=".ui.shows.view.ShowDetailsActivity"
+            android:name=".ui.shows.view.ShowsDetailsActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:label="Show Details" />
         <activity
             android:name=".ui.movies.view.MovieDetailsActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:label="Movie Details" />
         <activity
             android:name=".ui.main.MainActivity"

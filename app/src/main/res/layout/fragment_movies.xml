@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/swipe_layout"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipe_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark">
@@ -23,14 +24,16 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <EditText
-                android:id="@+id/movie_search_edit_text"
+                android:id="@+id/movies_search_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:background="@null"
                 android:gravity="center_vertical"
-                android:hint="Search"
+                android:hint="@string/search"
+                android:inputType="text"
                 android:textColor="@color/colorWhite"
-                android:textColorHint="@color/colorWhite">
+                android:textColorHint="@color/colorWhite"
+                tools:ignore="Autofill">
 
             </EditText>
 
@@ -60,7 +63,7 @@
             android:id="@+id/movies_internet_error"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Internet connection is unavailable"
+            android:text="@string/internet_error"
             android:textColor="@color/colorAccent"
             android:textSize="16sp"
             android:visibility="gone"

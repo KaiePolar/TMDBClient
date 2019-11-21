@@ -26,10 +26,6 @@ class MenuItem {
         return mHasChildren;
     }
 
-    boolean isGroup() {
-        return mIsGroup;
-    }
-
     int getResId() {
         return mResId;
     }

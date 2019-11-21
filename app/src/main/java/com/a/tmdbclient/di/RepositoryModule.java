@@ -1,6 +1,6 @@
 package com.a.tmdbclient.di;
 
-import com.a.tmdbclient.data.movie.MoviesRepository;
+import com.a.tmdbclient.data.movies.MoviesRepository;
 import com.a.tmdbclient.data.peoples.PeoplesRepository;
 import com.a.tmdbclient.data.shows.ShowsRepository;
 

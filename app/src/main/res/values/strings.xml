@@ -13,4 +13,6 @@
     <string name="menu_peoples">Peoples</string>
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
+    <string name="search">Search</string>
+    <string name="internet_error">Internet connection is unavailable</string>
 </resources>

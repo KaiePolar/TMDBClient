@@ -19,8 +19,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.a.tmdbclient.App;
 import com.a.tmdbclient.R;
 import com.a.tmdbclient.ui.EndlessRecyclerViewScrollListener;
-import com.a.tmdbclient.ui.peoples.PeopleRecyclerViewAdapter;
 import com.a.tmdbclient.ui.peoples.PeoplesPresenter;
+import com.a.tmdbclient.ui.peoples.PeoplesRecyclerViewAdapter;
 import com.a.tmdbclient.ui.peoples.PeoplesView;
 
 import javax.inject.Inject;
@@ -32,7 +32,7 @@ public class PeoplesFragment extends Fragment implements PeoplesView,SwipeRefres
     private SwipeRefreshLayout swipeLayout;
     private ProgressBar searchProgressBar;
     private RecyclerView recyclerView;
-    private PeopleRecyclerViewAdapter adapter;
+    private PeoplesRecyclerViewAdapter adapter;
     private EditText searchEditText;
     private LinearLayoutManager linearLayoutManager;
     private TextView internetErrorTextView;
@@ -42,25 +42,15 @@ public class PeoplesFragment extends Fragment implements PeoplesView,SwipeRefres
     private int searchPage = 1;
 
     @Override
-    public void onPause() {
-        super.onPause();
+    public void onDestroyView() {
+        super.onDestroyView();
         recyclerView.removeOnScrollListener(endlessScrollListener);
-        recyclerView.setLayoutManager(null);
+        linearLayoutManager = null;
         recyclerView.setAdapter(null);
+        presenter = null;
         swipeLayout.setOnRefreshListener(null);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        swipeLayout.setOnRefreshListener(this);
-        recyclerView.addOnScrollListener(endlessScrollListener);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(adapter);
-        presenter.setAdapter(adapter);
-        presenter.setView(this, getContext());
-        presenter.getPopularPeoples(dataPage);
-    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -72,12 +62,13 @@ public class PeoplesFragment extends Fragment implements PeoplesView,SwipeRefres
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 if (!adapter.isSearchDataMain()) {
-                    presenter.getPopularPeoples(++dataPage);
+                    presenter.addPopularPeoples(++dataPage);
                 } else {
                     presenter.searchMorePeoples();
                 }
             }
         };
+        recyclerView.addOnScrollListener(endlessScrollListener);
 
         searchEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -111,13 +102,23 @@ public class PeoplesFragment extends Fragment implements PeoplesView,SwipeRefres
 
     @Override
     public void init(View view) {
-        searchProgressBar = view.findViewById(R.id.people_search_progress_bar);
-        recyclerView = view.findViewById(R.id.peoples_recycler_view);
-        searchEditText = view.findViewById(R.id.people_search_edit_text);
-        internetErrorTextView = view.findViewById(R.id.peoples_internet_error);
         swipeLayout = view.findViewById(R.id.swipe_layout);
+        recyclerView = view.findViewById(R.id.peoples_recycler_view);
+        searchEditText = view.findViewById(R.id.peoples_search_edit_text);
+        searchProgressBar = view.findViewById(R.id.peoples_search_progress_bar);
+        internetErrorTextView = view.findViewById(R.id.peoples_internet_error);
+
         linearLayoutManager = new LinearLayoutManager(getContext());
-        adapter = new PeopleRecyclerViewAdapter();
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        adapter = new PeoplesRecyclerViewAdapter();
+        recyclerView.setAdapter(adapter);
+
+        swipeLayout.setOnRefreshListener(this);
+
+        presenter.setView(this, getContext());
+        presenter.setAdapter(adapter);
+        presenter.addPopularPeoples(dataPage);
     }
 
     @Override

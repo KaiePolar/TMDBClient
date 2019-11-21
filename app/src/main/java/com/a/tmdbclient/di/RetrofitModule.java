@@ -1,9 +1,9 @@
 package com.a.tmdbclient.di;
 
 import com.a.tmdbclient.data.NetworkUtils;
-import com.a.tmdbclient.data.movie.MovieApi;
-import com.a.tmdbclient.data.peoples.PeopleApi;
-import com.a.tmdbclient.data.shows.ShowApi;
+import com.a.tmdbclient.data.movies.MoviesApi;
+import com.a.tmdbclient.data.peoples.PeoplesApi;
+import com.a.tmdbclient.data.shows.ShowsApi;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -19,18 +19,18 @@ import retrofit2.converter.gson.GsonConverterFactory;
 class RetrofitModule {
 
     @Provides
-    MovieApi provideMovieAPi(Retrofit retrofit){
-        return retrofit.create(MovieApi.class);
+    MoviesApi provideMovieAPI(Retrofit retrofit){
+        return retrofit.create(MoviesApi.class);
     }
 
     @Provides
-    PeopleApi providePeopleAPi(Retrofit retrofit){
-        return retrofit.create(PeopleApi.class);
+    PeoplesApi providePeopleAPI(Retrofit retrofit){
+        return retrofit.create(PeoplesApi.class);
     }
 
     @Provides
-    ShowApi provideShowAPi(Retrofit retrofit){
-        return retrofit.create(ShowApi.class);
+    ShowsApi provideShowAPI(Retrofit retrofit){
+        return retrofit.create(ShowsApi.class);
     }
 
     @Provides

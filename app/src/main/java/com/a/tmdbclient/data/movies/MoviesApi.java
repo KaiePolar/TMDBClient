@@ -1,14 +1,14 @@
-package com.a.tmdbclient.data.movie;
+package com.a.tmdbclient.data.movies;
 
-import com.a.tmdbclient.data.movie.pojo.MovieDetails;
-import com.a.tmdbclient.data.movie.pojo.MoviePageModel;
+import com.a.tmdbclient.data.movies.pojo.MovieDetails;
+import com.a.tmdbclient.data.movies.pojo.MoviePageModel;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-public interface MovieApi {
+public interface MoviesApi {
 
     @GET("movie/popular")
     Call<MoviePageModel> getPopularMovies(@Query("page") int page, @Query("api_key") String userKey);
@@ -26,6 +26,6 @@ public interface MovieApi {
     Call<MovieDetails> getMovieDetails(@Path("movie_id") int id, @Query("api_key") String userKey);
 
     @GET("search/movie")
-    Call<MoviePageModel> searchMovies(@Query("query") String query,@Query("page") int page, @Query("api_key") String userKey);
+    Call<MoviePageModel> searchMovies(@Query("query") String query, @Query("page") int page, @Query("api_key") String userKey);
 
 }

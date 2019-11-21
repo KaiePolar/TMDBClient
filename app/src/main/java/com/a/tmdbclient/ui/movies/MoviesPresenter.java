@@ -4,9 +4,9 @@ import android.content.Context;
 
 import com.a.tmdbclient.App;
 import com.a.tmdbclient.data.NetworkUtils;
-import com.a.tmdbclient.data.movie.MoviesRepository;
-import com.a.tmdbclient.data.movie.pojo.MovieDetails;
-import com.a.tmdbclient.data.movie.pojo.MovieModel;
+import com.a.tmdbclient.data.movies.MoviesRepository;
+import com.a.tmdbclient.data.movies.pojo.MovieDetails;
+import com.a.tmdbclient.data.movies.pojo.MovieModel;
 import com.a.tmdbclient.ui.movies.view.MovieDetailsActivity;
 
 import java.util.List;
@@ -25,7 +25,6 @@ public class MoviesPresenter {
     private String searchQuery;
     private int searchPage = 1;
     private Context mContext;
-
 
     public MoviesPresenter() {
         App.getAppComponent().inject(this);

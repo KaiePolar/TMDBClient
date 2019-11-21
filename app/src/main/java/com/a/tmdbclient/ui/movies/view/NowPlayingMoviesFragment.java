@@ -26,7 +26,7 @@ import com.a.tmdbclient.ui.movies.MoviesRecyclerViewAdapter;
 
 import javax.inject.Inject;
 
-public class NowPlayingMoviesFragment extends Fragment implements MovieView,SwipeRefreshLayout.OnRefreshListener {
+public class NowPlayingMoviesFragment extends Fragment implements MovieView, SwipeRefreshLayout.OnRefreshListener {
 
     @Inject
     MoviesPresenter presenter;
@@ -43,24 +43,13 @@ public class NowPlayingMoviesFragment extends Fragment implements MovieView,Swip
     private int searchPage = 1;
 
     @Override
-    public void onPause() {
-        super.onPause();
+    public void onDestroyView() {
+        super.onDestroyView();
         recyclerView.removeOnScrollListener(endlessScrollListener);
-        recyclerView.setLayoutManager(null);
+        linearLayoutManager = null;
         recyclerView.setAdapter(null);
+        presenter = null;
         swipeLayout.setOnRefreshListener(null);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        swipeLayout.setOnRefreshListener(this);
-        recyclerView.addOnScrollListener(endlessScrollListener);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(adapter);
-        presenter.setAdapter(adapter);
-        presenter.setView(this, getContext());
-        presenter.addNowPlayingMovies(dataPage);
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -80,6 +69,8 @@ public class NowPlayingMoviesFragment extends Fragment implements MovieView,Swip
             }
 
         };
+        recyclerView.addOnScrollListener(endlessScrollListener);
+
 
         searchEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -112,13 +103,23 @@ public class NowPlayingMoviesFragment extends Fragment implements MovieView,Swip
 
     @Override
     public void init(View view) {
-        searchProgressBar = view.findViewById(R.id.movies_search_progress_bar);
-        recyclerView = view.findViewById(R.id.movies_recycler_view);
-        searchEditText = view.findViewById(R.id.movie_search_edit_text);
-        internetErrorTextView = view.findViewById(R.id.movies_internet_error);
         swipeLayout = view.findViewById(R.id.swipe_layout);
+        recyclerView = view.findViewById(R.id.movies_recycler_view);
+        searchEditText = view.findViewById(R.id.movies_search_edit_text);
+        searchProgressBar = view.findViewById(R.id.movies_search_progress_bar);
+        internetErrorTextView = view.findViewById(R.id.movies_internet_error);
+
         linearLayoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
+
         adapter = new MoviesRecyclerViewAdapter();
+        recyclerView.setAdapter(adapter);
+
+        swipeLayout.setOnRefreshListener(this);
+
+        presenter.setView(this, getContext());
+        presenter.setAdapter(adapter);
+        presenter.addNowPlayingMovies(dataPage);
     }
 
     @Override
@@ -150,7 +151,7 @@ public class NowPlayingMoviesFragment extends Fragment implements MovieView,Swip
 
     @Override
     public void showApiError(String error) {
-        Toast.makeText(getContext(),error,Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -160,9 +161,8 @@ public class NowPlayingMoviesFragment extends Fragment implements MovieView,Swip
         if (!adapter.isSearchDataMain()) {
             presenter.setNowPlayingMovies(dataPage);
         } else {
-            presenter.searchMovies(searchQuery,searchPage);
+            presenter.searchMovies(searchQuery, searchPage);
         }
     }
-
 
 }

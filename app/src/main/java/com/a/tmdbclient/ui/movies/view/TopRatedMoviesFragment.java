@@ -43,24 +43,13 @@ public class TopRatedMoviesFragment extends Fragment implements MovieView,SwipeR
     private int searchPage = 1;
 
     @Override
-    public void onPause() {
-        super.onPause();
+    public void onDestroyView() {
+        super.onDestroyView();
         recyclerView.removeOnScrollListener(endlessScrollListener);
-        recyclerView.setLayoutManager(null);
+        linearLayoutManager = null;
         recyclerView.setAdapter(null);
+        presenter = null;
         swipeLayout.setOnRefreshListener(null);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        swipeLayout.setOnRefreshListener(this);
-        recyclerView.addOnScrollListener(endlessScrollListener);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(adapter);
-        presenter.setAdapter(adapter);
-        presenter.setView(this, getContext());
-        presenter.addTopRatedMovies(dataPage);
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -80,6 +69,7 @@ public class TopRatedMoviesFragment extends Fragment implements MovieView,SwipeR
             }
 
         };
+        recyclerView.addOnScrollListener(endlessScrollListener);
 
         searchEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -112,13 +102,23 @@ public class TopRatedMoviesFragment extends Fragment implements MovieView,SwipeR
 
     @Override
     public void init(View view) {
-        searchProgressBar = view.findViewById(R.id.movies_search_progress_bar);
-        recyclerView = view.findViewById(R.id.movies_recycler_view);
-        searchEditText = view.findViewById(R.id.movie_search_edit_text);
-        internetErrorTextView = view.findViewById(R.id.movies_internet_error);
         swipeLayout = view.findViewById(R.id.swipe_layout);
+        recyclerView = view.findViewById(R.id.movies_recycler_view);
+        searchEditText = view.findViewById(R.id.movies_search_edit_text);
+        searchProgressBar = view.findViewById(R.id.movies_search_progress_bar);
+        internetErrorTextView = view.findViewById(R.id.movies_internet_error);
+
         linearLayoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
+
         adapter = new MoviesRecyclerViewAdapter();
+        recyclerView.setAdapter(adapter);
+
+        swipeLayout.setOnRefreshListener(this);
+
+        presenter.setView(this, getContext());
+        presenter.setAdapter(adapter);
+        presenter.addTopRatedMovies(dataPage);
     }
 
     @Override

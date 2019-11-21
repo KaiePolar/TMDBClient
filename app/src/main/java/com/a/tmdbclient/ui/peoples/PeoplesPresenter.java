@@ -7,7 +7,7 @@ import com.a.tmdbclient.data.NetworkUtils;
 import com.a.tmdbclient.data.peoples.PeoplesRepository;
 import com.a.tmdbclient.data.peoples.pojo.PeopleDetails;
 import com.a.tmdbclient.data.peoples.pojo.PeopleModel;
-import com.a.tmdbclient.ui.peoples.view.PeopleDetailsActivity;
+import com.a.tmdbclient.ui.peoples.view.PeoplesDetailsActivity;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ public class PeoplesPresenter {
     PeoplesRepository repository;
     private PeoplesView mView;
     private Context mContext;
-    private PeopleRecyclerViewAdapter mAdapter;
+    private PeoplesRecyclerViewAdapter mAdapter;
     private String searchQuery;
     private int searchPage = 1;
 
@@ -35,11 +35,11 @@ public class PeoplesPresenter {
         mContext = context;
     }
 
-    public void setAdapter(PeopleRecyclerViewAdapter adapter) {
+    public void setAdapter(PeoplesRecyclerViewAdapter adapter) {
         mAdapter = adapter;
     }
 
-    public void getPeopleDetails(int id, final PeopleDetailsActivity activity) {
+    public void getPeopleDetails(int id, final PeoplesDetailsActivity activity) {
         repository.getPeopleDetails(id, new NetworkUtils.PeopleDetailsLoadCallback() {
             @Override
             public void onLoadFail(Call call) {
@@ -52,7 +52,7 @@ public class PeoplesPresenter {
         });
     }
 
-    public void getPopularPeoples(int page) {
+    public void addPopularPeoples(int page) {
         if (NetworkUtils.isInternetUnavailable(mContext)) {
             mView.showNoInternetError();
         } else {

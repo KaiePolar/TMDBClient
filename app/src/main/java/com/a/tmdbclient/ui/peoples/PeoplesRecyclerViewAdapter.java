@@ -14,13 +14,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.a.tmdbclient.R;
 import com.a.tmdbclient.data.NetworkUtils;
 import com.a.tmdbclient.data.peoples.pojo.PeopleModel;
-import com.a.tmdbclient.ui.peoples.view.PeopleDetailsActivity;
+import com.a.tmdbclient.ui.peoples.view.PeoplesDetailsActivity;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PeopleRecyclerViewAdapter extends RecyclerView.Adapter<PeopleRecyclerViewAdapter.ViewHolder> {
+public class PeoplesRecyclerViewAdapter extends RecyclerView.Adapter<PeoplesRecyclerViewAdapter.ViewHolder> {
 
     private List<PeopleModel> mCategoryData;
     private List<PeopleModel> mSearchData;
@@ -28,13 +28,13 @@ public class PeopleRecyclerViewAdapter extends RecyclerView.Adapter<PeopleRecycl
     private boolean isSearchDataMain;
     private Context mContext;
 
-    public PeopleRecyclerViewAdapter() {
+    public PeoplesRecyclerViewAdapter() {
         mCategoryData = new ArrayList<>();
         mSearchData = new ArrayList<>();
         mData = mCategoryData;
     }
 
-    public void addData(List<PeopleModel> data) {
+    void addData(List<PeopleModel> data) {
         mData.addAll(data);
         notifyDataSetChanged();
     }
@@ -45,14 +45,14 @@ public class PeopleRecyclerViewAdapter extends RecyclerView.Adapter<PeopleRecycl
         notifyDataSetChanged();
     }
 
-    public void addSearchData(List<PeopleModel> data) {
+    void addSearchData(List<PeopleModel> data) {
         if (!mSearchData.containsAll(data)) {
             mSearchData.addAll(data);
             notifyDataSetChanged();
         }
     }
 
-    public void setSearchData(List<PeopleModel> data) {
+    void setSearchData(List<PeopleModel> data) {
         mSearchData.clear();
         mSearchData.addAll(data);
         notifyDataSetChanged();
@@ -90,7 +90,7 @@ public class PeopleRecyclerViewAdapter extends RecyclerView.Adapter<PeopleRecycl
 
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(mContext, PeopleDetailsActivity.class);
+            Intent intent = new Intent(mContext, PeoplesDetailsActivity.class);
             intent.putExtra("id", mData.get(getAdapterPosition()).getId());
             mContext.startActivity(intent);
         }
@@ -98,15 +98,15 @@ public class PeopleRecyclerViewAdapter extends RecyclerView.Adapter<PeopleRecycl
 
     @NonNull
     @Override
-    public PeopleRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        PeopleRecyclerViewAdapter.ViewHolder viewHolder = new PeopleRecyclerViewAdapter.ViewHolder(LayoutInflater.from(parent.getContext())
+    public PeoplesRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        PeoplesRecyclerViewAdapter.ViewHolder viewHolder = new PeoplesRecyclerViewAdapter.ViewHolder(LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.recycler_view_people_item, parent, false));
         mContext = parent.getContext();
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(final PeopleRecyclerViewAdapter.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final PeoplesRecyclerViewAdapter.ViewHolder holder, final int position) {
         PeopleModel item = mData.get(position);
         holder.nameTextView.setText(item.getName());
         holder.birthTextView.setText(item.getKnownForDepartment());

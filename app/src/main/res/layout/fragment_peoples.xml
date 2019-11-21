@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/swipe_layout"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,19 +23,19 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <EditText
-                android:id="@+id/people_search_edit_text"
+                android:id="@+id/peoples_search_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:background="@null"
                 android:gravity="center_vertical"
-                android:hint="Search"
+                android:hint="@string/search"
+                android:inputType="text"
                 android:textColor="@color/colorWhite"
-                android:textColorHint="@color/colorWhite">
-
-            </EditText>
+                android:textColorHint="@color/colorWhite"
+                tools:ignore="Autofill" />
 
             <ProgressBar
-                android:id="@+id/people_search_progress_bar"
+                android:id="@+id/peoples_search_progress_bar"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_alignParentEnd="true"
@@ -57,7 +58,7 @@
             android:id="@+id/peoples_internet_error"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Internet connection is unavailable"
+            android:text="@string/internet_error"
             android:textColor="@color/colorAccent"
             android:textSize="16sp"
             android:visibility="gone"

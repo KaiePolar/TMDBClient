@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.a.tmdbclient.App;
 import com.a.tmdbclient.R;
 import com.a.tmdbclient.data.NetworkUtils;
-import com.a.tmdbclient.data.movie.pojo.MovieDetails;
+import com.a.tmdbclient.data.movies.pojo.MovieDetails;
 import com.a.tmdbclient.ui.movies.MoviesPresenter;
 import com.bumptech.glide.Glide;
 
@@ -34,7 +34,6 @@ public class MovieDetailsActivity extends AppCompatActivity {
     private ImageView backdrop;
     private ProgressBar progressBar;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +43,14 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
         int id = getIntent().getIntExtra("id", 0);
         presenter.getMovieDetails(id,this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter = null;
+        poster = null;
+        backdrop = null;
     }
 
     private void init() {

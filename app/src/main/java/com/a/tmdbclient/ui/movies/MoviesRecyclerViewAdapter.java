@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.a.tmdbclient.R;
 import com.a.tmdbclient.data.NetworkUtils;
-import com.a.tmdbclient.data.movie.pojo.MovieModel;
+import com.a.tmdbclient.data.movies.pojo.MovieModel;
 import com.a.tmdbclient.ui.movies.view.MovieDetailsActivity;
 import com.bumptech.glide.Glide;
 
@@ -35,7 +35,7 @@ public class MoviesRecyclerViewAdapter extends RecyclerView.Adapter<MoviesRecycl
         mData = mCategoryData;
     }
 
-    public void addData(List<MovieModel> data) {
+    void addData(List<MovieModel> data) {
         mCategoryData.addAll(data);
         notifyDataSetChanged();
     }
@@ -46,14 +46,14 @@ public class MoviesRecyclerViewAdapter extends RecyclerView.Adapter<MoviesRecycl
         notifyDataSetChanged();
     }
 
-    public void addSearchData(List<MovieModel> data) {
+    void addSearchData(List<MovieModel> data) {
         if (!mSearchData.containsAll(data)) {
             mSearchData.addAll(data);
             notifyDataSetChanged();
         }
     }
 
-    public void setSearchData(List<MovieModel> data) {
+    void setSearchData(List<MovieModel> data) {
         mSearchData.clear();
         mSearchData.addAll(data);
         notifyDataSetChanged();
@@ -93,6 +93,7 @@ public class MoviesRecyclerViewAdapter extends RecyclerView.Adapter<MoviesRecycl
         public void onClick(View v) {
             Intent intent = new Intent(mContext, MovieDetailsActivity.class);
             intent.putExtra("id", mData.get(getAdapterPosition()).getId());
+            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
             mContext.startActivity(intent);
         }
     }

@@ -19,7 +19,7 @@ import javax.inject.Inject;
 
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
-public class ShowDetailsActivity extends AppCompatActivity {
+public class ShowsDetailsActivity extends AppCompatActivity {
 
     @Inject
     ShowsPresenter presenter;

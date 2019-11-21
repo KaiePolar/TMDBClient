@@ -19,7 +19,6 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private DrawerLayout mDrawer;
-
     private NavController mNavController;
     private MenuListViewAdapter mExpandableListAdapter;
     private ExpandableListView mExpandableListView;
