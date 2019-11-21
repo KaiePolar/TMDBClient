@@ -17,15 +17,21 @@ import com.bumptech.glide.Glide;
 
 import javax.inject.Inject;
 
+import jp.wasabeef.glide.transformations.BlurTransformation;
+
 public class ShowDetailsActivity extends AppCompatActivity {
 
+    @Inject
+    ShowsPresenter presenter;
     private TextView title;
     private TextView tag;
     private TextView description;
+    private TextView status;
+    private TextView numberOfSeasons;
+    private TextView release;
     private ImageView poster;
+    private ImageView backdrop;
     private ProgressBar progressBar;
-    @Inject
-    ShowsPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +50,10 @@ public class ShowDetailsActivity extends AppCompatActivity {
         description = findViewById(R.id.show_details_description);
         poster = findViewById(R.id.show_details_poster);
         progressBar = findViewById(R.id.show_details_progress_bar);
+        backdrop = findViewById(R.id.show_details_backdrop);
+        status = findViewById(R.id.show_details_budget);
+        numberOfSeasons = findViewById(R.id.show_details_revenue);
+        release = findViewById(R.id.show_details_release);
     }
 
     public void setDetails(ShowDetails details) {
@@ -51,10 +61,18 @@ public class ShowDetailsActivity extends AppCompatActivity {
         title.setVisibility(View.VISIBLE);
         title.setText(details.getName());
         tag.setVisibility(View.VISIBLE);
-        tag.setText(details.getStatus());
+        tag.setText(details.getType());
         description.setVisibility(View.VISIBLE);
         description.setText(details.getOverview());
         poster.setVisibility(View.VISIBLE);
+        status.setText("Status - "+details.getStatus());
+        numberOfSeasons.setText("Number of seasons :"+details.getNumberOfSeasons());
+        release.setText("Release date: "+details.getFirstAirDate());
+        Glide.with(this)
+                .load(NetworkUtils.IMG_BIG_SIZE_URL.concat(details.getBackdropPath()))
+                .centerCrop()
+                .transform(new BlurTransformation(25))
+                .into(backdrop);
         Glide.with(this)
                 .load(NetworkUtils.IMG_BIG_SIZE_URL.concat(details.getPosterPath()))
                 .into(poster);

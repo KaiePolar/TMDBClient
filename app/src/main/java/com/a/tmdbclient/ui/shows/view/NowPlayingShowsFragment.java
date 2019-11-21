@@ -111,10 +111,10 @@ public class NowPlayingShowsFragment extends Fragment implements ShowView, Swipe
 
     @Override
     public void init(View view) {
-        searchProgressBar = view.findViewById(R.id.movies_search_progress_bar);
-        recyclerView = view.findViewById(R.id.movies_recycler_view);
-        searchEditText = view.findViewById(R.id.movie_search_edit_text);
-        internetErrorTextView = view.findViewById(R.id.movies_internet_error);
+        searchProgressBar = view.findViewById(R.id.shows_search_progress_bar);
+        recyclerView = view.findViewById(R.id.shows_recycler_view);
+        searchEditText = view.findViewById(R.id.shows_search_edit_text);
+        internetErrorTextView = view.findViewById(R.id.shows_internet_error);
         swipeLayout = view.findViewById(R.id.swipe_layout);
         linearLayoutManager = new LinearLayoutManager(getContext());
         adapter = new ShowRecyclerViewAdapter();
