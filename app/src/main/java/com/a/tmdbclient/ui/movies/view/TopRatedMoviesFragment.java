@@ -122,7 +122,7 @@ public class TopRatedMoviesFragment extends Fragment implements MovieView,SwipeR
     }
 
     @Override
-    public void setProgressBarVisibility(boolean visibility) {
+    public void setRefreshing(boolean visibility) {
         if (visibility) {
             swipeLayout.setRefreshing(true);
             recyclerView.setVisibility(View.GONE);

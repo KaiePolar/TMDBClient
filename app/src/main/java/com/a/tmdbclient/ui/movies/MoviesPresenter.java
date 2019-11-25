@@ -33,6 +33,7 @@ public class MoviesPresenter {
     public void setView(MovieView view, Context context) {
         mView = view;
         mContext = context;
+        mView.setRefreshing(true);
     }
 
     public void setAdapter(MoviesRecyclerViewAdapter adapter) {
@@ -66,7 +67,7 @@ public class MoviesPresenter {
                 public void onLoadSuccess(Response response, List<MovieModel> movieModels) {
                     if (mAdapter != null) {
                         mAdapter.addData(movieModels);
-                        mView.setProgressBarVisibility(false);
+                        mView.setRefreshing(false);
                     }
                 }
             });
@@ -86,7 +87,7 @@ public class MoviesPresenter {
                 @Override
                 public void onLoadSuccess(Response response, List<MovieModel> movieModels) {
                     mAdapter.setData(movieModels);
-                    mView.setProgressBarVisibility(false);
+                    mView.setRefreshing(false);
                 }
             });
         }
@@ -106,7 +107,7 @@ public class MoviesPresenter {
                 public void onLoadSuccess(Response response, List<MovieModel> movieModels) {
                     if (mAdapter != null) {
                         mAdapter.addData(movieModels);
-                        mView.setProgressBarVisibility(false);
+                        mView.setRefreshing(false);
                     }
                 }
             });
@@ -126,7 +127,7 @@ public class MoviesPresenter {
                 @Override
                 public void onLoadSuccess(Response response, List<MovieModel> movieModels) {
                     mAdapter.addData(movieModels);
-                    mView.setProgressBarVisibility(false);
+                    mView.setRefreshing(false);
                 }
             });
         }
@@ -146,7 +147,7 @@ public class MoviesPresenter {
                 public void onLoadSuccess(Response response, List<MovieModel> movieModels) {
                     if (mAdapter != null) {
                         mAdapter.addData(movieModels);
-                        mView.setProgressBarVisibility(false);
+                        mView.setRefreshing(false);
                     }
                 }
             });
@@ -166,7 +167,7 @@ public class MoviesPresenter {
                 @Override
                 public void onLoadSuccess(Response response, List<MovieModel> movieModels) {
                     mAdapter.setData(movieModels);
-                    mView.setProgressBarVisibility(false);
+                    mView.setRefreshing(false);
                 }
             });
         }
@@ -186,7 +187,7 @@ public class MoviesPresenter {
                 public void onLoadSuccess(Response response, List<MovieModel> movieModels) {
                     if (mAdapter != null) {
                         mAdapter.addData(movieModels);
-                        mView.setProgressBarVisibility(false);
+                        mView.setRefreshing(false);
                     }
                 }
             });
@@ -206,7 +207,7 @@ public class MoviesPresenter {
                 @Override
                 public void onLoadSuccess(Response response, List<MovieModel> movieModels) {
                     mAdapter.setData(movieModels);
-                    mView.setProgressBarVisibility(false);
+                    mView.setRefreshing(false);
                 }
             });
         }
@@ -229,7 +230,7 @@ public class MoviesPresenter {
                 public void onLoadSuccess(Response response, List<MovieModel> movieModels) {
                     mAdapter.setSearchData(movieModels);
                     mView.setSearchProgressBarVisibility(false);
-                    mView.setProgressBarVisibility(false);
+                    mView.setRefreshing(false);
                 }
             });
         }
@@ -248,7 +249,7 @@ public class MoviesPresenter {
                 @Override
                 public void onLoadSuccess(Response response, List<MovieModel> movieModels) {
                     mAdapter.addSearchData(movieModels);
-                    mView.setProgressBarVisibility(false);
+                    mView.setRefreshing(false);
                 }
             });
         }

@@ -123,7 +123,7 @@ public class NowPlayingMoviesFragment extends Fragment implements MovieView, Swi
     }
 
     @Override
-    public void setProgressBarVisibility(boolean visibility) {
+    public void setRefreshing(boolean visibility) {
         if (visibility) {
             swipeLayout.setRefreshing(true);
             recyclerView.setVisibility(View.GONE);

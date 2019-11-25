@@ -51,8 +51,8 @@
         tools:layout="@layout/fragment_shows" />
 
     <fragment
-        android:id="@+id/nav_peoples"
-        android:name="com.a.tmdbclient.ui.peoples.view.PeoplesFragment"
+        android:id="@+id/nav_people"
+        android:name="com.a.tmdbclient.ui.people.view.PeopleFragment"
         android:label="@string/menu_peoples"
         tools:layout="@layout/fragment_peoples" />
 

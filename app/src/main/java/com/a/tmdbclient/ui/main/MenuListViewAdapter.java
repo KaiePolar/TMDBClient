@@ -27,7 +27,7 @@ public class MenuListViewAdapter extends BaseExpandableListAdapter {
 
         MenuItem moviesMenuItem = new MenuItem("Movies", true, true);
         MenuItem showsMenuItem = new MenuItem("TV Shows", true, true);
-        MenuItem peoplesMenuItem = new MenuItem("Peoples", true, true);
+        MenuItem peoplesMenuItem = new MenuItem("People", true, true);
 
         mHeaderList.add(moviesMenuItem);
         mHeaderList.add(showsMenuItem);
@@ -48,7 +48,7 @@ public class MenuListViewAdapter extends BaseExpandableListAdapter {
         mChildList.put(showsMenuItem, childModelsList);
 
         childModelsList = new ArrayList<>();
-        childModelsList.add(new MenuItem("Popular", false, R.id.nav_peoples));
+        childModelsList.add(new MenuItem("Popular", false, R.id.nav_people));
         mChildList.put(peoplesMenuItem, childModelsList);
     }
 

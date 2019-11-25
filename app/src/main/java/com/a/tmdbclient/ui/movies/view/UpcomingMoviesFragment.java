@@ -121,7 +121,7 @@ public class UpcomingMoviesFragment extends Fragment implements MovieView, Swipe
     }
 
     @Override
-    public void setProgressBarVisibility(boolean visibility) {
+    public void setRefreshing(boolean visibility) {
         if (visibility) {
             swipeLayout.setRefreshing(true);
             recyclerView.setVisibility(View.GONE);

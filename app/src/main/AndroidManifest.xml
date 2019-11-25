@@ -16,7 +16,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <activity
-            android:name=".ui.peoples.view.PeoplesDetailsActivity"
+            android:name=".ui.people.view.PeopleDetailsActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:label="Person Details" />
         <activity

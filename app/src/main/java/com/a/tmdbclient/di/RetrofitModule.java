@@ -2,7 +2,7 @@ package com.a.tmdbclient.di;
 
 import com.a.tmdbclient.data.NetworkUtils;
 import com.a.tmdbclient.data.movies.MoviesApi;
-import com.a.tmdbclient.data.peoples.PeoplesApi;
+import com.a.tmdbclient.data.people.PeopleApi;
 import com.a.tmdbclient.data.shows.ShowsApi;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -24,8 +24,8 @@ class RetrofitModule {
     }
 
     @Provides
-    PeoplesApi providePeopleAPI(Retrofit retrofit){
-        return retrofit.create(PeoplesApi.class);
+    PeopleApi providePeopleAPI(Retrofit retrofit){
+        return retrofit.create(PeopleApi.class);
     }
 
     @Provides

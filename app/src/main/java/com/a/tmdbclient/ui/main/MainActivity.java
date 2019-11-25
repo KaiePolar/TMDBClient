@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
                 R.id.nav_upcoming_shows,
                 R.id.nav_top_rated_shows,
                 R.id.nav_now_playing_shows,
-                R.id.nav_peoples)
+                R.id.nav_people)
                 .setDrawerLayout(mDrawer)
                 .build();
         mNavController = Navigation.findNavController(this, R.id.nav_host_fragment);

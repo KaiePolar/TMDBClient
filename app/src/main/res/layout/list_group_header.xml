@@ -10,8 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/listPreferredItemHeightSmall"
         android:gravity="center_vertical"
-        android:paddingStart="?android:attr/expandableListPreferredItemPaddingLeft"
-        android:paddingEnd="?attr/listPreferredItemPaddingRight"
+        android:paddingStart="10dp"
         android:textColor="@color/colorWhite"
         android:textSize="16sp" />
 

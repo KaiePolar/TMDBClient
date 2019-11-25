@@ -1,7 +1,7 @@
 package com.a.tmdbclient.di;
 
 import com.a.tmdbclient.ui.movies.MoviesPresenter;
-import com.a.tmdbclient.ui.peoples.PeoplesPresenter;
+import com.a.tmdbclient.ui.people.PeoplePresenter;
 import com.a.tmdbclient.ui.shows.ShowsPresenter;
 
 import javax.inject.Singleton;
@@ -26,8 +26,8 @@ class PresenterModule {
 
     @Provides
     @Singleton
-    PeoplesPresenter providePeoplesPresenter(){
-        return new PeoplesPresenter();
+    PeoplePresenter providePeoplePresenter(){
+        return new PeoplePresenter();
     }
 
 }

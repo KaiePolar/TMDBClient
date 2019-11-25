@@ -6,8 +6,8 @@ import android.net.NetworkInfo;
 
 import com.a.tmdbclient.data.movies.pojo.MovieDetails;
 import com.a.tmdbclient.data.movies.pojo.MovieModel;
-import com.a.tmdbclient.data.peoples.pojo.PeopleDetails;
-import com.a.tmdbclient.data.peoples.pojo.PeopleModel;
+import com.a.tmdbclient.data.people.pojo.PeopleDetails;
+import com.a.tmdbclient.data.people.pojo.PeopleModel;
 import com.a.tmdbclient.data.shows.pojo.ShowDetails;
 import com.a.tmdbclient.data.shows.pojo.ShowModel;
 
