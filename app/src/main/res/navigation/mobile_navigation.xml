@@ -56,4 +56,10 @@
         android:label="@string/menu_peoples"
         tools:layout="@layout/fragment_peoples" />
 
+    <fragment
+        android:id="@+id/nav_fav_movies"
+        android:name="com.a.tmdbclient.ui.movies.view.FavoriteMoviesFragment"
+        android:label="Favorite Movies"
+        tools:layout="@layout/fragment_peoples" />
+
 </navigation>

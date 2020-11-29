@@ -5,6 +5,7 @@ import com.a.tmdbclient.data.people.PeopleRepository;
 import com.a.tmdbclient.data.shows.ShowsRepository;
 import com.a.tmdbclient.ui.main.MainActivity;
 import com.a.tmdbclient.ui.movies.MoviesPresenter;
+import com.a.tmdbclient.ui.movies.view.FavoriteMoviesFragment;
 import com.a.tmdbclient.ui.movies.view.MovieDetailsActivity;
 import com.a.tmdbclient.ui.movies.view.NowPlayingMoviesFragment;
 import com.a.tmdbclient.ui.movies.view.PopularMoviesFragment;
@@ -32,6 +33,7 @@ public interface AppComponent {
     void inject(NowPlayingMoviesFragment fragment);
     void inject(TopRatedMoviesFragment fragment);
     void inject(UpcomingMoviesFragment fragment);
+    void inject(FavoriteMoviesFragment fragment);
     void inject(PopularShowsFragment fragment);
     void inject(NowPlayingShowsFragment fragment);
     void inject(TopRatedShowsFragment fragment);

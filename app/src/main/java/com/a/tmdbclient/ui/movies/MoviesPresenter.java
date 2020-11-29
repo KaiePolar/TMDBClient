@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.a.tmdbclient.App;
 import com.a.tmdbclient.data.NetworkUtils;
+import com.a.tmdbclient.data.movies.MoviesDatabaseRepository;
 import com.a.tmdbclient.data.movies.MoviesRepository;
 import com.a.tmdbclient.data.movies.pojo.MovieDetails;
 import com.a.tmdbclient.data.movies.pojo.MovieModel;
@@ -20,8 +21,10 @@ public class MoviesPresenter {
 
     @Inject
     MoviesRepository repository;
+    private MoviesDatabaseRepository databaseRepository;
     private MovieView mView;
     private MoviesRecyclerViewAdapter mAdapter;
+    private FavMoviesViewAdapter favAdapter = new FavMoviesViewAdapter();
     private String searchQuery;
     private int searchPage = 1;
     private Context mContext;
@@ -192,6 +195,11 @@ public class MoviesPresenter {
                 }
             });
         }
+    }
+
+    public void getFavMovies(Context context, MoviesDatabaseRepository.LoadCallback callback){
+        databaseRepository = new MoviesDatabaseRepository(context);
+        databaseRepository.getElementsList(callback);
     }
 
     public void setNowPlayingMovies(int page) {

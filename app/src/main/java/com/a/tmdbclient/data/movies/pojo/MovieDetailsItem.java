@@ -1,94 +1,65 @@
 package com.a.tmdbclient.data.movies.pojo;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+@Entity
+public class MovieDetailsItem {
 
-public class MovieDetails {
-
-
-    @SerializedName("id")
-    @Expose
     private Integer id;
 
-    @SerializedName("adult")
-    @Expose
     private Boolean adult;
-    @SerializedName("backdrop_path")
-    @Expose
+
     private String backdropPath;
-    @SerializedName("belongs_to_collection")
-    @Expose
-    private Object belongsToCollection;
-    @SerializedName("budget")
-    @Expose
+
     private Integer budget;
-    @SerializedName("homepage")
-    @Expose
-    private Object homepage;
-    @SerializedName("imdb_id")
-    @Expose
+
+    @PrimaryKey
+    @NonNull
     private String imdbId;
-    @SerializedName("original_language")
-    @Expose
+
     private String originalLanguage;
-    @SerializedName("original_title")
-    @Expose
+
     private String originalTitle;
-    @SerializedName("overview")
-    @Expose
+
     private String overview;
-    @SerializedName("popularity")
-    @Expose
+
     private Double popularity;
-    @SerializedName("poster_path")
-    @Expose
+
     private String posterPath;
-    @SerializedName("release_date")
-    @Expose
+
     private String releaseDate;
-    @SerializedName("revenue")
-    @Expose
+
     private Integer revenue;
-    @SerializedName("runtime")
-    @Expose
+
     private Integer runtime;
-    @SerializedName("status")
-    @Expose
+
     private String status;
-    @SerializedName("tagline")
-    @Expose
+
     private String tagline;
-    @SerializedName("title")
-    @Expose
+
     private String title;
-    @SerializedName("video")
-    @Expose
+
     private Boolean video;
-    @SerializedName("vote_average")
-    @Expose
+
     private Double voteAverage;
-    @SerializedName("vote_count")
-    @Expose
+
     private Integer voteCount;
 
-    public MovieDetails() {
+    public MovieDetailsItem() {
     }
 
-    public MovieDetails(Boolean adult, String backdropPath, Object belongsToCollection,
-                        Integer budget, Object homepage, Integer id, String imdbId,
-                        String originalLanguage, String originalTitle, String overview,
-                        Double popularity, String posterPath, String releaseDate, Integer revenue,
-                        Integer runtime, String status, String tagline, String title,
-                        Boolean video, Double voteAverage, Integer voteCount) {
+    public MovieDetailsItem(Boolean adult, String backdropPath, Object belongsToCollection,
+                            Integer budget, Object homepage, Integer id, String imdbId,
+                            String originalLanguage, String originalTitle, String overview,
+                            Double popularity, String posterPath, String releaseDate, Integer revenue,
+                            Integer runtime, String status, String tagline, String title,
+                            Boolean video, Double voteAverage, Integer voteCount) {
         super();
         this.adult = adult;
         this.backdropPath = backdropPath;
-        this.belongsToCollection = belongsToCollection;
         this.budget = budget;
-        this.homepage = homepage;
         this.id = id;
         this.imdbId = imdbId;
         this.originalLanguage = originalLanguage;
@@ -115,17 +86,11 @@ public class MovieDetails {
         return backdropPath;
     }
 
-    public Object getBelongsToCollection() {
-        return belongsToCollection;
-    }
 
     public Integer getBudget() {
         return budget;
     }
 
-    public Object getHomepage() {
-        return homepage;
-    }
 
     public Integer getId() {
         return id;
@@ -203,17 +168,12 @@ public class MovieDetails {
         this.backdropPath = backdropPath;
     }
 
-    public void setBelongsToCollection(Object belongsToCollection) {
-        this.belongsToCollection = belongsToCollection;
-    }
+
 
     public void setBudget(Integer budget) {
         this.budget = budget;
     }
 
-    public void setHomepage(Object homepage) {
-        this.homepage = homepage;
-    }
 
     public void setImdbId(String imdbId) {
         this.imdbId = imdbId;
